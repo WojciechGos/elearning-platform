@@ -1,0 +1,146 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Category{
+    Long id
+    String name
+    String description
+}
+
+class LessonResource {
+    Long id
+    String title
+    String description
+    String downloadUrl
+}
+
+class Lesson {
+    Long id
+    String title
+    String description
+    String content
+    int duration
+    int lessonNumber
+    String videoId
+    List<LessonResource> resources
+    Date createdAt
+    Date updatedAt
+}
+
+enum TargetAudience {
+   BEGINNERS
+   INTERMEDIATE
+   ADVANCE
+}
+
+'How to make it thread safe
+class CourseRating {
+    Long id
+    Long userId
+    Long courseId
+    double rate
+}
+
+
+
+class Course{
+    Long id
+    String title
+    String description
+    int duration
+    double price
+    Category category
+    int enrollmentCount
+    List<Lesson> lessons
+    String language
+    Date createdAt
+    Date updatedAt
+}
+
+
+class Packet{
+    Long id
+    String name
+    List<Course> courses
+    double price
+    boolean isActive
+    Date createdAt
+    Date updatedAt
+}
+
+
+class User {
+    Long id
+    String username
+    String firstName
+    String lastName
+    String email
+    String password
+    Date registrationDate
+    Date lastLoginDate
+}
+
+
+
+class InstructorRating {
+    Long id
+    Long userId
+    Long instructorId
+    double rate
+}
+
+class Instructor extends User {
+    String title
+    List<String> expertise
+    boolean isVerified
+    int totalStudents
+    Map<String, String> socialMediaLinks
+    double rating
+    PayoutDetails // some details related to stripe
+}
+
+'class Payment {}
+
+class Cart {
+    Long id
+    Long userId
+    List<CartItem> items
+    double totalPrice
+    Date createdAt
+    Date updatedAt
+}
+
+class CartItem {
+    Long id
+    Long cartId
+    Long courseId
+    Long coursePacketId
+    double price
+
+}
+
+enum CartStatus {
+    PENDING
+    COMPLETED
+    CANCELED
+}
+
+CartStatus -* Cart
+CartItem o- Packet
+CartItem o---- Course
+CartItem -o Cart
+Cart *-- User
+Course --* Packet
+
+Instructor -* InstructorRating
+InstructorRating *- User
+
+CourseRating *-- User
+CourseRating *-- Course
+
+LessonResource --o Lesson
+TargetAudience --* Course
+Category -* Course
+Lesson --* Course
+
+@enduml
