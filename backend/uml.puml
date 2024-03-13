@@ -34,12 +34,11 @@ enum TargetAudience {
 }
 
 'How to make it thread safe
-class CourseRating {
-    Long id
-    Long userId
+class CourseRating extends Rating{
     Long courseId
-    double rate
+
 }
+
 
 
 
@@ -81,12 +80,15 @@ class User {
 }
 
 
-
-class InstructorRating {
+abstract class Rating {
     Long id
     Long userId
-    Long instructorId
     double rate
+    String comment
+}
+
+class InstructorRating extends Rating{
+    Long userId
 }
 
 class Instructor extends User {
