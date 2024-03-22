@@ -1,23 +1,22 @@
 # Project description
 
 
-#### git branch name convenion
+### git branch name convenion
 
-feat/{feature_name} - it is for new feature
-chore/{feature_name} - it is for editing feature
-fix/{feature_name} - it is for small bug fix
+feat/{feature_name} - it is for new feature  
+chore/{feature_name} - it is for editing feature  
+fix/{feature_name} - it is for small bug fix  
 
-##### branch example
+#### branch example
 
-feat/coureses 
-chore/security
+feat/coureses   
+chore/security  
 
-#### git commit description convenion
+### git commit description convenion
 
-add:{what did you add}
-change:{what did you change}
+add:{what did you add}  
+change:{what did you change}  
 
-
-##### commit description example
-add: security
-change: lesson structure
+#### commit description example
+add: security  
+change: lesson structure   
