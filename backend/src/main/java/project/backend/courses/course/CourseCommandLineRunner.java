@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(20)
 public class CourseCommandLineRunner implements CommandLineRunner {
-    private static final Logger logger = LoggerFactory.getLogger(CourseCommandLineRunner.class);
 
     private final CourseRepository courseRepository;
 
