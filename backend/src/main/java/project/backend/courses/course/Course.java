@@ -9,6 +9,7 @@ import project.backend.courses.category.Category;
 import project.backend.courses.language.Language;
 import project.backend.courses.lesson.Lesson;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.List;
 
 @Getter
@@ -40,6 +41,7 @@ public class Course {
     @ManyToOne
     private Language language;
 
+    private Duration totalDuration;
 
     @OneToMany
     private List<Lesson> lessons;
