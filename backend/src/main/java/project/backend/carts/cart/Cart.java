@@ -8,6 +8,7 @@ import project.backend.carts.cartItem.CartItem;
 import java.math.BigDecimal;
 import java.util.List;
 
+//TODO: add valid annotations?
 @Getter
 @Setter
 @Entity
