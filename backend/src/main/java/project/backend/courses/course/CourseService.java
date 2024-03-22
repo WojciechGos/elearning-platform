@@ -2,8 +2,6 @@ package project.backend.courses.course;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import project.backend.exception.ResourceNotFoundException;
 
 import java.util.List;
@@ -15,8 +13,7 @@ public class CourseService {
     private final CourseRepository courseRepository;
 
     public Course getCourseById(Long courseId) {
-        Course course = courseRepository.findById(courseId).orElseThrow(()-> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
-        return course;
+        return courseRepository.findById(courseId).orElseThrow(()-> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
     }
 
 
