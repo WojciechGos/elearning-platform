@@ -22,4 +22,8 @@ public class Language {
     )
     private Long id;
     private String name;
+
+    public Language(String english) {
+        this.name = english;
+    }
 }
