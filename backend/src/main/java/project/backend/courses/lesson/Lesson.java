@@ -1,4 +1,4 @@
-package project.backend.courses.lessons;
+package project.backend.courses.lesson;
 
 import jakarta.persistence.*;
 import lombok.Getter;
