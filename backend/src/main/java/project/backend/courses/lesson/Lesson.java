@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import project.backend.courses.lessonResource.LessonResource;
 
-import java.net.URL;
 import java.time.Duration;
 import java.util.List;
 
@@ -32,12 +31,12 @@ public class Lesson {
     @Column(columnDefinition = "TEXT")
     private String content;
     private int lessonNumber;
-    private URL videoUrl;
+    private String videoUrl;
     private Duration duration;
     @OneToMany
     private List<LessonResource> lessonResources;
 
-    public Lesson(String title, String description, String content, int lessonNumber, URL videoUrl) {
+    public Lesson(String title, String description, String content, int lessonNumber, String videoUrl) {
         this.title = title;
         this.description = description;
         this.content = content;
