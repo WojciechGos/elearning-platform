@@ -18,14 +18,13 @@ public class LessonResourceController {
         return new ResponseEntity<>(lessonResourceService.getLessonResource(lessonResourceId), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<LessonResource> createLessonResource(@RequestBody LessonResource lessonResource) {
-        return new ResponseEntity<>(lessonResourceService.createLessonResource(lessonResource), HttpStatus.CREATED);
-    }
 
-    @PutMapping
-    public ResponseEntity<LessonResource> updateLessonResource(@RequestBody LessonResource lessonResource) {
-        return new ResponseEntity<>(lessonResourceService.updateLessonResource(lessonResource), HttpStatus.OK);
+    @PatchMapping("/{lessonResourceId}")
+    public ResponseEntity<LessonResource> updateLessonResource(
+            @PathVariable("lessonResourceId") Long id,
+            @RequestBody LessonResource lessonResource)
+    {
+        return new ResponseEntity<>(lessonResourceService.updateLessonResource(id, lessonResource), HttpStatus.OK);
     }
 
     @DeleteMapping("/{lessonResourceId}")

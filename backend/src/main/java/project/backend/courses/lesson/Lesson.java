@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import project.backend.courses.lessonResource.LessonResource;
 
 import java.net.URL;
 import java.time.Duration;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,6 +34,15 @@ public class Lesson {
     private int lessonNumber;
     private URL videoUrl;
     private Duration duration;
+    @OneToMany
+    private List<LessonResource> lessonResources;
 
+    public Lesson(String title, String description, String content, int lessonNumber, URL videoUrl) {
+        this.title = title;
+        this.description = description;
+        this.content = content;
+        this.lessonNumber = lessonNumber;
+        this.videoUrl = videoUrl;
+    }
 
 }

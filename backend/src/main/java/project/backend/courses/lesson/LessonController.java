@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.backend.courses.lessonResource.LessonResource;
 
 import java.util.List;
 
@@ -23,14 +24,18 @@ public class LessonController {
         return new ResponseEntity<>(lessonService.getLesson(lessonId), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Lesson> createLesson(Lesson lesson) {
-        return new ResponseEntity<>(lessonService.createLesson(lesson), HttpStatus.CREATED);
-    }
-
     @PutMapping
     public ResponseEntity<Lesson> updateLesson(Lesson lesson) {
         return new ResponseEntity<>(lessonService.updateLesson(lesson), HttpStatus.OK);
+    }
+
+    @PostMapping("/{lessonId}/lesson-resources")
+    public ResponseEntity<LessonResource> addLessonResourceToLesson(
+            @PathVariable("lessonId") Long lessonId,
+            @RequestBody LessonResource lessonResource)
+    {
+        LessonResource createdLessonResource = lessonService.addLessonResourceToLesson(lessonId,lessonResource);
+        return new ResponseEntity<>(createdLessonResource, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{lessonId}")
