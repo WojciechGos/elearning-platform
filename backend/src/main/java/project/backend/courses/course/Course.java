@@ -49,4 +49,15 @@ public class Course {
     private CourseState courseState = CourseState.CREATING;
 
 
+    public Course(String title, String description, BigDecimal price, Language language, Duration totalDuration, List<Lesson> lessons, int enrollmentCount, CourseState courseState) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.language = language;
+        this.totalDuration = totalDuration;
+        this.lessons = lessons;
+        this.enrollmentCount = enrollmentCount;
+        this.courseState = courseState;
+    }
+
 }
