@@ -46,7 +46,6 @@ public class Course {
     @OneToMany
     private List<Lesson> lessons;
     private int enrollmentCount;
-    private int durationInMinutes;
     private CourseState courseState = CourseState.CREATING;
 
 

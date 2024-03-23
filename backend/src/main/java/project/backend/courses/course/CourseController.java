@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.backend.courses.lesson.Lesson;
+import project.backend.courses.lesson.LessonRequest;
 
 import java.util.List;
 
@@ -31,9 +33,13 @@ public class CourseController {
         return new ResponseEntity<>(newCourse, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<Course> updateCourse(@RequestBody Course course) {
-        Course updatedCourse = courseService.updateCourse(course);
+
+    @PatchMapping("/{courseId}")
+    public ResponseEntity<Course> updateCourse(
+            @PathVariable("courseId") Long courseId,
+            @RequestBody Course course)
+    {
+        Course updatedCourse = courseService.updateCourse(courseId,course);
         return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
     }
 
@@ -42,5 +48,35 @@ public class CourseController {
         courseService.deleteCourse(courseId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/{courseId}/lessons")
+    public ResponseEntity<Lesson> addLessonToCourse(
+            @PathVariable("courseId") Long courseId,
+            @RequestBody LessonRequest lesson)
+    {
+        Lesson createdLesson = courseService.addLessonToCourse(courseId,lesson);
+        return new ResponseEntity<>(createdLesson, HttpStatus.CREATED);
+    }
+
+    //TODO: Implement the following methods
+    @PostMapping("/{courseId}/categories}")
+    public ResponseEntity<Course> addCategoryToCourse(
+            @PathVariable("courseId") Long courseId,
+            @RequestBody Long categoryId)
+    {
+        Course course = courseService.addCategoryToCourse(courseId,categoryId);
+        return new ResponseEntity<>(course, HttpStatus.CREATED);
+    }
+
+    // TODO: Implement the following methods
+    @DeleteMapping("/{courseId}/categories/categoryId}")
+    public ResponseEntity<HttpStatus> removeCategoryFromCourse(
+            @PathVariable("courseId") Long courseId,
+            @PathVariable("categoryId") Long categoryId)
+    {
+        courseService.removeCategoryFromCourse(courseId,categoryId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 
 }
