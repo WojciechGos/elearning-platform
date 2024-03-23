@@ -4,6 +4,7 @@ package project.backend.courses.category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import project.backend.exception.ResourceNotFoundException;
 
 import java.util.List;
 @RequiredArgsConstructor
@@ -15,8 +16,8 @@ public class CategoryService {
             return categoryRepository.findAll();
         }
         public Category getCategory(Long categoryId) {
-            Category category = categoryRepository.findById(categoryId).orElse(null);
-            return null;
+            return categoryRepository.findById(categoryId).orElseThrow(() ->
+                    new ResourceNotFoundException("Category not found with id [%s] ".formatted(categoryId)));
         }
 
 
