@@ -58,18 +58,16 @@ public class CourseController {
         return new ResponseEntity<>(createdLesson, HttpStatus.CREATED);
     }
 
-    //TODO: Implement the following methods
-    @PostMapping("/{courseId}/categories}")
-    public ResponseEntity<Course> addCategoryToCourse(
+    @PostMapping("/{courseId}/categories/{categoryId}")
+    public ResponseEntity<HttpStatus> addCategoryToCourse(
             @PathVariable("courseId") Long courseId,
-            @RequestBody Long categoryId)
+            @PathVariable("categoryId") Long categoryId)
     {
-        Course course = courseService.addCategoryToCourse(courseId,categoryId);
-        return new ResponseEntity<>(course, HttpStatus.CREATED);
+        courseService.addCategoryToCourse(courseId,categoryId);
+        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
     }
 
-    // TODO: Implement the following methods
-    @DeleteMapping("/{courseId}/categories/categoryId}")
+    @DeleteMapping("/{courseId}/categories/{categoryId}")
     public ResponseEntity<HttpStatus> removeCategoryFromCourse(
             @PathVariable("courseId") Long courseId,
             @PathVariable("categoryId") Long categoryId)
