@@ -3,6 +3,8 @@ package project.backend.courses.course;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import project.backend.courses.category.Category;
+import project.backend.courses.category.CategoryService;
 import project.backend.courses.lesson.Lesson;
 import project.backend.courses.lesson.LessonRequest;
 import project.backend.courses.lesson.LessonService;
@@ -16,6 +18,7 @@ public class CourseService {
 
     private final CourseRepository courseRepository;
     private final LessonService lessonService;
+    private final CategoryService categoryService;
     public Course getCourseById(Long courseId) {
         return courseRepository.findById(courseId).orElseThrow(()-> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
     }
@@ -61,11 +64,18 @@ public class CourseService {
         return createdLesson;
     }
 
-    public Course addCategoryToCourse(Long courseId, Long categoryId) {
-        return null;
+
+    public void addCategoryToCourse(Long courseId, Long categoryId) {
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
+        Category category = categoryService.getCategory(categoryId);
+        course.getCategories().add(category);
+        courseRepository.save(course);
     }
 
     public void removeCategoryFromCourse(Long courseId, Long categoryId) {
-
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
+        Category category = categoryService.getCategory(categoryId);
+        course.getCategories().remove(category);
+        courseRepository.save(course);
     }
 }
