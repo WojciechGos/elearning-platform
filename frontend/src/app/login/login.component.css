@@ -1,0 +1,107 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+.login-content {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+h1 {
+  color: #5E17EB;
+  margin-bottom: 8px;
+}
+
+p {
+  margin-bottom: 24px;
+  color: #666;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.form-group input {
+  width: 93.5%;
+  padding: 12px;
+  border: 1px solid #CCC;
+  border-radius: 4px;
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.checkbox label {
+  cursor: pointer;
+}
+
+.btn-login {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #5E17EB;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.forgot-password {
+  color: #5E17EB;
+}
+
+.btn-google {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #DB4437;
+  color: white;
+  cursor: pointer;
+}
+
+.register-link {
+  margin: 16px 0;
+}
+
+.register-link a {
+  color: #5E17EB;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 24px 0;
+}
+
+.divider .line {
+  flex: 1; 
+  border: none;
+  height: 1px;
+  background-color: #ccc; 
+  margin: 0 10px; 
+}
+
+.divider .or {
+  white-space: nowrap;
+}

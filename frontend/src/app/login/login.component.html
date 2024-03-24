@@ -1,0 +1,45 @@
+<div class="login-container">
+  <div class="login-content">
+    <h1>Welcome back!</h1>
+    <p>Please enter your login details to sing in</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input type="email" formControlName="email" id="email" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password *</label>
+        <input
+          type="password"
+          formControlName="password"
+          id="password"
+          required
+        />
+      </div>
+
+      <div class="form-options">
+        <div class="checkbox">
+          <input type="checkbox" id="rememberMe" />
+          <label for="rememberMe">Remember me</label>
+        </div>
+        <!-- TODO dodać ekran -->
+        <a href="#" class="forgot-password">Forgot your password?</a>  
+      </div>
+
+      <button type="submit" class="btn-login">Log In</button>
+
+      <div class="register-link">
+        Don't have an account? <a routerLink="/register">Register here</a>
+      </div>
+
+      <div class="divider">
+        <hr class="line" />
+        <span class="or">or continue with:</span>
+        <hr class="line" />
+      </div>
+
+      <button class="btn-google">Google</button>
+    </form>
+  </div>
+</div>
