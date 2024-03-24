@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -21,7 +22,15 @@ export class LoginComponent implements OnInit {
   onLogin() {
     if (this.loginForm.valid) {
       console.log(this.loginForm.value);
-      //TODO WYSYANIE DANYCH DO SERWERA
+      this.authService.login(this.loginForm.value.email, this.loginForm.value.password)
+    .subscribe({
+      next: (user) => {
+        console.log(user);
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
     }
   }
 }
