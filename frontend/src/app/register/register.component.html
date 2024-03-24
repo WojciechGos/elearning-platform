@@ -1,0 +1,45 @@
+<div class="register-container">
+  <div class="register-content">
+    <h1>Create Account</h1>
+    <p>Get started with your free account</p>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input type="email" formControlName="email" id="email" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password *</label>
+        <input
+          type="password"
+          formControlName="password"
+          id="password"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password *</label>
+        <input
+          type="password"
+          formControlName="confirmPassword"
+          id="confirmPassword"
+          required
+        />
+      </div>
+
+      <button type="submit" class="btn-register">Create an account</button>
+
+      <div class="login-link">
+        Already have an account? <a routerLink="/login">Log in here</a>
+      </div>
+
+      <div class="divider">
+        <hr class="line" />
+        <span class="or">or sign up with:</span>
+        <hr class="line" />
+      </div>
+
+      <button class="btn-google">Google</button>
+    </form>
+  </div>
+</div>
