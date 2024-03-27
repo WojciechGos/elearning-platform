@@ -1,0 +1,37 @@
+.section-wrapper {
+    margin-top: 12px;
+    margin-left: 90px;
+}
+
+header {
+    width: 850px;
+}
+
+h1 {
+    font-family: serif;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.header-description {
+    font-family: system-ui;
+    font-size: 18px;
+}
+
+.courses-wrapper {
+    margin-top: 35px;
+    border: 1px solid rgb(194, 194, 194);
+    font-family: system-ui;
+    padding: 25px;
+    width: 1230px;
+    margin-right: auto;
+}
+
+.courses-promo-text {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.courses-promo-subtext {
+    margin-top: 10px;
+}
