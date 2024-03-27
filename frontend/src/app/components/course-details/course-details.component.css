@@ -1,89 +1,115 @@
-
-.section-wrapper{
-    margin-top: 80px;
-    display: flex;
-    justify-content: center;
-    background-color: #2d2f31;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color:whitesmoke
+.section-wrapper {
+  margin-top: 80px;
+  justify-content: center;
+  background-color: #2d2f31;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: whitesmoke;
+  padding-top: 20px;
 }
 
-.categories{
-    margin-top: 15px;
-    font-weight: bold;
-    color: #c0c4fc;
+/******************************  course info   ********************************/
+.categories {
+  font-weight: bold;
+  color: #c0c4fc;
 }
-
 
 .course-title {
-    font-size: 32px;
-    margin-bottom: 20px;
+  font-size: 32px;
+  margin-bottom: 20px;
 }
 
-.course-description{
-    margin-bottom: 30px;
-    padding-right: 20px;
+.course-description {
+  margin-bottom: 30px;
+  padding-right: 20px;
+  line-height: 1.5;
 }
 
-.rating-wrapper{
-    display: flex;
+.update-info {
+  margin-right: 10px;
 }
 
-.rating{
-    width: 100%;
-}
-.rating-stars{
-    margin-right:10px;
-    cursor: pointer;
-    color: #ff8c00;
+.additional-info {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 50px;
 }
 
-.rate-count{
-    margin-right: 10px;
-    text-decoration: underline;
-    cursor: pointer;
+.instructor-wrapper {
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 20px;
 }
-
-
-.course-image {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
+.instructor-name {
+  margin-left: 10px;
+  color: #c0c4fc;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.instructor {
+  margin-bottom: 10px;
 }
 
 .course-info {
-    width: 60vw;
-    padding: 20px;
-}
-.course-actions {
-    width: 30vw;
+  width: 60vw;
+  padding-left: 20px;
 }
 
+/******************************  cart   ********************************/
 
-
-.instructor {
-    margin-bottom: 10px;
+.course-actions-wrapper {
+  width: 300px;
+  background-color: whitesmoke;
+  color: #2d2f31;
 }
-
+.buttons-wrapper {
+  padding: 10px;
+}
 
 .btn {
-    padding: 10px 20px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  margin-top: 10px;
+  width: 90%;
+}
+.course-image {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
 }
 
-.btn-enroll {
-    background-color: #0073e6;
-    color: #fff;
+.price-wrapper {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.price {
+  font-size: 30px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+.discount {
+  text-decoration: line-through;
+  color: #8d8d8d;
 }
 
-.btn-wishlist {
-    background-color: #ff8c00;
-    color: #fff;
+/*********************************************** responsivness **********************************************/
+
+.section-wrapper {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
 }
 
-.btn:hover {
-    opacity: 0.8;
+@media (max-width: 768px) {
+  .section-wrapper {
+    flex-direction: column; /* Stack items vertically on smaller screens */
+  }
+
+  .course-image {
+    margin-left: 10px;
+    width: 90%;
+    height: 300px;
+  }
+  .course-info,
+  .course-actions-wrapper {
+    width: 100%; /* Make each item take full width on smaller screens */
+    margin-right: 0; /* Reset margin */
+  }
 }

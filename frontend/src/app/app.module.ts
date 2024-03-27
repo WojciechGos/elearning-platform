@@ -12,9 +12,13 @@ import { CourseDetailsComponent } from './components/course-details/course-detai
 import { MainPageComponent } from './components/main-page/main-page.component';
 import { CoursesListComponent } from './components/courses-list/courses-list.component';
 import { CoursesListItemComponent } from './components/courses-list-item/courses-list-item.component';
+import { ButtonComponent } from './components/button/button.component';
+import { RatingComponent } from './components/rating/rating.component';
+import { PriceComponent } from './components/price/price.component';
+
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RegisterComponent, NavbarComponent, CourseDetailsComponent, MainPageComponent, CoursesListComponent, CoursesListItemComponent],
+  declarations: [AppComponent, LoginComponent, RegisterComponent, NavbarComponent, CourseDetailsComponent, ButtonComponent, RatingComponent, PriceComponent, MainPageComponent, CoursesListComponent, CoursesListItemComponent],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
