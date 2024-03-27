@@ -1,0 +1,6 @@
+<div class="courses-list-wrapper">
+    <div *ngFor="let course of courses" class="courses-list-item">
+      <app-courses-list-item [title]="course.title" [image]="course.image" [author]="course.author" [price]="course.price"></app-courses-list-item>
+    </div>
+</div>
+  
