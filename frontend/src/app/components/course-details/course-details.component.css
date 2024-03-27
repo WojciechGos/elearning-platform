@@ -1,0 +1,89 @@
+
+.section-wrapper{
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+    background-color: #2d2f31;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color:whitesmoke
+}
+
+.categories{
+    margin-top: 15px;
+    font-weight: bold;
+    color: #c0c4fc;
+}
+
+
+.course-title {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.course-description{
+    margin-bottom: 30px;
+    padding-right: 20px;
+}
+
+.rating-wrapper{
+    display: flex;
+}
+
+.rating{
+    width: 100%;
+}
+.rating-stars{
+    margin-right:10px;
+    cursor: pointer;
+    color: #ff8c00;
+}
+
+.rate-count{
+    margin-right: 10px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+.course-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.course-info {
+    width: 60vw;
+    padding: 20px;
+}
+.course-actions {
+    width: 30vw;
+}
+
+
+
+.instructor {
+    margin-bottom: 10px;
+}
+
+
+.btn {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-enroll {
+    background-color: #0073e6;
+    color: #fff;
+}
+
+.btn-wishlist {
+    background-color: #ff8c00;
+    color: #fff;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
