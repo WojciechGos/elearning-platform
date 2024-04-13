@@ -1,7 +1,15 @@
 <div class="courses-list-wrapper">
-    <div *ngFor="let course of courses.slice(0, 5)" class="courses-list-item">
-      <!-- TODO: add image and author to course in backend -->
-      <app-courses-list-item [title]="course.title" [price]="course.price"></app-courses-list-item>
-    </div>
+  <div *ngFor="let course of courses.slice(0,5)" class="courses-list-item">
+    <!-- TODO: add image and author to course in backend -->
+    <a
+      [routerLink]="['/course-details', course.id]"
+      class="decoration-none"
+    >
+      <app-courses-list-item
+        [title]="course.title"
+        [price]="course.price"
+        [rating]="course.rating"
+      ></app-courses-list-item>
+    </a>
+  </div>
 </div>
-  
