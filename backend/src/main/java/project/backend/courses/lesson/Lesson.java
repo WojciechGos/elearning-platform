@@ -1,9 +1,13 @@
 package project.backend.courses.lesson;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import project.backend.courses.course.Course;
 import project.backend.courses.lessonResource.LessonResource;
 
 import java.time.Duration;
@@ -14,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Lesson {
+
     @SequenceGenerator(
             name = "lesson_sequence",
             sequenceName = "lesson_sequence",
@@ -24,15 +29,25 @@ public class Lesson {
             strategy = GenerationType.SEQUENCE,
             generator = "lesson_sequence"
     )
+
     private Long id;
+    @NotNull(message = "Title cannot be null.")
+    @NotBlank(message = "Title cannot be blank")
     private String title;
     @Column(columnDefinition = "TEXT")
     private String description;
     @Column(columnDefinition = "TEXT")
     private String content;
+    @Min(value = 0, message = "Lesson number must be greater than 0")
     private int lessonNumber;
+    @NotNull(message = "Video URL cannot be null.")
+    @NotBlank(message = "Video URL cannot be blank")
     private String videoUrl;
     private Duration duration;
+
+    @ManyToOne
+    private Course course;
+
     @OneToMany
     private List<LessonResource> lessonResources;
 
