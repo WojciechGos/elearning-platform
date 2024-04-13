@@ -10,9 +10,10 @@ img {
 .title {
     font-weight: bold;
     white-space: normal;
+    font-size: 18px;
 }
 
 .author {
-    font-size: 13px;
+    font-size: 15px;
     color: rgb(115, 112, 112);
 }

@@ -4,6 +4,7 @@
     width: 100%; 
     display: inline-flex;
     margin-top: 40px;
+    cursor: pointer;
 }
 
 .courses-list-item {
