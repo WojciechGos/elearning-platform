@@ -1,10 +1,27 @@
 <nav class="wrapper">
-  <div class="logo">Logo</div>
-  <div class="search-wrapper">
-    <input class="search" />
-  </div>
-  <div class="some-wrapper">
-    <div class="creator">creator</div>
-    <div class="user">user</div>
-  </div>
+    <a href='/main-page'>
+        <img src="assets/images/logo.jpg" alt="Logo" class="logo">
+    </a>
+    <button (mouseenter)="showList()" class="plain-button">
+        Categories
+    </button>
+    <div class="search-container">
+        <button class="search-button">
+            <img src="assets/images/search-icon.png" alt="Search" class="icon">
+        </button>
+        <input type="text" placeholder="Search..." class="search-input">
+    </div>
+    <button class="plain-button">
+        Creator
+    </button>
+    <button class="cart-button">    
+        <img src="assets/images/shopping-cart.png" alt="Cart" class="icon">
+    </button>
+    <app-button [text]="'Log in'" [type]="'LOG_IN'"></app-button>
+    <app-button [text]="'Sign up'" [type]="'SIGN_UP'" class="sign-up-button"></app-button>
 </nav>
+<div *ngIf="isListVisible" class="menu-list" (mouseleave)="hideList()">
+    <mat-list *ngFor="let category of categories">
+        <mat-list-item class="menu-item">{{ category.name }}</mat-list-item>
+    </mat-list>
+</div>  
