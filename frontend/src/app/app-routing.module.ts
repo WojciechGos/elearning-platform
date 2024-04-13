@@ -7,10 +7,10 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'course-details', component: CourseDetailsComponent },
+  { path: 'course-details/:id', component: CourseDetailsComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'main-page', component: MainPageComponent},
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, 
+  { path: '', redirectTo: '/main-page', pathMatch: 'full' }, 
 ];
 
 @NgModule({
