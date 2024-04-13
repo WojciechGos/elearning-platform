@@ -1,5 +1,8 @@
 <div class="rating-wrapper">
-    <div class="rating-stars">4.8 *****</div>
-    <div class="rate-count">ocen: 1622</div>
-    <div class="enrollment-count">420 uczestników</div>
+  <div class="rating-stars">
+      <span class="star filled-star" *ngFor="let star of getFilledStars()">*</span>
+      <span class="star empty-star" *ngFor="let star of getEmptyStars()">*</span>
   </div>
+  <div class="rate-count">{{rating}}</div>
+  <div class="enrollment-count" *ngIf="enrollmentCount">{{enrollmentCount}} participants</div>
+</div>

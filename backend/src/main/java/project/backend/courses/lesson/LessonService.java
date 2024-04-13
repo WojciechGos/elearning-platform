@@ -20,6 +20,7 @@ public class LessonService {
         return lessonRepository.findAll();
     }
 
+
     public Lesson getLesson(Long lessonId) {
         return lessonRepository.findById(lessonId).orElseThrow(() -> new ResourceNotFoundException("Lesson not found with id [%s] ".formatted(lessonId)));
     }

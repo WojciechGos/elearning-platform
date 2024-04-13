@@ -2,6 +2,7 @@ package project.backend.courses.course;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,36 +29,57 @@ public class Course {
             generator = "course_sequence"
     )
     private Long id;
+    @NotNull(message = "Title cannot be null.")
+    @NotBlank(message = "Title cannot be blank")
     private String title;
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    @Min(value = 1, message = "Price must be greater than 0")
     private BigDecimal price;
 
 
-    @OneToMany
+    @ManyToMany
     private List<Category> categories;
 
     @ManyToOne
+    @JoinColumn(
+            name="language_id",
+            nullable=false
+    )
     private Language language;
 
     private Duration totalDuration;
 
+    @Min(value = 0, message = "Rating must be between 0 and 5")
+    @Max(value = 5, message = "Rating must be between 0 and 5")
+    private double rating;
+
+    @NotNull(message = "Image URL cannot be null.")
+    @NotBlank(message = "Image URL cannot be blank")
+    private String imageUrl;
+
     @OneToMany
     private List<Lesson> lessons;
+
+    @Min(value = 0, message = "Enrollment count must be greater than 0")
     private int enrollmentCount;
+
     private CourseState courseState = CourseState.CREATING;
 
 
-    public Course(String title, String description, BigDecimal price, Language language, Duration totalDuration, List<Lesson> lessons, int enrollmentCount, CourseState courseState) {
+    public Course(String title, String description, BigDecimal price, List<Category> categories, Language language, Duration totalDuration, double rating, String imageUrl, List<Lesson> lessons, int enrollmentCount, CourseState courseState) {
         this.title = title;
         this.description = description;
         this.price = price;
+        this.categories = categories;
         this.language = language;
         this.totalDuration = totalDuration;
+        this.rating = rating;
+        this.imageUrl = imageUrl;
         this.lessons = lessons;
         this.enrollmentCount = enrollmentCount;
         this.courseState = courseState;
     }
-
 }
