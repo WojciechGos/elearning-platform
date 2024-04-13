@@ -1,0 +1,18 @@
+.rating-wrapper{
+    display: flex;
+}
+
+.rating{
+    width: 100%;
+}
+.rating-stars{
+    margin-right:10px;
+    cursor: pointer;
+    color: #ff8c00;
+}
+
+.rate-count{
+    margin-right: 10px;
+    text-decoration: underline;
+    cursor: pointer;
+}

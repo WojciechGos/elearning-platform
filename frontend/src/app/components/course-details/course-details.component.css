@@ -1,0 +1,115 @@
+.section-wrapper {
+  margin-top: 80px;
+  justify-content: center;
+  background-color: #2d2f31;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: whitesmoke;
+  padding-top: 20px;
+}
+
+/******************************  course info   ********************************/
+.categories {
+  font-weight: bold;
+  color: #c0c4fc;
+}
+
+.course-title {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.course-description {
+  margin-bottom: 30px;
+  padding-right: 20px;
+  line-height: 1.5;
+}
+
+.update-info {
+  margin-right: 10px;
+}
+
+.additional-info {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 50px;
+}
+
+.instructor-wrapper {
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+.instructor-name {
+  margin-left: 10px;
+  color: #c0c4fc;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.instructor {
+  margin-bottom: 10px;
+}
+
+.course-info {
+  width: 60vw;
+  padding-left: 20px;
+}
+
+/******************************  cart   ********************************/
+
+.course-actions-wrapper {
+  width: 300px;
+  background-color: whitesmoke;
+  color: #2d2f31;
+}
+.buttons-wrapper {
+  padding: 10px;
+}
+
+.btn {
+  margin-top: 10px;
+  width: 90%;
+}
+.course-image {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.price-wrapper {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.price {
+  font-size: 30px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+.discount {
+  text-decoration: line-through;
+  color: #8d8d8d;
+}
+
+/*********************************************** responsivness **********************************************/
+
+.section-wrapper {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+}
+
+@media (max-width: 768px) {
+  .section-wrapper {
+    flex-direction: column; /* Stack items vertically on smaller screens */
+  }
+
+  .course-image {
+    margin-left: 10px;
+    width: 90%;
+    height: 300px;
+  }
+  .course-info,
+  .course-actions-wrapper {
+    width: 100%; /* Make each item take full width on smaller screens */
+    margin-right: 0; /* Reset margin */
+  }
+}
