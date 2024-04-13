@@ -1,18 +1,21 @@
-.rating-wrapper{
-    display: flex;
+.rating-wrapper {
+  display: flex;
 }
 
-.rating{
-    width: 100%;
+.rating {
+  width: 100%;
 }
-.rating-stars{
-    margin-right:10px;
-    cursor: pointer;
-    color: #ff8c00;
+.filled-star {
+  color: gold;
 }
 
-.rate-count{
-    margin-right: 10px;
-    text-decoration: underline;
-    cursor: pointer;
+.empty-star {
+  color: grey;
+}
+
+.rate-count {
+  margin-left: 10px;
+  margin-right: 10px;
+  text-decoration: underline;
+  cursor: pointer;
 }

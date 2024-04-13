@@ -7,11 +7,13 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.search,
-.creator,
-.user {
+.search {
     padding: 10px 20px;
     cursor: pointer;
+}
+
+.search-wrapper {
+    width: 60%;
 }
 
 .search {
@@ -19,18 +21,6 @@
     background-color: #ffffff;
     border-radius: 5px;
     border: 1px solid #ced4da;
-}
-
-.creator,
-.user {
-    background-color: #0073e6;
-    color: #ffffff;
-    border-radius: 5px;
-}
-
-.creator:hover,
-.user:hover {
-    background-color: #0056b3;
 }
 
 .logo {
@@ -114,6 +104,3 @@ a {
 .menu-item:hover {
     color: #868080;
 }
-  
-  
-  

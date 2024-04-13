@@ -1,6 +1,13 @@
+import { Language } from './language.interface';
+import { Lesson } from './lesson.interface';
+
 export interface Course {
-    courseId: number
+    id: number
     title: string
     description: string
     price: number
+    rating: number
+    language: Language
+    imageUrl: string
+    lessons: Lesson[]
 }
