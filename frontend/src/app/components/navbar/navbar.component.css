@@ -7,10 +7,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.logo,
-.search,
-.creator,
-.user {
+.search {
     padding: 10px 20px;
     cursor: pointer;
 }
@@ -20,19 +17,90 @@
 }
 
 .search {
-    width: 90%;
-    margin: 0 20px;
+    flex-grow: 1;
     background-color: #ffffff;
     border-radius: 5px;
     border: 1px solid #ced4da;
 }
 
-.creator:hover,
-.user:hover {
-    background-color: #0056b3;
+.logo {
+    width: 70px;
+    margin-left: 75px;
 }
 
-.some-wrapper{
-    display: flex;
-    /* justify-content: ; */
+.plain-button {
+    border: none;
+    background: none;
+    font-size: 17px;
+}
+
+.plain-button:hover {
+    color: rgb(72, 104, 104);
+}
+
+.search-container {
+    position: relative;
+    display: inline-block;
+}
+  
+.search-input {
+    padding: 8px 32px 8px 20px; 
+    border: 1px solid #242323;
+    border-radius: 4px;
+    width: 600px;
+    height: 30px;
+    border-radius: 15px;
+    font-size: 15px;
+}
+  
+.search-button {
+    position: absolute;
+    top: 50%; 
+    right: 8px; 
+    transform: translateY(-50%); 
+    padding: 10px;
+}
+
+.search-button,
+.cart-button,
+.plain-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+  
+.icon {
+    width: 24px; 
+    height: 24px;
+}
+  
+.sign-up-button {
+    margin-right: 110px;
+}
+
+a {
+    cursor: pointer;
+}
+
+.button-wrapper {
+    position: relative;
+}
+  
+.menu-list {
+    position: absolute; 
+    left: 13%;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+    background-color: rgb(228, 232, 234);
+    margin-top: 5px;
+}
+
+.menu-item {
+    cursor: pointer;
+    font-family: system-ui;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-item:hover {
+    color: #868080;
 }

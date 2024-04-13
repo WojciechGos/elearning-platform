@@ -1,5 +1,7 @@
 export enum Type {
     DEFAULT = 'DEFAULT',
-    BUY = 'BUY'
+    BUY = 'BUY',
+    LOG_IN = 'LOG_IN',
+    SIGN_UP = 'SIGN_UP'
 }
 
