@@ -1,5 +1,7 @@
 .buy-button,
-.default-button{
+.default-button,
+.sign-up-button,
+.log-in-button {
     font-size: 20px;
     font-weight: bold;  
     cursor: pointer; 
@@ -28,7 +30,18 @@
     background-color: #ebebeb ;
 }
 
+.log-in-button {
+    border: 1px solid black;
+}
+
+.sign-up-button {
+    background-color: black;
+    color: white;
+}
+
 .buy-button:hover,
-.default-button:hover {
+.default-button:hover,
+.log-in-button:hover,
+.sign-up-button:hover {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect on hover */
 }
