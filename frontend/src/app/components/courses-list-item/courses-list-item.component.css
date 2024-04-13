@@ -1,0 +1,19 @@
+.course-item-wrapper {
+    width: 230px;
+}
+
+img {
+    width: 230px;
+    height: 130px;
+}
+
+.title {
+    font-weight: bold;
+    white-space: normal;
+    font-size: 18px;
+}
+
+.author {
+    font-size: 15px;
+    color: rgb(115, 112, 112);
+}
