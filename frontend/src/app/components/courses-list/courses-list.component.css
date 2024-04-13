@@ -1,0 +1,17 @@
+.courses-list-wrapper {
+    overflow-x: auto; 
+    white-space: nowrap; 
+    width: 100%; 
+    display: inline-flex;
+    margin-top: 40px;
+    cursor: pointer;
+}
+
+.courses-list-item {
+    flex: 0 0 auto; 
+    margin-right: 20px; 
+}
+  
+.courses-list-item:last-child {
+    margin-right: 0;
+}
