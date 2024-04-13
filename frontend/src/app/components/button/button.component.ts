@@ -26,6 +26,13 @@ export class ButtonComponent implements OnInit {
     if (this.type === Type.BUY) {
       classType='buy-button'
     }
+    else if (this.type === Type.LOG_IN) {
+      classType='log-in-button'
+    }
+    else if (this.type === Type.SIGN_UP) {
+      classType='sign-up-button'
+    }
+
     return classType;
   }
 }
