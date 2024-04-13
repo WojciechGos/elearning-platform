@@ -91,5 +91,29 @@
 a {
     cursor: pointer;
 }
+
+.button-wrapper {
+    position: relative;
+}
+  
+.menu-list {
+    position: absolute; 
+    left: 13%;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+    background-color: rgb(228, 232, 234);
+    margin-top: 5px;
+}
+
+.menu-item {
+    cursor: pointer;
+    font-family: system-ui;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-item:hover {
+    color: #868080;
+}
+  
   
   

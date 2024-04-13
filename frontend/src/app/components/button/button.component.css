@@ -39,6 +39,12 @@
     color: white;
 }
 
+.log-in-button,
+.sign-up-button {
+    font-family: system-ui;
+    font-size: 15px;
+}
+
 .buy-button:hover,
 .default-button:hover,
 .log-in-button:hover,

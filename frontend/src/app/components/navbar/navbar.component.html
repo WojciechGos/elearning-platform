@@ -2,7 +2,7 @@
     <a href='/main-page'>
         <img src="assets/images/logo.jpg" alt="Logo" class="logo">
     </a>
-    <button class="plain-button">
+    <button (mouseenter)="showList()" class="plain-button">
         Categories
     </button>
     <div class="search-container">
@@ -20,3 +20,8 @@
     <app-button [text]="'Log in'" [type]="'LOG_IN'"></app-button>
     <app-button [text]="'Sign up'" [type]="'SIGN_UP'" class="sign-up-button"></app-button>
 </nav>
+<div *ngIf="isListVisible" class="menu-list" (mouseleave)="hideList()">
+    <mat-list *ngFor="let category of categories">
+        <mat-list-item class="menu-item">{{ category.name }}</mat-list-item>
+    </mat-list>
+</div>  
