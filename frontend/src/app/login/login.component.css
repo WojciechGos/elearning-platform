@@ -105,3 +105,9 @@ p {
 .divider .or {
   white-space: nowrap;
 }
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
