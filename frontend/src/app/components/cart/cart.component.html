@@ -1,0 +1,32 @@
+<app-navbar></app-navbar>
+
+<div>
+    <section class="section-wrapper">
+        <div class="cart-header">
+            <h1>Shopping Cart</h1>
+        </div>
+        <div class="content-wrapper">
+            <div class="left-wrapper">
+                <hr class="cart-divider">
+                <div *ngFor="let cartItem of cartItems" class="cart-item">
+                    <a
+                    [routerLink]="['/course-details', cartItem.id]"
+                    class="decoration-none"
+                    >
+                    <app-cart-item
+                        [title]="cartItem.title"
+                        [price]="cartItem.price"
+                        [rating]="cartItem.rating"
+                    ></app-cart-item>
+                    </a>
+                    <hr class="cart-divider">
+                </div>
+            </div>
+            <div class="checkout">
+                <div class="total">Total:</div>
+                <div class="price">{{ totalPrice }}$</div>
+                <app-button text="Checkout" type="BUY" (click)="pay()"></app-button>
+            </div>
+        </div>
+    </section>
+</div>
