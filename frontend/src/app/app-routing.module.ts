@@ -4,12 +4,18 @@ import { LoginComponent } from './components/authentication/login/login.componen
 import { RegisterComponent } from './components/authentication/register/register.component';
 import { CourseDetailsComponent } from './components/course-details/course-details.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
+import { CheckoutComponent } from './components/payment/checkout/checkout.component';
+import { CancelComponent } from './components/payment/cancel/cancel.component';
+import { SuccessComponent } from './components/payment/success/success.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'course-details/:id', component: CourseDetailsComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'main-page', component: MainPageComponent},
+  { path: 'checkout', component: CheckoutComponent},
+  { path: 'cancel', component: CancelComponent},
+  { path: 'success', component: SuccessComponent},
   { path: '', redirectTo: '/main-page', pathMatch: 'full' }, 
 ];
 
