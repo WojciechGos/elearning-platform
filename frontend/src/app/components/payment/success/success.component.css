@@ -1,0 +1,28 @@
+.cancel-page {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.cancel-page h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.cancel-page p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn {
+    width: 300px;
+    display: inline-block;
+}
+  
