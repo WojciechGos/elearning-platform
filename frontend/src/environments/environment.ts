@@ -6,7 +6,8 @@ import { url } from "inspector";
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080'
+  apiUrl: 'http://localhost:8080',
+  stripe: 'pk_test_51P7ZH2FTbBwyZWuBOYEdHY350S3NpmkmsrvnACxJifHm801jbKsdVStYftaz4Ugh7KC2buFiIzevxztr8GlJogXP00Z4icj8pZ'
 };
 
 /*
