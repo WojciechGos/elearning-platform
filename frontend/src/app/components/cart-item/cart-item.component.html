@@ -1,0 +1,10 @@
+<div class="cart-item-wrapper">
+    <img src="assets/images/shopping-cart.png" alt="Cart Item Image" class="cart-item-img">
+    <div class="cart-item-details">
+        <div class="title">{{ title }}</div>
+        <div class="author">{{ author }}</div>
+        <app-rating [rating]="this.rating"></app-rating>
+    </div>
+    <div class="price">{{ price | number:'1.2-2' }}$</div>
+    <img src="assets/images/delete.png" alt="Delete" class="delete">
+</div>
