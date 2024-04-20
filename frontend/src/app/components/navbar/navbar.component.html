@@ -14,9 +14,14 @@
     <button class="plain-button">
         Creator
     </button>
-    <button class="cart-button">    
-        <img src="assets/images/shopping-cart.png" alt="Cart" class="icon">
-    </button>
+    <a
+      [routerLink]="['/cart']"
+      class="decoration-none"
+    >
+        <button class="cart-button">    
+            <img src="assets/images/shopping-cart.png" alt="Cart" class="icon">
+        </button>
+    </a>
     <app-button [text]="'Log in'" [type]="'LOG_IN'"></app-button>
     <app-button [text]="'Sign up'" [type]="'SIGN_UP'" class="sign-up-button"></app-button>
 </nav>

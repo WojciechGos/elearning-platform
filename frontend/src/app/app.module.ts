@@ -16,10 +16,12 @@ import { ButtonComponent } from './components/button/button.component';
 import { RatingComponent } from './components/rating/rating.component';
 import { PriceComponent } from './components/price/price.component';
 import { MatListModule } from '@angular/material/list';
+import { CartComponent } from './components/cart/cart.component';
+import { CartItemComponent } from './components/cart-item/cart-item.component';
 
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RegisterComponent, NavbarComponent, CourseDetailsComponent, ButtonComponent, RatingComponent, PriceComponent, MainPageComponent, CoursesListComponent, CoursesListItemComponent],
+  declarations: [AppComponent, LoginComponent, RegisterComponent, NavbarComponent, CourseDetailsComponent, ButtonComponent, RatingComponent, PriceComponent, MainPageComponent, CoursesListComponent, CoursesListItemComponent, CartComponent, CartItemComponent],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule, MatListModule],
   providers: [],
   bootstrap: [AppComponent],
