@@ -8,7 +8,7 @@
         <div class="content-wrapper">
             <div class="left-wrapper">
                 <hr class="cart-divider">
-                <div *ngFor="let cartItem of cartItems.slice(0,3)" class="cart-item">
+                <div *ngFor="let cartItem of cartItems" class="cart-item">
                     <a
                     [routerLink]="['/course-details', cartItem.id]"
                     class="decoration-none"
@@ -25,7 +25,7 @@
             <div class="checkout">
                 <div class="total">Total:</div>
                 <div class="price">{{ totalPrice }}$</div>
-                <app-button text="Checkout" type="BUY"></app-button>
+                <app-button text="Checkout" type="BUY" (click)="pay()"></app-button>
             </div>
         </div>
     </section>
