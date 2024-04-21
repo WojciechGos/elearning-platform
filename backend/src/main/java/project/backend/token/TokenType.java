@@ -1,4 +1,4 @@
-package project.backend.security.token;
+package project.backend.token;
 
 public enum TokenType {
     BEARER

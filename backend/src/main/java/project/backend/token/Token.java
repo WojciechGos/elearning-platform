@@ -1,4 +1,4 @@
-package project.backend.security.token;
+package project.backend.token;
 
 import project.backend.user.User;
 import jakarta.persistence.Column;
