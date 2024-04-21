@@ -1,4 +1,4 @@
-package project.backend.security.token;
+package project.backend.token;
 
 import java.util.List;
 import java.util.Optional;
