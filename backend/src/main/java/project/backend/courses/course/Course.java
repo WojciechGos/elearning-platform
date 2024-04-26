@@ -3,9 +3,7 @@ package project.backend.courses.course;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import project.backend.courses.category.Category;
 import project.backend.courses.language.Language;
 import project.backend.courses.lesson.Lesson;
@@ -15,6 +13,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Course {
@@ -58,7 +58,7 @@ public class Course {
 
     @NotNull(message = "Image URL cannot be null.")
     @NotBlank(message = "Image URL cannot be blank")
-    private String imageUrl;
+    private String imageURL;
 
     @OneToMany
     private List<Lesson> lessons;
@@ -69,17 +69,5 @@ public class Course {
     private CourseState courseState = CourseState.CREATING;
 
 
-    public Course(String title, String description, BigDecimal price, List<Category> categories, Language language, Duration totalDuration, double rating, String imageUrl, List<Lesson> lessons, int enrollmentCount, CourseState courseState) {
-        this.title = title;
-        this.description = description;
-        this.price = price;
-        this.categories = categories;
-        this.language = language;
-        this.totalDuration = totalDuration;
-        this.rating = rating;
-        this.imageUrl = imageUrl;
-        this.lessons = lessons;
-        this.enrollmentCount = enrollmentCount;
-        this.courseState = courseState;
-    }
+
 }
