@@ -10,13 +10,13 @@
                 <hr class="cart-divider">
                 <div *ngFor="let cartItem of cartItems" class="cart-item">
                     <a
-                    [routerLink]="['/course-details', cartItem.id]"
+                    [routerLink]="['/course-details', cartItem.course.id]"
                     class="decoration-none"
                     >
                     <app-cart-item
-                        [title]="cartItem.title"
-                        [price]="cartItem.price"
-                        [rating]="cartItem.rating"
+                        [title]="cartItem.course.title"
+                        [price]="cartItem.course.price"
+                        [rating]="cartItem.course.rating"
                     ></app-cart-item>
                     </a>
                     <hr class="cart-divider">

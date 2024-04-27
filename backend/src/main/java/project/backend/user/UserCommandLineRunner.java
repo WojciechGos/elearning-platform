@@ -13,8 +13,9 @@ public class UserCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        userRepository.save(User.builder()
+        /*userRepository.save(User.builder()
                 .email("anna@wp.pl")
+                .password("password1")
                 .role(Role.USER)
                 .build()
         );
@@ -83,6 +84,6 @@ public class UserCommandLineRunner implements CommandLineRunner {
                 .email("zuzanna@wp.pl")
                 .role(Role.USER)
                 .build()
-        );
+        );*/
     }
 }

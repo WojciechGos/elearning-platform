@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import project.backend.exception.ResourceNotFoundException;
 
 import java.security.Principal;
 import java.util.List;
@@ -41,5 +42,12 @@ public class UserService {
     return users.stream()
             .map(userMapper::mapToDTO)
             .collect(Collectors.toList());
+  }
+
+  public User getUserByEmail(String email) {
+    return repository.findByEmail(email)
+            .orElseThrow(() -> new ResourceNotFoundException(
+                    String.format("User with email [%s] not found.", email)
+            ));
   }
 }

@@ -1,8 +1,11 @@
 package project.backend.carts.cart;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import project.backend.exception.ResourceNotFoundException;
+import project.backend.user.User;
+import project.backend.user.UserRepository;
 
 import java.util.List;
 
@@ -10,6 +13,7 @@ import java.util.List;
 @Service
 public class CartService {
     private final CartRepository cartRepository;
+    private final UserRepository userRepository;
     public List<Cart> getAllCarts() {
         return cartRepository.findAll();
     }
@@ -45,5 +49,14 @@ public class CartService {
             );
         }
         cartRepository.deleteById(cartId);
+    }
+
+    //TODO: get active
+    public Cart getCartByUserEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "User with email [%s] not found.".formatted(email)
+                ));
+        return cartRepository.findByUserId(user.getId()).get(0);
     }
 }

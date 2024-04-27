@@ -27,6 +27,12 @@ public class CartController {
         return ResponseEntity.ok(cart);
     }
 
+    @GetMapping("/user/{email}")
+    public ResponseEntity<Cart> getCartByUserEmail(@PathVariable("email") String email) {
+        Cart cart = cartService.getCartByUserEmail(email);
+        return ResponseEntity.ok(cart);
+    }
+
     @PostMapping
     public ResponseEntity<Cart> createCart(@RequestBody Cart cart) {
         Cart createdCart = cartService.createCart(cart);
