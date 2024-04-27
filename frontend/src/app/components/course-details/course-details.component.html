@@ -46,9 +46,9 @@
         <app-price *ngIf="this.course" [price]="this.course.price"></app-price>
         <div class="btn">
           <app-button
-            [text]="'Add to the checkout'"
+            [text]="'Add to cart'"
             [type]="'BUY'"
-            (buttonClick)="addToCheckoutMethod()"
+            (buttonClick)="addToCart()"
           ></app-button>
         </div>
       </div>

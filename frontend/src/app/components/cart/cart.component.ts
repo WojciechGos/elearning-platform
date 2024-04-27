@@ -4,6 +4,11 @@ import { CourseService } from 'src/app/services/course.service';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { CartService } from 'src/app/services/cart.service';
+
+export interface CartItem {
+  course: Course;
+}
 
 @Component({
   selector: 'app-cart',
@@ -11,13 +16,15 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  cartItems: Course[] = [];
+  cartItems: CartItem[] = [];
   totalPrice: number = 0;
   stripePromise = loadStripe(environment.stripe);
   stripe: Stripe | null = null;
 
+  cart: any;
+
   constructor(
-    private courseService: CourseService,
+    private cartService: CartService,
     private http: HttpClient
   ) {
     this.stripePromise.then((stripeInstance) => {
@@ -26,20 +33,25 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.courseService.getCourses().subscribe((cartItems) => {
-      console.log(cartItems);
-      this.cartItems = cartItems;
-      this.calculateTotalPrice();
+     this.loadCart();
+  }
+
+  loadCart() {
+    this.cartService.getCart().subscribe(cart => {
+      this.cart = cart;
+      this.cartItems = cart.items;
+      console.log(cart)
+      console.log("cartItems: " + JSON.stringify(this.cartItems));
     });
   }
 
-  calculateTotalPrice(): void {
-    this.totalPrice = this.cartItems.reduce((total, cartItem) => total + cartItem.price, 0);
-  }
+  // calculateTotalPrice(): void {
+  //   this.totalPrice = this.cart.items.reduce((total, cartItem) => total + cartItem.price, 0);
+  // }
 
   async pay(): Promise<void> {
     const payment = {
-      name: this.cartItems.map(cartItem => cartItem.title).join(', '),
+      name: this.cartItems.map(cartItem => cartItem.course.title).join(', '),
       currency: 'usd',
       amount: this.totalPrice * 100,
       quantity: '1',

@@ -1,7 +1,7 @@
 package project.backend.user;
 
 public record UserDTO(
-    Integer id,
+    Long id,
     String email
 ) {
 }

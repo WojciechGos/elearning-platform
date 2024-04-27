@@ -1,9 +1,12 @@
 package project.backend.carts.cart;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import project.backend.carts.cartItem.CartItem;
+import project.backend.user.User;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -24,15 +27,11 @@ public class Cart {
             generator = "cart_sequence"
     )
     private Long id;
-    //TODO: add this when the user entity is completed
-//    @ManyToOne(
-//            optional = false
-//    )
-//    @JoinColumn(
-//            name = "user_id",
-//            nullable = false
-//    )
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
+    @JsonManagedReference
     @OneToMany(
             mappedBy = "cart",
             cascade = CascadeType.ALL
