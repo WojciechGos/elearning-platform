@@ -1,15 +1,12 @@
 package project.backend.courses.course.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.backend.courses.category.model.Category;
-import project.backend.courses.category.service.CategoryService;
+import project.backend.courses.category.service.CategoryServiceImpl;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.repository.CourseRepository;
 import project.backend.courses.course.model.CourseState;
-import project.backend.courses.lesson.model.Lesson;
-import project.backend.courses.lesson.model.LessonRequest;
 import project.backend.courses.lesson.service.LessonServiceImpl;
 import project.backend.exception.ResourceNotFoundException;
 
@@ -20,8 +17,6 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
-    private final LessonServiceImpl lessonService;
-    private final CategoryService categoryService;
     public Course getCourseById(Long courseId) {
         return courseRepository.findById(courseId).orElseThrow(()-> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
     }
@@ -59,18 +54,4 @@ public class CourseServiceImpl implements CourseService {
     }
 
 
-
-    public void addCategoryToCourse(Long courseId, Long categoryId) {
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
-        Category category = categoryService.getCategory(categoryId);
-        course.getCategories().add(category);
-        courseRepository.save(course);
-    }
-
-    public void removeCategoryFromCourse(Long courseId, Long categoryId) {
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
-        Category category = categoryService.getCategory(categoryId);
-        course.getCategories().remove(category);
-        courseRepository.save(course);
-    }
 }

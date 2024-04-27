@@ -23,19 +23,5 @@ public class CourseLessonControllerImpl implements CourseLessonController {
         return new ResponseEntity<>(createdLesson, HttpStatus.CREATED);
     }
 
-    @PostMapping("/{courseId}/categories/{categoryId}")
-    public ResponseEntity<HttpStatus> addCategoryToCourse(
-            @PathVariable("courseId") Long courseId,
-            @PathVariable("categoryId") Long categoryId) {
-        courseLessonService.addCategoryToCourse(courseId, categoryId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 
-    @DeleteMapping("/{courseId}/categories/{categoryId}")
-    public ResponseEntity<HttpStatus> removeCategoryFromCourse(
-            @PathVariable("courseId") Long courseId,
-            @PathVariable("categoryId") Long categoryId) {
-        courseLessonService.removeCategoryFromCourse(courseId, categoryId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }

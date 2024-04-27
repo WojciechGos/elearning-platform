@@ -5,11 +5,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import project.backend.courses.category.model.Category;
-import project.backend.courses.category.service.CategoryService;
+import project.backend.courses.category.service.CategoryServiceImpl;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.model.CourseState;
 import project.backend.courses.language.model.Language;
-import project.backend.courses.language.service.LanguageService;
+import project.backend.courses.language.service.LanguageServiceImpl;
 import project.backend.courses.lesson.repository.LessonCommandLineRunner;
 
 import java.math.BigDecimal;
@@ -22,8 +22,8 @@ import java.util.List;
 public class CourseCommandLineRunner implements CommandLineRunner {
 
     private final CourseRepository courseRepository;
-    private final LanguageService languageService;
-    private final CategoryService categoryService;
+    private final LanguageServiceImpl languageService;
+    private final CategoryServiceImpl categoryService;
 
     @Override
     public void run(String... args) throws Exception {
