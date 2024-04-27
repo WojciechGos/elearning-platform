@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,  Output, EventEmitter } from '@angular/core';
 import {Type} from './button.types';
 
 
@@ -13,7 +13,7 @@ export class ButtonComponent implements OnInit {
 
   @Input() text : string = '';
   @Input() type : string = Type.DEFAULT;
- 
+  @Output() buttonClick = new EventEmitter<void>(); // Add this line
 
   constructor() { }
 
@@ -32,7 +32,10 @@ export class ButtonComponent implements OnInit {
     else if (this.type === Type.SIGN_UP) {
       classType='sign-up-button'
     }
-
     return classType;
+  }
+
+  onClick(): void { // Add this method
+    this.buttonClick.emit();
   }
 }

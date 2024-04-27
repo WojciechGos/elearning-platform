@@ -11,6 +11,7 @@ import { SuccessComponent } from './components/payment/success/success.component
 import { CartComponent } from './components/cart/cart.component';
 import { UsersComponent } from './components/admin/users/users.component';
 import { UserCartComponent } from './components/admin/user-cart/user-cart.component';
+import { CourseSearchComponent } from './components/course-search/course-search.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'cart', component: CartComponent},
   { path: 'users', component: UsersComponent},
   { path: 'user-cart/:userId', component: UserCartComponent },
+  { path: 'course-search', component: CourseSearchComponent},
 ];
 
 @NgModule({

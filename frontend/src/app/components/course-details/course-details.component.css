@@ -6,11 +6,19 @@
 }
 
 /******************************  course info   ********************************/
-.categories {
-  font-weight: bold;
-  color: #c0c4fc;
+.categories-wrapper {
+ width: auto;
 }
 
+.category {
+  font-weight: bold;
+  color: #c0c4fc;
+  text-decoration: none;
+}
+a {
+  color: blue;
+  text-decoration: none;
+}
 .course-title {
   font-size: 32px;
   margin-bottom: 20px;
@@ -64,6 +72,7 @@
 
 .btn {
   margin-top: 10px;
+  height: 40px;
   width: 90%;
 }
 .course-image {
