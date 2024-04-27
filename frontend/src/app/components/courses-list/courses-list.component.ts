@@ -14,7 +14,6 @@ export class CoursesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.courseService.getCourses().subscribe((courses) => {
-      console.log(courses)
       this.courses = courses;
     });
   }

@@ -39,8 +39,10 @@
     color: white;
 }
 
-.log-in-button,
-.sign-up-button {
+.buy-button,
+.default-button,
+.sign-up-button,
+.log-in-button{
     font-family: system-ui;
     font-size: 15px;
 }
@@ -49,5 +51,5 @@
 .default-button:hover,
 .log-in-button:hover,
 .sign-up-button:hover {
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect on hover */
 }

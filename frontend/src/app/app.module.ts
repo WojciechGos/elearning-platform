@@ -24,10 +24,12 @@ import { CancelComponent } from './components/payment/cancel/cancel.component';
 import { SuccessComponent } from './components/payment/success/success.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CartItemComponent } from './components/cart-item/cart-item.component';
+import { CourseSearchComponent } from './components/course-search/course-search.component';
+
 
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RegisterComponent, LoggedInPageComponent, NavbarComponent, CourseDetailsComponent, ButtonComponent, RatingComponent, PriceComponent, MainPageComponent, CoursesListComponent, CoursesListItemComponent, CancelComponent, SuccessComponent, CartComponent, CartItemComponent],
+  declarations: [AppComponent, LoginComponent, RegisterComponent, LoggedInPageComponent, NavbarComponent, CourseDetailsComponent, ButtonComponent, RatingComponent, PriceComponent, MainPageComponent, CoursesListComponent, CoursesListItemComponent, CancelComponent, SuccessComponent, CartComponent, CartItemComponent, CourseSearchComponent],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule, MatListModule, MatCardModule, MatButtonModule],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],
