@@ -22,7 +22,6 @@ public class CourseCommandLineRunner implements CommandLineRunner {
 
     private final CourseRepository courseRepository;
     private final LanguageService languageService;
-    private final LessonService lessonService;
     private final CategoryService categoryService;
 
     @Override
