@@ -15,15 +15,24 @@
         Creator
     </button>
     <a
-      [routerLink]="['/cart']"
-      class="decoration-none"
+        [routerLink]="['/cart']"
+        class="decoration-none"
     >
         <button class="cart-button">    
             <img src="assets/images/shopping-cart.png" alt="Cart" class="icon">
         </button>
     </a>
+    <a
+        [routerLink]="['/login']"
+        class="black-link"
+    >
     <app-button [text]="'Log in'" [type]="'LOG_IN'"></app-button>
-    <app-button [text]="'Sign up'" [type]="'SIGN_UP'" class="sign-up-button"></app-button>
+    </a>
+    <a
+        [routerLink]="['/register']"
+    >
+    <app-button [text]="'Sign up'" [type]="'SIGN_UP'"></app-button>
+    </a>
 </nav>
 <div *ngIf="isListVisible" class="menu-list" (mouseleave)="hideList()">
     <mat-list *ngFor="let category of categories">

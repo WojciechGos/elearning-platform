@@ -1,6 +1,6 @@
 .wrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     padding: 10px 20px;
     background-color: #f8f9fa;
@@ -73,13 +73,18 @@
     width: 24px; 
     height: 24px;
 }
-  
-.sign-up-button {
-    margin-right: 110px;
-}
 
 a {
     cursor: pointer;
+    text-decoration: none;
+}
+
+.black-link {
+    color: #242323;
+}
+
+.white-link {
+    color: white;
 }
 
 .button-wrapper {
