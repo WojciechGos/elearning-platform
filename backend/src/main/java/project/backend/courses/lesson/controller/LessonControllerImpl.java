@@ -26,9 +26,16 @@ public class LessonControllerImpl {
         return new ResponseEntity<>(lessonService.getLesson(lessonId), HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<Lesson> updateLesson(Lesson lesson) {
+    @PatchMapping("/{lessonId}")
+    public ResponseEntity<Lesson> updateLesson(Lesson lesson, @PathVariable("lessonId") Long lessonId) {
         return new ResponseEntity<>(lessonService.updateLesson(lesson), HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/{lessonId}")
+    public ResponseEntity<Void> deleteLesson(@PathVariable("lessonId") Long lessonId) {
+        lessonService.deleteLesson(lessonId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/{lessonId}/lesson-resources")
@@ -40,10 +47,5 @@ public class LessonControllerImpl {
         return new ResponseEntity<>(createdLessonResource, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{lessonId}")
-    public ResponseEntity<Void> deleteLesson(@PathVariable("lessonId") Long lessonId) {
-        lessonService.deleteLesson(lessonId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 
 }

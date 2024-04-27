@@ -7,17 +7,17 @@ import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.model.LessonRequest;
 import project.backend.courses.lesson.repository.LessonRepository;
 import project.backend.courses.lessonResource.model.LessonResource;
-import project.backend.courses.lessonResource.service.LessonResourceService;
+import project.backend.courses.lessonResource.service.LessonResourceServiceImpl;
 import project.backend.exception.ResourceNotFoundException;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class LessonServiceImpl {
+public class LessonServiceImpl implements LessonService {
 
     private final LessonRepository lessonRepository;
-    private final LessonResourceService lessonResourceService;
+    private final LessonResourceServiceImpl lessonResourceService;
 
     public List<Lesson> getLessons() {
         return lessonRepository.findAll();
