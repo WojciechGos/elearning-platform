@@ -1,4 +1,4 @@
-package project.backend.courses.course;
+package project.backend.courses.course.model;
 
 public enum TargetAudience {
     BEGINNER,
