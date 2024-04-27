@@ -22,7 +22,6 @@ public class CourseCommandLineRunner implements CommandLineRunner {
 
     private final CourseRepository courseRepository;
     private final LanguageService languageService;
-    private final LessonService lessonService;
     private final CategoryService categoryService;
 
     @Override
@@ -49,6 +48,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .title("Business basic concepts")
                 .description("Learn business basic concepts")
                 .price(new BigDecimal(400))
+                .discountPrice(new BigDecimal("219.99"))
                 .categories(List.of(categories.get(1)))
                 .language(languages.get(0))
                 .totalDuration(Duration.ZERO)
