@@ -38,6 +38,7 @@ public class Course {
 
     @Min(value = 1, message = "Price must be greater than 0")
     private BigDecimal price;
+    private BigDecimal discountPrice;
 
 
     @ManyToMany
