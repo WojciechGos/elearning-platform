@@ -10,6 +10,7 @@ export class CoursesListItemComponent implements OnInit {
   @Input() image!: string;
   @Input() author!: string;
   @Input() price!: number;
+  @Input() discountPrice!: number;
   @Input() rating!: number;
   constructor() { }
 

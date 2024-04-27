@@ -22,9 +22,15 @@ export class CourseDetailsComponent implements OnInit
       const numId = Number(id); // Convert id to number
       this.courseService.getCourseById(numId).subscribe((course) => {
         console.log(course);
-        this.course = course;
+        if(course !== undefined)
+          this.course = course;
       });
     }
   }
+  addToCheckoutMethod() {
+    console.log('Add to checkout');
+  }
+
+  
 
 }

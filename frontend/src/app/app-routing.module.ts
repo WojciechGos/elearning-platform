@@ -9,6 +9,7 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 import { CancelComponent } from './components/payment/cancel/cancel.component';
 import { SuccessComponent } from './components/payment/success/success.component';
 import { CartComponent } from './components/cart/cart.component';
+import { CourseSearchComponent } from './components/course-search/course-search.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'cancel', component: CancelComponent},
   { path: 'success', component: SuccessComponent},
   { path: 'cart', component: CartComponent},
+  { path: 'course-search', component: CourseSearchComponent},
 ];
 
 @NgModule({
