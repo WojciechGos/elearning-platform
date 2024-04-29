@@ -1,3 +1,83 @@
 <app-navbar></app-navbar>
 
-<p>course-search works!</p>
+<div class="course-search-wrapper">
+  <div class="search-panel">
+    <div class="scrollable-content">
+      <h2>Title</h2>
+      <mat-form-field class="example-full-width">
+        <mat-label>type keyword</mat-label>
+        <input type="text" matInput [(ngModel)]="keyword" />
+      </mat-form-field>
+
+      <h2>Categories</h2>
+      <mat-selection-list #categoriesList>
+        <mat-list-option *ngFor="let category of categories" (selectionChange)="onCategoriesSelectionChange(categoriesList.selectedOptions.selected)">{{
+          category.name
+        }}</mat-list-option>
+      </mat-selection-list>
+
+      <h2>Price</h2>
+
+      <div class="price-wrapper">
+        <mat-form-field>
+          <mat-label>Minimal Price</mat-label>
+          <input
+            type="number"
+            min="0"
+            max="1000"
+            matInput
+            value="0"
+            [(ngModel)]="minPrice"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Maximal Price</mat-label>
+          <input
+            type="number"
+            min="0"
+            max="1000"
+            matInput
+            value="1000"
+            [(ngModel)]="maxPrice"
+          />
+        </mat-form-field>
+      </div>
+
+      <h2>Rating</h2>
+      <mat-slider min="1" max="5" step="0.5">
+        <input matSliderThumb value="1.5" />
+      </mat-slider>
+
+      <h2>Language</h2>
+      <mat-selection-list>
+        <mat-list-option>Polish</mat-list-option>
+        <mat-list-option>English</mat-list-option>
+        <mat-list-option>Spanish</mat-list-option>
+      </mat-selection-list>
+      <h2>Difficulty</h2>
+      <mat-selection-list>
+        <mat-list-option>Begginer</mat-list-option>
+        <mat-list-option>Intermediate</mat-list-option>
+        <mat-list-option>Advanced</mat-list-option>
+      </mat-selection-list>
+      <div class="button-wrapper">
+        <button 
+          mat-raised-button 
+          color="accent"
+          (click)="onFindButtonClick()"
+          >Find</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="course-list">
+    lista
+    <mat-paginator
+      [length]="100"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 15]"
+      aria-label="Select page"
+    >
+    </mat-paginator>
+  </div>
+</div>
