@@ -1,0 +1,14 @@
+<div class="lesson-wrapper">
+  <mat-accordion>
+    <div *ngFor="let lesson of lessons">
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title
+            ><h2>{{ lesson.title }}</h2></mat-panel-title
+          >
+        </mat-expansion-panel-header>
+        <p>{{ lesson.description }}</p>
+      </mat-expansion-panel>
+    </div>
+  </mat-accordion>
+</div>
