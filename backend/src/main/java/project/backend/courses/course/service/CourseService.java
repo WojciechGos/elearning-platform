@@ -8,7 +8,18 @@ public interface CourseService {
 
     Course getCourseById(Long courseId);
 
-    List<Course> getCourses();
+    List<Course> getCourses(
+            String keyword,
+            List<String> category,
+            Double minPrice,
+            Double maxPrice,
+            Double minRating,
+            List<String> targetAudience,
+            List<String> language,
+            Integer page,
+            Integer limit,
+            List<String> fields
+    );
 
     Course createCourse(Course course);
 

@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.backend.courses.category.model.Category;
 import project.backend.courses.course.model.Course;
+import project.backend.courses.course.model.TargetAudience;
 import project.backend.courses.course.service.CourseService;
+import project.backend.courses.language.model.Language;
 
 import java.util.List;
 
@@ -19,13 +22,28 @@ public class CourseControllerImpl implements CourseController {
     @GetMapping
     public ResponseEntity<List<Course>> getCourses(
             @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) String difficulty,
+            @RequestParam(required = false) List<String> category,
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
-            @RequestParam(required = false) Double minRating
+            @RequestParam(required = false) Double minRating,
+            @RequestParam(required = false) List<String> targetAudience,
+            @RequestParam(required = false) List<String> language,
+            @RequestParam(required = false, defaultValue = "0") Integer page,
+            @RequestParam(required = false, defaultValue = "10") Integer limit,
+            @RequestParam(required = false) List<String> fields
     ) {
-        List<Course> courses = courseService.getCourses();
+        List<Course> courses = courseService.getCourses(
+                keyword,
+                category,
+                minPrice,
+                maxPrice,
+                minRating,
+                targetAudience,
+                language,
+                page,
+                limit,
+                fields
+        );
         return new ResponseEntity<>(courses, HttpStatus.OK);
     }
 
