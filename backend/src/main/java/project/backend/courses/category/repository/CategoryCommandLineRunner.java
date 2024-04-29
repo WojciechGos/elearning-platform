@@ -5,7 +5,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import project.backend.courses.category.model.Category;
-import project.backend.courses.category.repository.CategoryRepository;
 
 @Configuration
 @RequiredArgsConstructor

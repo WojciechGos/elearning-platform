@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.service.CourseService;
-import project.backend.courses.course.service.CourseServiceImpl;
 
 import java.util.List;
 
@@ -16,6 +15,7 @@ import java.util.List;
 public class CourseControllerImpl implements CourseController {
     private final CourseService courseService;
 
+    @Override
     @GetMapping
     public ResponseEntity<List<Course>> getCourses(
             @RequestParam(required = false) String keyword,
@@ -29,19 +29,21 @@ public class CourseControllerImpl implements CourseController {
         return new ResponseEntity<>(courses, HttpStatus.OK);
     }
 
+    @Override
     @GetMapping("/{courseId}")
     public ResponseEntity<Course> getCourse(@PathVariable("courseId") Long courseId) {
         Course course = courseService.getCourseById(courseId);
         return new ResponseEntity<>(course, HttpStatus.OK);
     }
 
+    @Override
     @PostMapping
     public ResponseEntity<Course> createCourse(@RequestBody Course course) {
         Course newCourse = courseService.createCourse(course);
         return new ResponseEntity<>(newCourse, HttpStatus.CREATED);
     }
 
-
+    @Override
     @PatchMapping("/{courseId}")
     public ResponseEntity<Course> updateCourse(
             @PathVariable("courseId") Long courseId,
@@ -50,13 +52,10 @@ public class CourseControllerImpl implements CourseController {
         return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
     }
 
+    @Override
     @DeleteMapping("/{courseId}")
     public ResponseEntity<Void> deleteCourse(@PathVariable("courseId") Long courseId) {
         courseService.deleteCourse(courseId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
-
-
 }

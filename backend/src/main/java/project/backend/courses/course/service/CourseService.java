@@ -1,8 +1,6 @@
 package project.backend.courses.course.service;
 
 import project.backend.courses.course.model.Course;
-import project.backend.courses.course.model.CourseState;
-import project.backend.exception.ResourceNotFoundException;
 
 import java.util.List;
 

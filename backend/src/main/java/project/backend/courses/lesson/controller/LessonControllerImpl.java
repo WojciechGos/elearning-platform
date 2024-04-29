@@ -13,25 +13,28 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v1/lessons")
-public class LessonControllerImpl {
+public class LessonControllerImpl implements LessonController {
     private final LessonServiceImpl lessonService;
 
+    @Override
     @GetMapping
     public ResponseEntity<List<Lesson>> getLessons() {
         return new ResponseEntity<>(lessonService.getLessons(), HttpStatus.OK);
     }
 
+    @Override
     @GetMapping("/{lessonId}")
     public ResponseEntity<Lesson> getLesson(@PathVariable("lessonId") Long lessonId) {
         return new ResponseEntity<>(lessonService.getLesson(lessonId), HttpStatus.OK);
     }
 
+    @Override
     @PatchMapping("/{lessonId}")
     public ResponseEntity<Lesson> updateLesson(Lesson lesson, @PathVariable("lessonId") Long lessonId) {
         return new ResponseEntity<>(lessonService.updateLesson(lesson), HttpStatus.OK);
     }
 
-
+    @Override
     @DeleteMapping("/{lessonId}")
     public ResponseEntity<Void> deleteLesson(@PathVariable("lessonId") Long lessonId) {
         lessonService.deleteLesson(lessonId);
@@ -41,9 +44,8 @@ public class LessonControllerImpl {
     @PostMapping("/{lessonId}/lesson-resources")
     public ResponseEntity<LessonResource> addLessonResourceToLesson(
             @PathVariable("lessonId") Long lessonId,
-            @RequestBody LessonResource lessonResource)
-    {
-        LessonResource createdLessonResource = lessonService.addLessonResourceToLesson(lessonId,lessonResource);
+            @RequestBody LessonResource lessonResource) {
+        LessonResource createdLessonResource = lessonService.addLessonResourceToLesson(lessonId, lessonResource);
         return new ResponseEntity<>(createdLessonResource, HttpStatus.CREATED);
     }
 

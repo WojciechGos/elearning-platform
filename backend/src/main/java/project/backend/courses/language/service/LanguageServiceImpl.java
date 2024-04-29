@@ -11,14 +11,16 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class LanguageServiceImpl implements LanguageService{
+public class LanguageServiceImpl implements LanguageService {
 
     private final LanguageRepository languageRepository;
 
+    @Override
     public List<Language> getLanguages() {
         return languageRepository.findAll();
     }
 
+    @Override
     public Language getLanguage(Long languageId) {
         return languageRepository.findById(languageId).orElseThrow(() -> new ResourceNotFoundException("Language not found with id [%s] ".formatted(languageId)));
     }
