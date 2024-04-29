@@ -1,11 +1,18 @@
 package project.backend.courses.course.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.repository.CourseRepository;
 import project.backend.courses.course.model.CourseState;
+import project.backend.courses.course.repository.CourseSpecification;
 import project.backend.exception.ResourceNotFoundException;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -21,8 +28,29 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> getCourses() {
-        return courseRepository.findAll();
+    public List<Course> getCourses(
+            String keyword,
+            List<String> category,
+            Double minPrice,
+            Double maxPrice,
+            Double minRating,
+            List<String> targetAudience,
+            List<String> language,
+            Integer page,
+            Integer limit,
+            List<String> fields
+    ) {
+        Specification<Course> spec = Specification
+                .where(CourseSpecification.hasKeyword(keyword))
+                .and(CourseSpecification.hasCategory(category))
+                .and(CourseSpecification.priceBetween(minPrice, maxPrice))
+                .and(CourseSpecification.minRating(minRating))
+                .and(CourseSpecification.hasTargetAudience(targetAudience))
+                .and(CourseSpecification.hasLanguage(language));
+
+        Pageable pageable = PageRequest.of(page, limit);
+
+        return courseRepository.findAll(spec, pageable).getContent();
     }
 
     @Override
