@@ -1,7 +1,6 @@
 package project.backend.courses.language.service;
 
 import project.backend.courses.language.model.Language;
-import project.backend.exception.ResourceNotFoundException;
 
 import java.util.List;
 

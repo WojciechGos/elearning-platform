@@ -7,7 +7,7 @@ import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.model.LessonRequest;
 import project.backend.courses.lesson.repository.LessonRepository;
 import project.backend.courses.lessonResource.model.LessonResource;
-import project.backend.courses.lessonResource.service.LessonResourceServiceImpl;
+import project.backend.courses.lessonResource.service.LessonResourceService;
 import project.backend.exception.ResourceNotFoundException;
 
 import java.util.List;
@@ -17,17 +17,19 @@ import java.util.List;
 public class LessonServiceImpl implements LessonService {
 
     private final LessonRepository lessonRepository;
-    private final LessonResourceServiceImpl lessonResourceService;
+    private final LessonResourceService lessonResourceService;
 
+    @Override
     public List<Lesson> getLessons() {
         return lessonRepository.findAll();
     }
 
-
+    @Override
     public Lesson getLesson(Long lessonId) {
         return lessonRepository.findById(lessonId).orElseThrow(() -> new ResourceNotFoundException("Lesson not found with id [%s] ".formatted(lessonId)));
     }
 
+    @Override
     public Lesson createLesson(LessonRequest lesson) {
 
         return lessonRepository.save(new Lesson(

@@ -15,6 +15,7 @@ public class CourseLessonControllerImpl implements CourseLessonController {
 
     private final CourseLessonService courseLessonService;
 
+    @Override
     @PostMapping()
     public ResponseEntity<Lesson> addLessonToCourse(
             @PathVariable("courseId") Long courseId,

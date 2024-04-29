@@ -2,7 +2,6 @@ package project.backend.courses.lesson.service;
 
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.model.LessonRequest;
-import project.backend.exception.ResourceNotFoundException;
 
 import java.util.List;
 
