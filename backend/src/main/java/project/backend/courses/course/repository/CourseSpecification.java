@@ -14,11 +14,12 @@ public class CourseSpecification {
 
     public static Specification<Course> hasKeyword(String keyword) {
         return (course, cq, cb) -> {
-            if (keyword == null) {
+            if (keyword == null)
                 return null;
-            } else {
-                return cb.like(cb.lower(course.get("title")), "%" + keyword.toLowerCase() + "%");
-            }
+            if(keyword.isEmpty() || keyword.isBlank())
+                return null;
+
+            return cb.like(cb.lower(course.get("title")), "%" + keyword.toLowerCase() + "%");
         };
     }
 
