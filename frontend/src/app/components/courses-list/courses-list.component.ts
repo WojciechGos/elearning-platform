@@ -13,8 +13,8 @@ export class CoursesListComponent implements OnInit {
   constructor(private courseService: CourseService) { }
 
   ngOnInit(): void {
-    this.courseService.getCourses().subscribe((courses) => {
-      this.courses = courses;
+    this.courseService.getCoursesByFilter().subscribe((filteredResponse) => {
+      this.courses = filteredResponse.courses;
     });
   }
 

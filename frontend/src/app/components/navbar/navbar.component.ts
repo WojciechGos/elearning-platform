@@ -24,7 +24,6 @@ export class NavbarComponent implements OnInit {
     this.isListVisible = true;
     if(this.categories.length === 0) {
       this.categoryService.getCategories().subscribe((categories) => {
-        console.log(categories)
         this.categories = categories;
       });
     }

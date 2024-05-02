@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import project.backend.courses.course.model.Course;
+import project.backend.courses.course.model.FilterCourseDTO;
 import project.backend.courses.course.repository.CourseRepository;
 import project.backend.courses.course.model.CourseState;
 import project.backend.courses.course.repository.CourseSpecification;
@@ -28,7 +29,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> getCourses(
+    public FilterCourseDTO getCourses(
             String keyword,
             List<String> category,
             Double minPrice,
@@ -49,8 +50,9 @@ public class CourseServiceImpl implements CourseService {
                 .and(CourseSpecification.hasLanguage(language));
 
         Pageable pageable = PageRequest.of(page, limit);
-
-        return courseRepository.findAll(spec, pageable).getContent();
+        Long count = courseRepository.count(spec);
+        List<Course> courseList = courseRepository.findAll(spec, pageable).getContent();
+        return new FilterCourseDTO(count, courseList);
     }
 
     @Override

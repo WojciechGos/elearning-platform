@@ -4,11 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import project.backend.courses.category.model.Category;
 import project.backend.courses.course.model.Course;
-import project.backend.courses.course.model.TargetAudience;
+import project.backend.courses.course.model.FilterCourseDTO;
 import project.backend.courses.course.service.CourseService;
-import project.backend.courses.language.model.Language;
 
 import java.util.List;
 
@@ -20,26 +18,26 @@ public class CourseControllerImpl implements CourseController {
 
     @Override
     @GetMapping
-    public ResponseEntity<List<Course>> getCourses(
+    public ResponseEntity<FilterCourseDTO> getCourses(
             @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) List<String> category,
+            @RequestParam(required = false) List<String> categories,
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
             @RequestParam(required = false) Double minRating,
             @RequestParam(required = false) List<String> targetAudience,
-            @RequestParam(required = false) List<String> language,
+            @RequestParam(required = false) List<String> languages,
             @RequestParam(required = false, defaultValue = "0") Integer page,
-            @RequestParam(required = false, defaultValue = "10") Integer limit,
+            @RequestParam(required = false, defaultValue = "5") Integer limit,
             @RequestParam(required = false) List<String> fields
     ) {
-        List<Course> courses = courseService.getCourses(
+        FilterCourseDTO courses = courseService.getCourses(
                 keyword,
-                category,
+                categories,
                 minPrice,
                 maxPrice,
                 minRating,
                 targetAudience,
-                language,
+                languages,
                 page,
                 limit,
                 fields
