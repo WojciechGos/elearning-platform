@@ -1,5 +1,6 @@
 package project.backend.courses.course.repository;
 
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import project.backend.courses.course.model.Course;
 
@@ -22,7 +23,14 @@ public class CourseSpecification {
     }
 
     public static Specification<Course> hasCategory(List<String> categories) {
-        return (course, cq, cb) -> categories == null ? null : course.get("category").in(categories);
+        return (course, cq, cb) -> {
+            if (categories == null)
+                return null;
+            if (categories.isEmpty())
+                return null;
+            Predicate categories1 = course.get("categories").get("name").in(categories);
+            return categories1;
+        };
     }
 
     public static Specification<Course> priceBetween(Double minPrice, Double maxPrice) {
@@ -43,6 +51,6 @@ public class CourseSpecification {
     }
 
     public static Specification<Course> hasLanguage(List<String> languages) {
-        return (course, cq, cb) -> languages == null ? null : course.get("language").in(languages);
+        return (course, cq, cb) -> languages == null ? null : course.get("language").get("name").in(languages);
     }
 }

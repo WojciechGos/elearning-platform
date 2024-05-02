@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Course } from '../interfaces/course.interface';
 import { environment } from 'src/environments/environment';
+import { CourseFilter } from '../interfaces/courseFilter.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,11 @@ export class CourseService {
     private http: HttpClient
   ) { }
 
-  /** GET courses from the server */
+  getCoursesByFilter(params?: any): Observable<CourseFilter> {
+    return this.http.get<CourseFilter>(`${environment.apiUrl}/api/v1/courses`, { params });
+  }
+
+
   getCourses(): Observable<Course[]> {
     return this.http.get<Course[]>(`${environment.apiUrl}/api/v1/courses`);
   }

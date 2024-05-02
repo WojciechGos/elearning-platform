@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
 import { Category } from 'src/app/interfaces/category.interface';
-import { MatListOption } from '@angular/material/list'; // Add this line
+import { PageEvent } from '@angular/material/paginator';
+import { Course } from 'src/app/interfaces/course.interface';
+import { CourseService } from 'src/app/services/course.service';
+import { min } from 'rxjs';
 
 @Component({
   selector: 'app-course-search',
@@ -9,30 +12,72 @@ import { MatListOption } from '@angular/material/list'; // Add this line
   styleUrls: ['./course-search.component.css']
 })
 export class CourseSearchComponent implements OnInit {
-  categories: Category[] = [];
+  difficultyLevels = ['Beginner', 'Intermediate', 'Advanced'];
+  languages = ['Polish', 'English', 'Spanish'];
 
+  length: number = 0;
+  pageSize: number = 5; 
+  currentPage: number = 0;
+  categories: Category[] = [];
   keyword: string = '';
   selectedCategories: string[] = [];
   selectedLanguages: string[] = [];
-  selectedDifficulty: string[] = [];
+  selectedLevels: string[] = [];
   minPrice: number = 0;
   maxPrice: number = 1000;
   minRating: number = 0;
+  courses: Course[] = [];
 
-  constructor(private categoryService: CategoryService) { }
+  constructor(
+    private categoryService: CategoryService,
+    private courseService: CourseService
+  ) { }
 
   ngOnInit(): void {
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;
     });
+    this.courseService.getCoursesByFilter().subscribe((courseFilter) => {
+      this.length = courseFilter.count;
+      this.courses = courseFilter.courses;
+    });
   }
-  onCategoriesSelectionChange(selectedOptions: MatListOption[]): void {
-    this.selectedCategories = selectedOptions.map(o => o.value);
+
+  handlePageEvent(event: PageEvent) {
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;     
+    let params = {
+      keyword: this.keyword,
+      categories: this.selectedCategories,
+      languages: this.selectedLanguages,
+      levels: this.selectedLevels,
+      minPrice: this.minPrice,
+      maxPrice: this.maxPrice,
+      minRating: this.minRating,
+      page: this.currentPage,
+    };
+    this.courseService.getCoursesByFilter(params).subscribe((courseFilter) => {
+      this.courses = courseFilter.courses;
+      this.length = courseFilter.count;
+    });
   }
 
   onFindButtonClick(): void {
-    console.log(this.keyword);
-    console.log(this.selectedCategories);
+    let params = {
+      keyword: this.keyword,
+      categories: this.selectedCategories,
+      languages: this.selectedLanguages,
+      levels: this.selectedLevels,
+      minPrice: this.minPrice,
+      maxPrice: this.maxPrice,
+      minRating: this.minRating
+    };
+    this.courseService.getCoursesByFilter(params).subscribe((courseFilter) => {
+      this.courses = courseFilter.courses;
+      this.length = courseFilter.count;
+      console.log(this.length);
+      console.log(this.courses);
+    });
   }
 
 }
