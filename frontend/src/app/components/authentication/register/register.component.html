@@ -5,6 +5,32 @@
 
     <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
       <div class="form-group">
+        <label for="firstName">First Name *</label>
+        <input
+          type="text"
+          formControlName="firstName"
+          id="firstName"
+          required
+        />
+        <div
+          *ngIf="registerForm.get('firstName')?.errors?.['required'] && registerForm.get('firstName')?.touched"
+          class="error"
+        >
+          First name is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name *</label>
+        <input type="text" formControlName="lastName" id="lastName" required />
+        <div
+          *ngIf="registerForm.get('lastName')?.errors?.['required'] && registerForm.get('lastName')?.touched"
+          class="error"
+        >
+          Last name is required.
+        </div>
+      </div>
+
+      <div class="form-group">
         <label for="email">Email *</label>
         <input type="email" formControlName="email" id="email" />
         <div

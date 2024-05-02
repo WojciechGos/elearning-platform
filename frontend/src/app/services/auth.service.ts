@@ -46,11 +46,18 @@ export class AuthService {
       );
   }
 
-  register(email: string, password: string): Observable<User> {
+  register(
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string
+  ): Observable<User> {
     return this.http
       .post<User>(`http://localhost:8080/api/v1/auth/register`, {
         email,
         password,
+        firstName,
+        lastName,
       })
       .pipe(
         map((user) => {
