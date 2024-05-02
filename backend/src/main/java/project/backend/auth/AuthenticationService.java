@@ -12,6 +12,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +24,9 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public ResponseEntity<Object> register(RegisterRequest request) {
         if (repository.findByEmail(request.getEmail()).isPresent()) {
-            throw new IllegalStateException("Email already in use");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
         }
         var user = User.builder()
                 .email(request.getEmail())
@@ -33,10 +35,10 @@ public class AuthenticationService {
                 .build();
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        return ResponseEntity.ok(AuthenticationResponse.builder()
                 .token(jwtToken)
                 .currentUser(user.getUsername())
-                .build();
+                .build());
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {

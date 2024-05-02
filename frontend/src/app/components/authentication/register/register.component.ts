@@ -9,13 +9,20 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  serverError: string | null = null;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
-    this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: [''],
-    }, { validators: this.matchPassword });
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService
+  ) {
+    this.registerForm = this.formBuilder.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: [''],
+      },
+      { validators: this.matchPassword }
+    );
   }
 
   ngOnInit(): void {}
@@ -24,12 +31,18 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       const { email, password } = this.registerForm.value;
       this.authService.register(email, password).subscribe({
-        next: (user) => {
-          console.log('Registration successful', user);
+        next: (response) => {
+          console.log('Registration successful', response);
+          this.serverError = null;
         },
         error: (error) => {
           console.error('Registration failed', error);
-        }
+          if (error.status === 409) {
+            this.serverError = error.error;
+          } else {
+            alert('Registration failed. Please try again later.');
+          }
+        },
       });
     } else {
       console.log('Form is not valid');
@@ -39,6 +52,6 @@ export class RegisterComponent {
   private matchPassword(group: FormGroup): { [key: string]: any } | null {
     let pass = group.get('password')?.value;
     let confirmPass = group.get('confirmPassword')?.value;
-    return pass === confirmPass ? null : { 'passwordMismatch': true };
+    return pass === confirmPass ? null : { passwordMismatch: true };
   }
 }
