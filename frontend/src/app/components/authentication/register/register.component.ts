@@ -20,6 +20,8 @@ export class RegisterComponent {
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: [''],
+        firstName: ['', [Validators.required]],
+        lastName: ['', [Validators.required]],
       },
       { validators: this.matchPassword }
     );
@@ -29,21 +31,23 @@ export class RegisterComponent {
 
   onRegister(): void {
     if (this.registerForm.valid) {
-      const { email, password } = this.registerForm.value;
-      this.authService.register(email, password).subscribe({
-        next: (response) => {
-          console.log('Registration successful', response);
-          this.serverError = null;
-        },
-        error: (error) => {
-          console.error('Registration failed', error);
-          if (error.status === 409) {
-            this.serverError = error.error;
-          } else {
-            alert('Registration failed. Please try again later.');
-          }
-        },
-      });
+      const { email, password, firstName, lastName } = this.registerForm.value;
+      this.authService
+        .register(email, password, firstName, lastName)
+        .subscribe({
+          next: (response) => {
+            console.log('Registration successful', response);
+            this.serverError = null;
+          },
+          error: (error) => {
+            console.error('Registration failed', error);
+            if (error.status === 409) {
+              this.serverError = error.error;
+            } else {
+              alert('Registration failed. Please try again later.');
+            }
+          },
+        });
     } else {
       console.log('Form is not valid');
     }
