@@ -4,7 +4,7 @@ import { Category } from 'src/app/interfaces/category.interface';
 import { PageEvent } from '@angular/material/paginator';
 import { Course } from 'src/app/interfaces/course.interface';
 import { CourseService } from 'src/app/services/course.service';
-import { min } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-course-search',
@@ -30,13 +30,23 @@ export class CourseSearchComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    // get available categories to display it in the filter
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;
     });
+
+    // get query params from the url
+    let selectedCategories = this.route.snapshot.queryParamMap.get('categories');
+    let selectedKeyword = this.route.snapshot.queryParamMap.get('keyword');
+    let params = {
+
+    }
+    // get all courses to display it in the course list
     this.courseService.getCoursesByFilter().subscribe((courseFilter) => {
       this.length = courseFilter.count;
       this.courses = courseFilter.courses;
