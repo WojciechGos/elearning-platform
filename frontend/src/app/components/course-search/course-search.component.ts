@@ -44,10 +44,11 @@ export class CourseSearchComponent implements OnInit {
     let selectedCategories = this.route.snapshot.queryParamMap.get('categories');
     let selectedKeyword = this.route.snapshot.queryParamMap.get('keyword');
     let params = {
-
+      categories: selectedCategories != null ? selectedCategories: '',
+      keyword : selectedKeyword != null ? selectedKeyword : ''
     }
     // get all courses to display it in the course list
-    this.courseService.getCoursesByFilter().subscribe((courseFilter) => {
+    this.courseService.getCoursesByFilter(params).subscribe((courseFilter) => {
       this.length = courseFilter.count;
       this.courses = courseFilter.courses;
     });

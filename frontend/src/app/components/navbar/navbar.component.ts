@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from 'src/app/interfaces/category.interface';
 import { CategoryService } from 'src/app/services/category.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -10,14 +11,21 @@ import { CategoryService } from 'src/app/services/category.service';
 export class NavbarComponent implements OnInit {
   isListVisible = false;
   categories: Category[] = [];
+  searchInput: string = '';
 
-  constructor(private categoryService: CategoryService) { }
+  constructor(
+    private router: Router,
+    private categoryService: CategoryService
+  ) { }
 
   ngOnInit(): void {
   }
 
   onUserAuthenticate(): void{
     
+  }
+  onSearchHandler(): void{
+    this.router.navigate(['/course-search'], { queryParams: { keyword: this.searchInput } });
   }
 
   showList() {
