@@ -1,0 +1,37 @@
+.course-search-wrapper{
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.search-panel{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    height: 75vh;
+}
+.scrollable-content{
+    overflow-y: scroll;
+}
+.course-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: start;
+    height: 80vh;
+}
+.button-wrapper{
+    display: flex;
+    justify-content: center;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}

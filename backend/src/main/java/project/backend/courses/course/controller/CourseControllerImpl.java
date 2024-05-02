@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.backend.courses.course.model.Course;
+import project.backend.courses.course.model.FilterCourseDTO;
 import project.backend.courses.course.service.CourseService;
 
 import java.util.List;
@@ -17,15 +18,30 @@ public class CourseControllerImpl implements CourseController {
 
     @Override
     @GetMapping
-    public ResponseEntity<List<Course>> getCourses(
+    public ResponseEntity<FilterCourseDTO> getCourses(
             @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) String difficulty,
+            @RequestParam(required = false) List<String> categories,
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
-            @RequestParam(required = false) Double minRating
+            @RequestParam(required = false) Double minRating,
+            @RequestParam(required = false) List<String> targetAudience,
+            @RequestParam(required = false) List<String> languages,
+            @RequestParam(required = false, defaultValue = "0") Integer page,
+            @RequestParam(required = false, defaultValue = "5") Integer limit,
+            @RequestParam(required = false) List<String> fields
     ) {
-        List<Course> courses = courseService.getCourses();
+        FilterCourseDTO courses = courseService.getCourses(
+                keyword,
+                categories,
+                minPrice,
+                maxPrice,
+                minRating,
+                targetAudience,
+                languages,
+                page,
+                limit,
+                fields
+        );
         return new ResponseEntity<>(courses, HttpStatus.OK);
     }
 

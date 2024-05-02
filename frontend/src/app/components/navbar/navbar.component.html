@@ -1,32 +1,31 @@
 <nav class="wrapper">
-    <a href='/main-page'>
-        <img src="assets/images/logo.jpg" alt="Logo" class="logo">
-    </a>
-    <button (mouseenter)="showList()" class="plain-button">
-        Categories
+  <a href="/main-page">
+    <img src="assets/images/logo.jpg" alt="Logo" class="logo" />
+  </a>
+  <button (mouseenter)="showList()" class="plain-button">Categories</button>
+  <div class="search-container">
+    <button class="search-button"  (click)="onSearchHandler()">
+      <img src="assets/images/search-icon.png" alt="Search" class="icon" />
     </button>
-    <div class="search-container">
-        <button class="search-button">
-            <img src="assets/images/search-icon.png" alt="Search" class="icon">
-        </button>
-        <input type="text" placeholder="Search..." class="search-input">
-    </div>
-    <button class="plain-button">
-        Creator
+    <input type="text" placeholder="Search..." [(ngModel)]="searchInput" class="search-input" />
+  </div>
+  <button class="plain-button">Creator</button>
+  <a [routerLink]="['/cart']" class="decoration-none">
+    <button class="cart-button">
+      <img src="assets/images/shopping-cart.png" alt="Cart" class="icon" />
     </button>
-    <a
-      [routerLink]="['/cart']"
-      class="decoration-none"
-    >
-        <button class="cart-button">    
-            <img src="assets/images/shopping-cart.png" alt="Cart" class="icon">
-        </button>
-    </a>
-    <app-button [text]="'Log in'" [type]="'LOG_IN'"></app-button>
-    <app-button [text]="'Sign up'" [type]="'SIGN_UP'" class="sign-up-button"></app-button>
+  </a>
+  <app-button [text]="'Log in'" [type]="'LOG_IN'"></app-button>
+  <app-button
+    [text]="'Sign up'"
+    [type]="'SIGN_UP'"
+    class="sign-up-button"
+  ></app-button>
 </nav>
 <div *ngIf="isListVisible" class="menu-list" (mouseleave)="hideList()">
-    <mat-list *ngFor="let category of categories">
-        <mat-list-item class="menu-item">{{ category.name }}</mat-list-item>
-    </mat-list>
-</div>  
+  <mat-list *ngFor="let category of categories">
+    <a [routerLink]="['/course-search']" [queryParams]="{ categories: category.name }">
+      <mat-list-item class="menu-item">{{ category.name }}</mat-list-item>
+    </a>
+  </mat-list>
+</div>
