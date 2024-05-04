@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
+import { environment } from 'src/environments/environment';
+
+//declare const gapi: any;
+declare const google: any;
 
 @Component({
   selector: 'app-login',
@@ -10,6 +14,7 @@ import { AuthService } from '../../../services/auth.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   serverError: string | null = null;
+  auth2: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,7 +27,49 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  // ngOnInit(): void {
+  //   console.log('Loading gapi...');
+  //   gapi.load('auth2', () => {
+  //     console.log('gapi loaded, initializing auth2...');
+  //     gapi.auth2
+  //       .init({
+  //         client_id: environment.googleClientId,
+  //         scope: 'profile email',
+  //       })
+  //       .then((auth2: any) => {
+  //         console.log('auth2 initialized');
+  //         this.auth2 = auth2;
+  //         this.attachSignin(document.getElementById('googleBtn'));
+  //       })
+  //       .catch((error: any) => {
+  //         console.error('Error during auth2 initialization:', error);
+  //       });
+  //   });
+  // }
+
+  ngOnInit(): void {
+    google.accounts.id.initialize({
+      client_id:
+        '659439241514-h8n75fq8ospqergqnuf67na0b27fec5k.apps.googleusercontent.com',
+      callback: (response: any) => {
+        console.log('Google sign-in response:', response);
+        this.authService
+          .loginWithGoogle(response.credential)
+          .subscribe((user) => {
+            console.log('Login successful', user);
+            this.serverError = null;
+          });
+      },
+    });
+
+    google.accounts.id.renderButton(document.getElementById('googleBtn'), {
+      type: 'standard',
+      theme: 'filled_blue',
+      size: 'large',
+      shape: 'rectangle',
+      width: 400,
+    });
+  }
 
   onLogin(): void {
     if (this.loginForm.valid) {
@@ -41,4 +88,35 @@ export class LoginComponent implements OnInit {
       console.log('Form is not valid');
     }
   }
+
+  // attachSignin(element: any) {
+  //   if (!element) {
+  //     console.error('Google sign-in button not found.');
+  //     return;
+  //   }
+  //   const auth2 = gapi.auth2.getAuthInstance();
+  //   auth2.attachClickHandler(
+  //     element,
+  //     {},
+  //     (googleUser: any) => {
+  //       console.log('Button clicked, user received');
+  //       const token = googleUser.getAuthResponse().id_token;
+  //       this.onGoogleSignIn(token);
+  //     },
+  //     (error: any) => {
+  //       console.error('Error signing in:', error);
+  //     }
+  //   );
+  // }
+
+  // onGoogleSignIn(token: string): void {
+  //   this.authService.loginWithGoogle(token).subscribe({
+  //     next: (response) => {
+  //       console.log('Google login successful', response);
+  //     },
+  //     error: (error) => {
+  //       console.error('Google login failed', error);
+  //     },
+  //   });
+  // }
 }

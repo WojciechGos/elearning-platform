@@ -20,12 +20,12 @@ const routes: Routes = [
     component: LoggedInPageComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'main-page', component: MainPageComponent},
+  { path: 'main-page', component: MainPageComponent },
   { path: '', redirectTo: '/main-page', pathMatch: 'full' },
-  { path: 'cancel', component: CancelComponent},
-  { path: 'success', component: SuccessComponent},
-  { path: 'cart', component: CartComponent},
-  { path: 'course-search', component: CourseSearchComponent},
+  { path: 'cancel', component: CancelComponent },
+  { path: 'success', component: SuccessComponent },
+  { path: 'cart', component: CartComponent },
+  { path: 'course-search', component: CourseSearchComponent },
 ];
 
 @NgModule({

@@ -1,5 +1,6 @@
 package project.backend.auth;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import project.backend.config.JwtService;
 import project.backend.token.Token;
 import project.backend.token.TokenRepository;
@@ -84,5 +85,25 @@ public class AuthenticationService {
             token.setRevoked(true);
         });
         tokenRepository.saveAll(validUserTokens);
+    }
+
+    public User findUserByEmail(String email) {
+        return repository.findByEmail(email).orElse(null);
+    }
+
+    public User createUserFromGooglePayload(GoogleIdToken.Payload payload) {
+        User newUser = User.builder()
+                .email(payload.getEmail())
+                .firstName((String) payload.get("given_name"))
+                .lastName((String) payload.get("family_name"))
+                .password(passwordEncoder.encode("random"))
+                .role(Role.USER)
+                .build();
+        repository.save(newUser);
+        return newUser;
+    }
+
+    public String generateJwtToken(User user) {
+        return jwtService.generateToken(user);
     }
 }
