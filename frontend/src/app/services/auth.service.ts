@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,7 +17,11 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private ngZone: NgZone
+  ) {
     this.currentUserSubject = new BehaviorSubject<User | null>(
       JSON.parse(localStorage.getItem('currentUser') || '{}')
     );
@@ -46,11 +50,18 @@ export class AuthService {
       );
   }
 
-  register(email: string, password: string): Observable<User> {
+  register(
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string
+  ): Observable<User> {
     return this.http
       .post<User>(`http://localhost:8080/api/v1/auth/register`, {
         email,
         password,
+        firstName,
+        lastName,
       })
       .pipe(
         map((user) => {
@@ -73,5 +84,24 @@ export class AuthService {
 
   public getToken(): string | null {
     return localStorage.getItem('jwtToken');
+  }
+
+  loginWithGoogle(token: string): Observable<any> {
+    return this.http
+      .post<any>(`http://localhost:8080/api/v1/auth/google-login`, { token })
+      .pipe(
+        map((response) => {
+          localStorage.setItem(
+            'currentUser',
+            JSON.stringify(response.currentUser)
+          );
+          localStorage.setItem('jwtToken', response.token);
+          this.currentUserSubject.next(response.currentUser);
+          this.ngZone.run(() => {
+            this.router.navigate(['/logged-in']);
+          });
+          return response;
+        })
+      );
   }
 }
