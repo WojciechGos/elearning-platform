@@ -6,25 +6,37 @@
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
       <div class="form-group">
         <label for="email">Email *</label>
-        <input type="email" formControlName="email" id="email">
-        <div *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched" class="error">
+        <input type="email" formControlName="email" id="email" />
+        <div
+          *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched"
+          class="error"
+        >
           Email is required.
         </div>
-        <div *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched" class="error">
+        <div
+          *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched"
+          class="error"
+        >
           Please enter a valid email.
         </div>
       </div>
       <div class="form-group">
         <label for="password">Password *</label>
-        <input type="password" formControlName="password" id="password">
-        <div *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched" class="error">
+        <input type="password" formControlName="password" id="password" />
+        <div
+          *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched"
+          class="error"
+        >
           Password is required.
+        </div>
+        <div *ngIf="serverError" class="error">
+          {{ serverError }}
         </div>
       </div>
 
       <div class="form-options">
         <div class="checkbox">
-          <input type="checkbox" formControlName="rememberMe" id="rememberMe">
+          <input type="checkbox" formControlName="rememberMe" id="rememberMe" />
           <label for="rememberMe">Remember me</label>
         </div>
         <a href="#" class="forgot-password">Forgot your password?</a>
@@ -41,8 +53,8 @@
         <span class="or">or continue with:</span>
         <hr class="line" />
       </div>
-
-      <button class="btn-google">Google</button>
     </form>
+    <!-- <button id="googleBtn" class="btn-google">Google</button> -->
+    <div id="googleBtn" class="btn-google"></div>
   </div>
 </div>
