@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { environment } from 'src/environments/environment';
 
-//declare const gapi: any;
 declare const google: any;
 
 @Component({
@@ -26,26 +25,6 @@ export class LoginComponent implements OnInit {
       rememberMe: [false],
     });
   }
-
-  // ngOnInit(): void {
-  //   console.log('Loading gapi...');
-  //   gapi.load('auth2', () => {
-  //     console.log('gapi loaded, initializing auth2...');
-  //     gapi.auth2
-  //       .init({
-  //         client_id: environment.googleClientId,
-  //         scope: 'profile email',
-  //       })
-  //       .then((auth2: any) => {
-  //         console.log('auth2 initialized');
-  //         this.auth2 = auth2;
-  //         this.attachSignin(document.getElementById('googleBtn'));
-  //       })
-  //       .catch((error: any) => {
-  //         console.error('Error during auth2 initialization:', error);
-  //       });
-  //   });
-  // }
 
   ngOnInit(): void {
     google.accounts.id.initialize({
@@ -88,35 +67,4 @@ export class LoginComponent implements OnInit {
       console.log('Form is not valid');
     }
   }
-
-  // attachSignin(element: any) {
-  //   if (!element) {
-  //     console.error('Google sign-in button not found.');
-  //     return;
-  //   }
-  //   const auth2 = gapi.auth2.getAuthInstance();
-  //   auth2.attachClickHandler(
-  //     element,
-  //     {},
-  //     (googleUser: any) => {
-  //       console.log('Button clicked, user received');
-  //       const token = googleUser.getAuthResponse().id_token;
-  //       this.onGoogleSignIn(token);
-  //     },
-  //     (error: any) => {
-  //       console.error('Error signing in:', error);
-  //     }
-  //   );
-  // }
-
-  // onGoogleSignIn(token: string): void {
-  //   this.authService.loginWithGoogle(token).subscribe({
-  //     next: (response) => {
-  //       console.log('Google login successful', response);
-  //     },
-  //     error: (error) => {
-  //       console.error('Google login failed', error);
-  //     },
-  //   });
-  // }
 }

@@ -57,7 +57,7 @@ public class AuthenticationController {
                 }
 
                 String jwtToken = service.generateJwtToken(user);
-                return ResponseEntity.ok(new AuthenticationResponse(jwtToken, user.getUsername()));
+                return ResponseEntity.ok(new AuthenticationResponse(jwtToken, user.getFirstName() + " " + user.getLastName()));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Google ID token");
             }
