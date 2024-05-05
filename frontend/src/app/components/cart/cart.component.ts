@@ -1,14 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Course } from 'src/app/interfaces/course.interface';
-import { CourseService } from 'src/app/services/course.service';
-import { loadStripe, Stripe } from '@stripe/stripe-js';
-import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
 import { CartService } from 'src/app/services/cart.service';
-
-export interface CartItem {
-  course: Course;
-}
+import { PaymentService } from 'src/app/services/payment.service';
+import { CartItem } from 'src/app/interfaces/cartItem.interface';
 
 @Component({
   selector: 'app-cart',
@@ -18,19 +11,11 @@ export interface CartItem {
 export class CartComponent implements OnInit {
   cartItems: CartItem[] = [];
   totalPrice: number = 0;
-  stripePromise = loadStripe(environment.stripe);
-  stripe: Stripe | null = null;
-
-  cart: any;
 
   constructor(
     private cartService: CartService,
-    private http: HttpClient
-  ) {
-    this.stripePromise.then((stripeInstance) => {
-      this.stripe = stripeInstance;
-    });
-  }
+    private paymentService: PaymentService
+  ) {}
 
   ngOnInit(): void {
      this.loadCart();
@@ -38,18 +23,18 @@ export class CartComponent implements OnInit {
 
   loadCart() {
     this.cartService.getCart().subscribe(cart => {
-      this.cart = cart;
       this.cartItems = cart.items;
-      console.log(cart)
-      console.log("cartItems: " + JSON.stringify(this.cartItems));
+      this.calculateTotalPrice();
     });
   }
 
-  // calculateTotalPrice(): void {
-  //   this.totalPrice = this.cart.items.reduce((total, cartItem) => total + cartItem.price, 0);
-  // }
+  calculateTotalPrice() {
+    this.totalPrice = this.cartItems.reduce((total, cartItem) => {
+      return total + cartItem.course.price;
+    }, 0);
+  }
 
-  async pay(): Promise<void> {
+  pay(): void {
     const payment = {
       name: this.cartItems.map(cartItem => cartItem.course.title).join(', '),
       currency: 'usd',
@@ -59,19 +44,6 @@ export class CartComponent implements OnInit {
       successUrl: 'http://localhost:4200/success',
     };
 
-    if (!this.stripe) {
-      console.error('Stripe is not loaded yet');
-      return;
-    }
-
-    try {
-      const data: any = await this.http.post(`${environment.apiUrl}/api/v1/payments`, payment).toPromise();
-      this.stripe.redirectToCheckout({
-        sessionId: data.id,
-      });
-    } catch (error) {
-      console.error('Error occurred while making payment:', error);
-    }
+    this.paymentService.pay(payment);
   }
-
 }

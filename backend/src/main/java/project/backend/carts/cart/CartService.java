@@ -1,19 +1,19 @@
 package project.backend.carts.cart;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import project.backend.exception.ResourceNotFoundException;
 import project.backend.user.User;
-import project.backend.user.UserRepository;
+import project.backend.user.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class CartService {
     private final CartRepository cartRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     public List<Cart> getAllCarts() {
         return cartRepository.findAll();
     }
@@ -51,12 +51,32 @@ public class CartService {
         cartRepository.deleteById(cartId);
     }
 
-    //TODO: get active
-    public Cart getCartByUserEmail(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "User with email [%s] not found.".formatted(email)
-                ));
-        return cartRepository.findByUserId(user.getId()).get(0);
+    public Optional<Cart> getOptionalPendingCartByUserEmail(String email) {
+        User user = userService.getUserByEmail(email);
+
+        List<Cart> carts = cartRepository.findByUserIdAndCartStatus(user.getId(), CartStatus.PENDING);
+        if (carts.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(carts.get(0));
+    }
+
+    public Cart getPendingCartByUserEmail(String email) {
+        User user = userService.getUserByEmail(email);
+        List<Cart> carts = cartRepository.findByUserIdAndCartStatus(user.getId(), CartStatus.PENDING);
+
+        if (carts.isEmpty()) {
+            throw new ResourceNotFoundException(
+                    String.format("Pending cart for user with email [%s] not found.", email)
+            );
+        }
+
+        return carts.get(0);
+    }
+
+    public List<Cart> getAllCartsByUserEmail(String email) {
+        User user = userService.getUserByEmail(email);
+
+        return cartRepository.findByUserId(user.getId());
     }
 }

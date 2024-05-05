@@ -7,24 +7,14 @@ h1 {
     font-size: 34px;
 }
 
-.cart-divider {
-    border-top: 1px solid #ccc; 
-    margin: 20px 0; 
-    width: 830px;
-}
-
-a {
-    text-decoration: none;
-    color: black;
-}
-
 .content-wrapper {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-} 
+}
 
 .checkout {
-    margin-right: 180px;
+    margin-right: 170px;
     width: 250px;
 }
 

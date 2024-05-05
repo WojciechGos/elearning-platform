@@ -10,8 +10,9 @@ import { CancelComponent } from './components/payment/cancel/cancel.component';
 import { SuccessComponent } from './components/payment/success/success.component';
 import { CartComponent } from './components/cart/cart.component';
 import { UsersComponent } from './components/admin/users/users.component';
-import { UserCartComponent } from './components/admin/user-cart/user-cart.component';
+import { CartDetailsComponent} from './components/admin/cart-details/cart-details.component';
 import { CourseSearchComponent } from './components/course-search/course-search.component';
+import { UserCartsComponent } from './components/admin/user-carts/user-carts.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -28,8 +29,9 @@ const routes: Routes = [
   { path: 'success', component: SuccessComponent},
   { path: 'cart', component: CartComponent},
   { path: 'users', component: UsersComponent},
-  { path: 'user-cart/:userId', component: UserCartComponent },
+  { path: 'cart-details/:id', component: CartDetailsComponent },
   { path: 'course-search', component: CourseSearchComponent},
+  { path: 'user-carts/:email', component: UserCartsComponent},
 ];
 
 @NgModule({

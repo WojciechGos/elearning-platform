@@ -32,11 +32,12 @@ export class CourseDetailsComponent implements OnInit
     }
   }
   
+  
   addToCart() {
-    this.cartService.getCart().subscribe(cart => {
-      this.cart = cart;
-      console.log(cart)
-    });
-    this.cartService.addToCart(this.course.id, this.cart);
+    this.cartService.addCartItem(this.course.id).subscribe(
+      (error) => {
+        console.log("Error:", error);
+      }
+    );
   }
 }

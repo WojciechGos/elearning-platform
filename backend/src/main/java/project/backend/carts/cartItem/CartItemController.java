@@ -30,7 +30,7 @@ public class CartItemController {
 
     @PostMapping
     public ResponseEntity<CartItem> createCartItem(@RequestBody CartItemRequest cartItemRequest) {
-        System.out.println("wchodzę");
+        System.out.println(cartItemRequest);
         CartItem createdCartItem = cartItemService.createCartItem(cartItemRequest);
         return new ResponseEntity<>(createdCartItem, HttpStatus.CREATED);
     }
