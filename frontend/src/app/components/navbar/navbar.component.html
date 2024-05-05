@@ -21,15 +21,25 @@
     </button>
   </a>
   <app-button
+    *ngIf="!isLoggedIn"
     [text]="'Log in'"
     [type]="'LOG_IN'"
     routerLink="/login"
   ></app-button>
   <app-button
+    *ngIf="!isLoggedIn"
     [text]="'Sign up'"
     [type]="'SIGN_UP'"
     class="sign-up-button"
     routerLink="/register"
+  ></app-button>
+
+  <app-button
+    *ngIf="isLoggedIn"
+    [text]="'Logout'"
+    [type]="'LOG_OUT'"
+    (click)="logout()"
+    class="logout-button"
   ></app-button>
 </nav>
 <div *ngIf="isListVisible" class="menu-list" (mouseleave)="hideList()">
