@@ -40,7 +40,7 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         return ResponseEntity.ok(AuthenticationResponse.builder()
                 .token(jwtToken)
-                .currentUser(user.getUsername())
+                .currentUser(user.getFirstName() + " " + user.getLastName())
                 .build());
     }
 
@@ -57,7 +57,7 @@ public class AuthenticationService {
             var jwtToken = jwtService.generateToken(user);
             return ResponseEntity.ok(AuthenticationResponse.builder()
                     .token(jwtToken)
-                    .currentUser(user.getUsername())
+                    .currentUser(user.getFirstName() + " " + user.getLastName())
                     .build());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
