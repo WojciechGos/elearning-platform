@@ -44,7 +44,7 @@ export class AuthService {
           );
           localStorage.setItem('jwtToken', response.token);
           this.currentUserSubject.next(response.currentUser);
-          this.router.navigate(['/logged-in']);
+          this.router.navigate(['/main-page']);
           return response;
         })
       );
@@ -69,7 +69,7 @@ export class AuthService {
           localStorage.setItem('currentUser', JSON.stringify(user.currentUser));
           localStorage.setItem('jwtToken', user.token);
           this.currentUserSubject.next(user);
-          this.router.navigate(['/logged-in']);
+          this.router.navigate(['/main-page']);
           return user;
         })
       );
@@ -80,6 +80,7 @@ export class AuthService {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('jwtToken');
     this.currentUserSubject.next(null);
+    this.router.navigate(['/main-page']);
   }
 
   public getToken(): string | null {
@@ -98,7 +99,7 @@ export class AuthService {
           localStorage.setItem('jwtToken', response.token);
           this.currentUserSubject.next(response.currentUser);
           this.ngZone.run(() => {
-            this.router.navigate(['/logged-in']);
+            this.router.navigate(['/main-page']);
           });
           return response;
         })

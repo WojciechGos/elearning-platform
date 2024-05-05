@@ -42,9 +42,9 @@
     position: relative;
     display: inline-block;
 }
-  
+
 .search-input {
-    padding: 8px 32px 8px 20px; 
+    padding: 8px 32px 8px 20px;
     border: 1px solid #242323;
     border-radius: 4px;
     width: 600px;
@@ -52,12 +52,12 @@
     border-radius: 15px;
     font-size: 15px;
 }
-  
+
 .search-button {
     position: absolute;
-    top: 50%; 
-    right: 8px; 
-    transform: translateY(-50%); 
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
     padding: 10px;
 }
 
@@ -68,14 +68,18 @@
     border: none;
     cursor: pointer;
 }
-  
+
 .icon {
-    width: 24px; 
+    width: 24px;
     height: 24px;
 }
-  
+
 .sign-up-button {
     margin-right: 110px;
+}
+
+.logout-button {
+  margin-right: 110px;
 }
 
 a {
@@ -85,9 +89,9 @@ a {
 .button-wrapper {
     position: relative;
 }
-  
+
 .menu-list {
-    position: absolute; 
+    position: absolute;
     left: 13%;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
     background-color: rgb(228, 232, 234);
