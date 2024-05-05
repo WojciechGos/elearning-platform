@@ -1,0 +1,15 @@
+<div class="container">
+    <header>
+      <h1>Cart ID: {{ id }}</h1>
+      <h3>Creation date: {{ creationDate }}</h3>
+    </header>
+    <app-cart-items-list 
+      [cartItems]="cartItems" 
+      (cartUpdated)="loadCart()"
+    ></app-cart-items-list>
+    <label for="status">Cart status:</label>
+    <select [(ngModel)]="selectedStatus" (ngModelChange)="onStatusSelected()">
+        <option *ngFor="let status of cartStatuses" [ngValue]="status">{{status}}</option>
+    </select>  
+  </div>
+  

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.backend.carts.cart.Cart;
 import project.backend.carts.cart.CartService;
+import project.backend.carts.cart.CartStatus;
 import project.backend.courses.course.Course;
 import project.backend.courses.course.CourseService;
 import project.backend.exception.ResourceNotFoundException;
@@ -11,6 +12,7 @@ import project.backend.user.User;
 import project.backend.user.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -34,13 +36,14 @@ public class CartItemService {
     public CartItem createCartItem(CartItemRequest cartItemRequest) {
         User user = userService.getUserByEmail(cartItemRequest.email());
 
-        Cart cart = cartService.getCartByUserEmail(user.getEmail());
+        Optional<Cart> optionalCart = cartService.getOptionalPendingCartByUserEmail(user.getEmail());
 
-        if (cart == null) {
-            cart = new Cart();
-            cart.setUser(user);
-            cart = cartService.createCart(cart);
-        }
+        Cart cart = optionalCart.orElseGet(() -> {
+            Cart newCart = new Cart();
+            newCart.setUser(user);
+            newCart.setCartStatus(CartStatus.PENDING);
+            return cartService.createCart(newCart);
+        });
 
         Course course = courseService.getCourseById(cartItemRequest.courseId());
 

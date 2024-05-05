@@ -1,0 +1,11 @@
+<hr class="cart-divider">
+<div *ngFor="let cartItem of cartItems">
+    <app-cart-item
+        [id]="cartItem.id"
+        [title]="cartItem.course.title"
+        [price]="cartItem.course.price"
+        [rating]="cartItem.course.rating"
+        (cartUpdated)="handleCartUpdated()"
+    ></app-cart-item>
+    <hr class="cart-divider">
+</div>

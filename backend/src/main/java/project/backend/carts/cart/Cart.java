@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import project.backend.auditing.AuditorEntity;
 import project.backend.carts.cartItem.CartItem;
 import project.backend.user.User;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Cart {
+public class Cart extends AuditorEntity {
     @SequenceGenerator(
             name = "cart_sequence",
             sequenceName = "cart_sequence",

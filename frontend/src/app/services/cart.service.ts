@@ -16,13 +16,29 @@ export class CartService {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}')
   }
 
-  addToCart(courseId: number, cart: any): void {
-      let cartId = cart ? cart.id : 20;
-      let cartItemRequest = { courseId: courseId, cartId: cartId, email: this.currentUser };
-      this.http.post<any>(`${this.apiUrl}/cartItems`, cartItemRequest);
+  addCartItem(courseId: number): Observable<any> {
+    let cartItemRequest = { courseId: courseId, email: this.currentUser };
+    return this.http.post<any>(`${this.apiUrl}/cartItems`, cartItemRequest);
+  }
+  
+  getCart(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/carts/pending/` + this.currentUser)
   }
 
-  getCart(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/carts/user/` + this.currentUser)
+  deleteCartItem(cartItemId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/cartItems/${cartItemId}`);
   }
+
+  getAllCartsByEmail(email: String): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/carts/user/` + email)
+  }
+
+  getCartByCartID(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/carts/${id}`)
+  }
+
+  updateCartStatus(id: number, status: string): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/carts/${id}`, { cartStatus: status })
+  }
+
 }
