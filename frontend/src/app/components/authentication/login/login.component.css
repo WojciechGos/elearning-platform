@@ -68,17 +68,6 @@ p {
   color: #5E17EB;
 }
 
-.btn-google {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 4px;
-  background-color: #DB4437;
-  color: white;
-  cursor: pointer;
-}
-
 .register-link {
   margin: 16px 0;
 }
@@ -95,11 +84,11 @@ p {
 }
 
 .divider .line {
-  flex: 1; 
+  flex: 1;
   border: none;
   height: 1px;
-  background-color: #ccc; 
-  margin: 0 10px; 
+  background-color: #ccc;
+  margin: 0 10px;
 }
 
 .divider .or {

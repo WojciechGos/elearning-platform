@@ -5,6 +5,8 @@ import java.util.Objects;
 public class UserRegisterationDto {
   private String username;
   private String password;
+  private String firstName;
+  private String lastName;
 
   public String getUsername() {
     return username;
@@ -22,6 +24,22 @@ public class UserRegisterationDto {
   public UserRegisterationDto setPassword(String password) {
     this.password = password;
     return this;
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 
   @Override
