@@ -50,5 +50,20 @@
     >
       <mat-list-item class="menu-item">{{ category.name }}</mat-list-item>
     </a>
-  </mat-list>
-</div>
+    <a
+        [routerLink]="['/login']"
+        class="black-link"
+    >
+    <app-button [text]="'Log in'" [type]="'LOG_IN'"></app-button>
+    </a>
+    <a
+        [routerLink]="['/register']"
+    >
+    <app-button [text]="'Sign up'" [type]="'SIGN_UP'"></app-button>
+    </a>
+</nav>
+<div *ngIf="isListVisible" class="menu-list" (mouseleave)="hideList()">
+    <mat-list *ngFor="let category of categories">
+        <mat-list-item class="menu-item">{{ category.name }}</mat-list-item>
+    </mat-list>
+</div>  

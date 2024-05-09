@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Type } from '../button/button.types';
 import { ActivatedRoute } from '@angular/router'; 
 import { CourseService } from 'src/app/services/course.service';
 import { Course } from 'src/app/interfaces/course.interface';
+import { CartService } from 'src/app/services/cart.service';
+
 @Component({
   selector: 'app-course-details',
   templateUrl: './course-details.component.html',
@@ -10,9 +11,12 @@ import { Course } from 'src/app/interfaces/course.interface';
 })
 export class CourseDetailsComponent implements OnInit 
 {
-  course : Course | undefined; 
+  course! : Course;
+  cart: any;
+
   constructor(
     private courseService: CourseService,
+    private cartService: CartService,
     private route: ActivatedRoute
   ) { }
 
@@ -27,10 +31,13 @@ export class CourseDetailsComponent implements OnInit
       });
     }
   }
-  addToCheckoutMethod() {
-    console.log('Add to checkout');
-  }
-
   
-
+  
+  addToCart() {
+    this.cartService.addCartItem(this.course.id).subscribe(
+      (error) => {
+        console.log("Error:", error);
+      }
+    );
+  }
 }

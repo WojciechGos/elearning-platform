@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("api/v1/carts")
 @RestController
@@ -25,6 +26,18 @@ public class CartController {
     public ResponseEntity<Cart> getCartById(@PathVariable("id") Long cartId) {
         Cart cart = cartService.getCartById(cartId);
         return ResponseEntity.ok(cart);
+    }
+
+    @GetMapping("pending/{email}")
+    public ResponseEntity<Cart> getPendingCartByUserEmail(@PathVariable("email") String email) {
+        Cart cart = cartService.getPendingCartByUserEmail(email);
+        return ResponseEntity.ok(cart);
+    }
+
+    @GetMapping("user/{email}")
+    public ResponseEntity<List<Cart>> getAllCartsByUserEmail(@PathVariable("email") String email) {
+        List<Cart> carts = cartService.getAllCartsByUserEmail(email);
+        return ResponseEntity.ok(carts);
     }
 
     @PostMapping

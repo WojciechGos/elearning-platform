@@ -2,14 +2,25 @@ package project.backend.carts.cartItem;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import project.backend.carts.cart.Cart;
+import project.backend.carts.cart.CartService;
+import project.backend.carts.cart.CartStatus;
+import project.backend.courses.course.Course;
+import project.backend.courses.course.CourseService;
 import project.backend.exception.ResourceNotFoundException;
+import project.backend.user.User;
+import project.backend.user.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class CartItemService {
     private final CartItemRepository cartItemRepository;
+    private final CartService cartService;
+    private final CourseService courseService;
+    private final UserService userService;
 
     public List<CartItem> getAllCartItems() {
         return cartItemRepository.findAll();
@@ -22,7 +33,25 @@ public class CartItemService {
                 ));
     }
 
-    public CartItem createCartItem(CartItem cartItem) {
+    public CartItem createCartItem(CartItemRequest cartItemRequest) {
+        User user = userService.getUserByEmail(cartItemRequest.email());
+
+        Optional<Cart> optionalCart = cartService.getOptionalPendingCartByUserEmail(user.getEmail());
+
+        Cart cart = optionalCart.orElseGet(() -> {
+            Cart newCart = new Cart();
+            newCart.setUser(user);
+            newCart.setCartStatus(CartStatus.PENDING);
+            return cartService.createCart(newCart);
+        });
+
+        Course course = courseService.getCourseById(cartItemRequest.courseId());
+
+        CartItem cartItem = new CartItem(
+                cart,
+                course
+        );
+
         return cartItemRepository.save(cartItem);
     }
 
@@ -33,7 +62,7 @@ public class CartItemService {
                 ));
 
         cartItem.setCart(cartItemDetails.getCart());
-        cartItem.setPrice(cartItemDetails.getPrice());
+        cartItem.setCourse(cartItemDetails.getCourse());
 
         return cartItemRepository.save(cartItem);
     }

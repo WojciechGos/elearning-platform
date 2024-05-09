@@ -1,5 +1,6 @@
 package project.backend.config;
 
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import project.backend.auditing.ApplicationAuditAware;
 import project.backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class ApplicationConfig {
 
     private final UserRepository repository;
@@ -36,7 +38,7 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public AuditorAware<Integer> auditorAware() {
+    public AuditorAware<Long> auditorAware() {
         return new ApplicationAuditAware();
     }
 
