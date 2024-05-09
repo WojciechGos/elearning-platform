@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import project.backend.exception.ResourceNotFoundException;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -13,6 +16,7 @@ public class UserService {
 
   private final PasswordEncoder passwordEncoder;
   private final UserRepository repository;
+  private final UserMapper userMapper;
   public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
     var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
@@ -31,5 +35,19 @@ public class UserService {
 
     // save the new password
     repository.save(user);
+  }
+
+  public List<UserDTO> getAllUsers() {
+    List<User> users = repository.findAll();
+    return users.stream()
+            .map(userMapper::mapToDTO)
+            .collect(Collectors.toList());
+  }
+
+  public User getUserByEmail(String email) {
+    return repository.findByEmail(email)
+            .orElseThrow(() -> new ResourceNotFoundException(
+                    String.format("User with email [%s] not found.", email)
+            ));
   }
 }

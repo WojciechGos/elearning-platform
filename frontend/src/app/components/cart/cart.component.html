@@ -7,20 +7,10 @@
         </div>
         <div class="content-wrapper">
             <div class="left-wrapper">
-                <hr class="cart-divider">
-                <div *ngFor="let cartItem of cartItems" class="cart-item">
-                    <a
-                    [routerLink]="['/course-details', cartItem.id]"
-                    class="decoration-none"
-                    >
-                    <app-cart-item
-                        [title]="cartItem.title"
-                        [price]="cartItem.price"
-                        [rating]="cartItem.rating"
-                    ></app-cart-item>
-                    </a>
-                    <hr class="cart-divider">
-                </div>
+                <app-cart-items-list 
+                [cartItems]="cartItems" 
+                (cartUpdated)="loadCart()"
+                ></app-cart-items-list>
             </div>
             <div class="checkout">
                 <div class="total">Total:</div>

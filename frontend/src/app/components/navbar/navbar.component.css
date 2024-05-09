@@ -1,6 +1,6 @@
 .wrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     padding: 10px 20px;
     background-color: #f8f9fa;
@@ -84,6 +84,15 @@
 
 a {
     cursor: pointer;
+    text-decoration: none;
+}
+
+.black-link {
+    color: #242323;
+}
+
+.white-link {
+    color: white;
 }
 
 .button-wrapper {
