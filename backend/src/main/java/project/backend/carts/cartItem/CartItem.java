@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import project.backend.carts.cart.Cart;
-import project.backend.courses.course.Course;
-
-import java.math.BigDecimal;
+import project.backend.courses.course.model.Course;
 
 @NoArgsConstructor
 @Getter

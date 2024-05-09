@@ -30,16 +30,13 @@ import { SuccessComponent } from './components/payment/success/success.component
 import { CartComponent } from './components/cart/cart.component';
 import { CartItemComponent } from './components/cart-item/cart-item.component';
 import { UsersComponent } from './components/admin/users/users.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CartDetailsComponent} from './components/admin/cart-details/cart-details.component';
 import { CourseSearchComponent } from './components/course-search/course-search.component';
 import { CartItemsListComponent } from './components/cart-items-list/cart-items-list.component';
 import { UserCartsComponent } from './components/admin/user-carts/user-carts.component';
-import { FormsModule } from '@angular/forms';
 import { LessonListComponent } from './components/lesson-list/lesson-list.component';
 import { CourseSearchItemComponent } from './components/course-search-item/course-search-item.component';
 
