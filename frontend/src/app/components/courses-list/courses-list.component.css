@@ -3,24 +3,21 @@
     white-space: nowrap; 
     width: 100%; 
     display: inline-flex;
+    justify-content: space-between;
     margin-top: 40px;
     cursor: pointer;
 }
 
 .courses-list-item {
-    flex: 0 0 auto; 
-    margin-right: 20px; 
+    height: 215px;
 }
+
 .decoration-none {
     text-decoration: none;
     color: inherit;
 }
 
-.courses-list-item:last-child {
-    margin-right: 0;
-}
-
- a {
+a {
     text-decoration: none;
     color: black;
- }
+}
