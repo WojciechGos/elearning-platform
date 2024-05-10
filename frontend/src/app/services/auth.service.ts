@@ -22,9 +22,9 @@ export class AuthService {
     private router: Router,
     private ngZone: NgZone
   ) {
-    this.currentUserSubject = new BehaviorSubject<User | null>(
-      JSON.parse(localStorage.getItem('currentUser') || '{}')
-    );
+    const storedUser = localStorage.getItem('currentUser');
+    const user = storedUser ? JSON.parse(storedUser) : null;
+    this.currentUserSubject = new BehaviorSubject<User | null>(user);
     this.currentUser = this.currentUserSubject.asObservable();
   }
 

@@ -5,6 +5,7 @@
 
 header {
     width: 850px;
+    margin-top: 30px;
 }
 
 h1 {
@@ -23,8 +24,7 @@ h1 {
     border: 1px solid rgb(194, 194, 194);
     font-family: system-ui;
     padding: 25px;
-    width: 1230px;
-    margin-right: auto;
+    width: 89%;
 }
 
 .courses-promo-text {
@@ -34,4 +34,40 @@ h1 {
 
 .courses-promo-subtext {
     margin-top: 10px;
+    font-size: 16px;
+}
+
+/*********************************************** responsivness **********************************************/
+
+@media only screen and (max-width: 768px) {
+    .section-wrapper {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    header {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .header-description {
+        font-size: 16px;
+    }
+
+    .courses-wrapper {
+        margin-top: 25px;
+        padding: 15px;
+    }
+
+    .courses-promo-text {
+        font-size: 20px;
+    }
+
+    .courses-promo-subtext {
+        font-size: 14px;
+    }
 }
