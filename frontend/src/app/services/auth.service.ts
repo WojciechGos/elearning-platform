@@ -75,12 +75,19 @@ export class AuthService {
       );
   }
 
-  logout() {
-    // remove user from local storage and set current user to null
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('jwtToken');
-    this.currentUserSubject.next(null);
-    this.router.navigate(['/main-page']);
+  logout(): Observable<any> {
+    return this.http
+      .post<any>(`http://localhost:8080/api/v1/auth/logout`, {})
+      .pipe(
+        map((response) => {
+          console.log('LOGOUT');
+          localStorage.removeItem('currentUser');
+          localStorage.removeItem('jwtToken');
+          this.currentUserSubject.next(null);
+          this.router.navigate(['/main-page']);
+          return response;
+        })
+      );
   }
 
   public getToken(): string | null {
