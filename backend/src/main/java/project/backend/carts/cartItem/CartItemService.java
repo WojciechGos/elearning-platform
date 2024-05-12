@@ -1,6 +1,9 @@
 package project.backend.carts.cartItem;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import project.backend.carts.cart.Cart;
 import project.backend.carts.cart.CartService;
@@ -33,8 +36,8 @@ public class CartItemService {
                 ));
     }
 
-    public CartItem createCartItem(CartItemRequest cartItemRequest) {
-        User user = userService.getUserByEmail(cartItemRequest.email());
+    public CartItem createCartItem(CartItemRequest cartItemRequest, String email) {
+        User user = userService.getUserByEmail(email);
 
         Optional<Cart> optionalCart = cartService.getOptionalPendingCartByUserEmail(user.getEmail());
 

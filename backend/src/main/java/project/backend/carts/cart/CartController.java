@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,15 +29,15 @@ public class CartController {
         return ResponseEntity.ok(cart);
     }
 
-    @GetMapping("pending/{email}")
-    public ResponseEntity<Cart> getPendingCartByUserEmail(@PathVariable("email") String email) {
-        Cart cart = cartService.getPendingCartByUserEmail(email);
+    @GetMapping("pending")
+    public ResponseEntity<Cart> getPendingCart(Principal principal) {
+        Cart cart = cartService.getPendingCart(principal.getName());
         return ResponseEntity.ok(cart);
     }
 
-    @GetMapping("user/{email}")
-    public ResponseEntity<List<Cart>> getAllCartsByUserEmail(@PathVariable("email") String email) {
-        List<Cart> carts = cartService.getAllCartsByUserEmail(email);
+    @GetMapping("user")
+    public ResponseEntity<List<Cart>> getAllCartsByUser(Principal principal) {
+        List<Cart> carts = cartService.getAllCartsByUser(principal.getName());
         return ResponseEntity.ok(carts);
     }
 

@@ -61,7 +61,7 @@ public class CartService {
         return Optional.of(carts.get(0));
     }
 
-    public Cart getPendingCartByUserEmail(String email) {
+    public Cart getPendingCart(String email) {
         User user = userService.getUserByEmail(email);
         List<Cart> carts = cartRepository.findByUserIdAndCartStatus(user.getId(), CartStatus.PENDING);
 
@@ -74,7 +74,7 @@ public class CartService {
         return carts.get(0);
     }
 
-    public List<Cart> getAllCartsByUserEmail(String email) {
+    public List<Cart> getAllCartsByUser(String email) {
         User user = userService.getUserByEmail(email);
 
         return cartRepository.findByUserId(user.getId());
