@@ -33,28 +33,4 @@ public abstract class AuditorEntity {
     @Column(name = "UpdatedBy", length = 50)
     private String updatedBy;
 
-    /*@Column(name = "DeletedOn")
-    private LocalDateTime deletedOn;
-
-    @Column(name = "DeletedBy", length = 50)
-    private String deletedBy;
-
-    @Column(name = "isDeleted", length = 50)
-    private Boolean isDeleted = false;
-
-    @PreUpdate
-    @PrePersist
-    public void beforeAnyUpdate() {
-        if (isDeleted != null && isDeleted) {
-
-            if (deletedBy == null) {
-                deletedBy = SignedUserHelper.userId().toString();
-            }
-
-            if (getDeletedOn() == null) {
-                deletedOn = LocalDateTime.now();
-            }
-        }
-    }*/
-
 }

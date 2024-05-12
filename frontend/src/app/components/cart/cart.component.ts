@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from 'src/app/services/cart.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { CartItem } from 'src/app/interfaces/cartItem.interface';
+import { error } from 'console';
 
 @Component({
   selector: 'app-cart',
@@ -11,6 +12,7 @@ import { CartItem } from 'src/app/interfaces/cartItem.interface';
 export class CartComponent implements OnInit {
   cartItems: CartItem[] = [];
   totalPrice: number = 0;
+  cartId!: number;
 
   constructor(
     private cartService: CartService,
@@ -24,6 +26,7 @@ export class CartComponent implements OnInit {
   loadCart() {
     this.cartService.getCart().subscribe(cart => {
       this.cartItems = cart.items;
+      this.cartId = cart.id;
       this.calculateTotalPrice();
     });
   }
@@ -45,5 +48,12 @@ export class CartComponent implements OnInit {
     };
 
     this.paymentService.pay(payment);
+    
+    this.cartService.updateCartStatus(this.cartId, 'COMPLETED').subscribe(
+      (error) => {
+        console.log("Error:", error);
+      }
+    );
   }
+
 }

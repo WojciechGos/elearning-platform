@@ -7,7 +7,9 @@ public class UserMapper {
     public UserDTO mapToDTO(User user) {
         return new UserDTO(
                 user.getId(),
-                user.getEmail()
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName()
         );
     }
 }

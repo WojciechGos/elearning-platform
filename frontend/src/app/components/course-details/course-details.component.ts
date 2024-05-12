@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 import { CourseService } from 'src/app/services/course.service';
 import { Course } from 'src/app/interfaces/course.interface';
 import { CartService } from 'src/app/services/cart.service';
@@ -12,12 +12,13 @@ import { CartService } from 'src/app/services/cart.service';
 export class CourseDetailsComponent implements OnInit 
 {
   course! : Course;
-  cart: any;
+  isInCart: boolean = false;
 
   constructor(
     private courseService: CourseService,
     private cartService: CartService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -29,9 +30,12 @@ export class CourseDetailsComponent implements OnInit
         if(course !== undefined)
           this.course = course;
       });
+
+      this.cartService.isCourseInCart(numId).subscribe((result) => {
+        this.isInCart = result;
+      });
     }
   }
-  
   
   addToCart() {
     this.cartService.addCartItem(this.course.id).subscribe(
@@ -39,5 +43,11 @@ export class CourseDetailsComponent implements OnInit
         console.log("Error:", error);
       }
     );
+    this.isInCart = true;
   }
+
+  goToCart() {
+    this.router.navigate(['/cart']); 
+  }
+
 }

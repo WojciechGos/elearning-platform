@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -29,9 +30,8 @@ public class CartItemController {
     }
 
     @PostMapping
-    public ResponseEntity<CartItem> createCartItem(@RequestBody CartItemRequest cartItemRequest) {
-        System.out.println(cartItemRequest);
-        CartItem createdCartItem = cartItemService.createCartItem(cartItemRequest);
+    public ResponseEntity<CartItem> createCartItem(Principal principal, @RequestBody CartItemRequest cartItemRequest) {
+        CartItem createdCartItem = cartItemService.createCartItem(cartItemRequest, principal.getName());
         return new ResponseEntity<>(createdCartItem, HttpStatus.CREATED);
     }
 

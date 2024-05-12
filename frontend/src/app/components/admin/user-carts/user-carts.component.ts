@@ -40,7 +40,7 @@ export class UserCartsComponent implements OnInit {
   }
 
   loadCarts(): void {
-    this.cartService.getAllCartsByEmail(this.userEmail).subscribe((carts: Cart[]) => {
+    this.cartService.getAllCartsByUser().subscribe((carts: Cart[]) => {
       carts.forEach((cart: Cart) => { 
         cart.createdOn = this.datePipe.transform(
           cart.createdOn,
