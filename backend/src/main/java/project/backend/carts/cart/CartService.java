@@ -35,6 +35,10 @@ public class CartService {
                         String.format("Cart with id [%s] not found.", cartId)
                 ));
 
+        if (CartStatus.PENDING == cartDetails.getCartStatus() && cartRepository.existsByUserIdAndCartStatus(cart.getUser().getId(), CartStatus.PENDING)) {
+            throw new IllegalStateException("There is already a pending cart for this user.");
+        }
+
         cart.setItems(cartDetails.getItems());
         cart.setTotalPrice(cartDetails.getTotalPrice());
         cart.setCartStatus(cartDetails.getCartStatus());
@@ -79,4 +83,9 @@ public class CartService {
 
         return cartRepository.findByUserId(user.getId());
     }
+
+    public List<Cart> getAllPendingCartsByUser(String email) {
+        return cartRepository.findByUserEmailAndCartStatus(email, CartStatus.PENDING);
+    }
+
 }

@@ -1,21 +1,18 @@
 package project.backend.carts.cart;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("api/v1/carts")
+@RequiredArgsConstructor
 @RestController
 public class CartController {
     private final CartService cartService;
-
-    public CartController(CartService cartService) {
-        this.cartService = cartService;
-    }
 
     @GetMapping
     public ResponseEntity<List<Cart>> getAllCarts() {
@@ -35,9 +32,15 @@ public class CartController {
         return ResponseEntity.ok(cart);
     }
 
-    @GetMapping("user")
-    public ResponseEntity<List<Cart>> getAllCartsByUser(Principal principal) {
-        List<Cart> carts = cartService.getAllCartsByUser(principal.getName());
+    @GetMapping("user/{email}")
+    public ResponseEntity<List<Cart>> getAllCartsByUser(@PathVariable("email") String email) {
+        List<Cart> carts = cartService.getAllCartsByUser(email);
+        return ResponseEntity.ok(carts);
+    }
+
+    @GetMapping("user/{email}/pending")
+    public ResponseEntity<List<Cart>> getAllPendingCartsByUser(@PathVariable("email") String email) {
+        List<Cart> carts = cartService.getAllPendingCartsByUser(email);
         return ResponseEntity.ok(carts);
     }
 

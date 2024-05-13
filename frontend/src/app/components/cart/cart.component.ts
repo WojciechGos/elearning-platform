@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from 'src/app/services/cart.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { CartItem } from 'src/app/interfaces/cartItem.interface';
-import { error } from 'console';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -13,14 +14,21 @@ export class CartComponent implements OnInit {
   cartItems: CartItem[] = [];
   totalPrice: number = 0;
   cartId!: number;
+  isLoggedIn: boolean = false;
 
   constructor(
     private cartService: CartService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
      this.loadCart();
+
+    this.authService.currentUser.subscribe((user) => {
+      this.isLoggedIn = !!user;
+    });
   }
 
   loadCart() {
@@ -54,6 +62,10 @@ export class CartComponent implements OnInit {
         console.log("Error:", error);
       }
     );
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']); 
   }
 
 }

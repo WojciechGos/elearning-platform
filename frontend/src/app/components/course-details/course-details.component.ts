@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from 'src/app/services/course.service';
 import { Course } from 'src/app/interfaces/course.interface';
 import { CartService } from 'src/app/services/cart.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-course-details',
@@ -13,22 +14,28 @@ export class CourseDetailsComponent implements OnInit
 {
   course! : Course;
   isInCart: boolean = false;
+  isLoggedIn: boolean = false;
 
   constructor(
     private courseService: CourseService,
     private cartService: CartService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      const numId = Number(id); // Convert id to number
+      const numId = Number(id); 
       this.courseService.getCourseById(numId).subscribe((course) => {
         console.log(course);
         if(course !== undefined)
           this.course = course;
+      });
+
+      this.authService.currentUser.subscribe((user) => {
+        this.isLoggedIn = !!user;
       });
 
       this.cartService.isCourseInCart(numId).subscribe((result) => {
@@ -39,10 +46,16 @@ export class CourseDetailsComponent implements OnInit
   
   addToCart() {
     this.cartService.addCartItem(this.course.id).subscribe(
-      (error) => {
-        console.log("Error:", error);
-      }
+        (response) => {
+          if(!this.isLoggedIn) {
+            localStorage.setItem('cartId', response.cartId);
+          }
+        },
+        (error) => {
+            console.log("Error:", error);
+        }
     );
+
     this.isInCart = true;
   }
 
