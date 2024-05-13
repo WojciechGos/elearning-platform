@@ -8,14 +8,21 @@
         <div class="content-wrapper">
             <div class="left-wrapper">
                 <app-cart-items-list 
+                *ngIf="cartItems.length > 0; else emptyCart"
                 [cartItems]="cartItems" 
                 (cartUpdated)="loadCart()"
                 ></app-cart-items-list>
+                <ng-template #emptyCart>
+                    <h3>Your cart is empty. Go find a course that fits you!</h3>
+                </ng-template>
             </div>
-            <div class="checkout">
+            <div class="checkout" *ngIf="cartItems.length > 0">
                 <div class="total">Total:</div>
                 <div class="price">{{ totalPrice }}$</div>
-                <app-button text="Checkout" type="BUY" (click)="pay()"></app-button>
+                <app-button 
+                [text]="isLoggedIn ? 'Checkout' : 'Log In & Checkout'" 
+                type="BUY" 
+                (click)="isLoggedIn ? pay() : goToLogin()"></app-button>
             </div>
         </div>
     </section>
