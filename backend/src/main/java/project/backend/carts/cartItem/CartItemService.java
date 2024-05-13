@@ -1,9 +1,6 @@
 package project.backend.carts.cartItem;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import project.backend.carts.cart.Cart;
 import project.backend.carts.cart.CartService;
@@ -14,6 +11,7 @@ import project.backend.exception.ResourceNotFoundException;
 import project.backend.user.User;
 import project.backend.user.UserService;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +22,7 @@ public class CartItemService {
     private final CartService cartService;
     private final CourseService courseService;
     private final UserService userService;
+    private final CartItemMapper cartItemMapper;
 
     public List<CartItem> getAllCartItems() {
         return cartItemRepository.findAll();
@@ -36,17 +35,27 @@ public class CartItemService {
                 ));
     }
 
-    public CartItem createCartItem(CartItemRequest cartItemRequest, String email) {
-        User user = userService.getUserByEmail(email);
+    public CartItemDTO createCartItem(CartItemRequest cartItemRequest, Principal principal) {
+        Cart cart;
 
-        Optional<Cart> optionalCart = cartService.getOptionalPendingCartByUserEmail(user.getEmail());
+        if(principal != null) {
+            User user = userService.getUserByEmail(principal.getName());
 
-        Cart cart = optionalCart.orElseGet(() -> {
+            Optional<Cart> optionalCart = cartService.getOptionalPendingCartByUserEmail(user.getEmail());
+
+            cart = optionalCart.orElseGet(() -> {
+                Cart newCart = new Cart();
+                newCart.setUser(user);
+                newCart.setCartStatus(CartStatus.PENDING);
+                return cartService.createCart(newCart);
+            });
+        } else if(cartItemRequest.cartId() != null) {
+            cart = cartService.getCartById(cartItemRequest.cartId());
+        } else {
             Cart newCart = new Cart();
-            newCart.setUser(user);
-            newCart.setCartStatus(CartStatus.PENDING);
-            return cartService.createCart(newCart);
-        });
+            cart = cartService.createCart(newCart);
+            cart.setCartStatus(CartStatus.PENDING);
+        }
 
         Course course = courseService.getCourseById(cartItemRequest.courseId());
 
@@ -55,7 +64,8 @@ public class CartItemService {
                 course
         );
 
-        return cartItemRepository.save(cartItem);
+        cartItem = cartItemRepository.save(cartItem);
+        return cartItemMapper.mapToDTO(cartItem);
     }
 
     public CartItem updateCartItem(Long cartItemId, CartItem cartItemDetails) {

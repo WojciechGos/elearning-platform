@@ -2,7 +2,6 @@ import { OnInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { HttpClient } from '@angular/common/http';
 import { UserService } from 'src/app/services/user/user.service';
 
 export interface User {
@@ -22,7 +21,7 @@ export class UsersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private http: HttpClient, private userService: UserService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.fetchUsers();
@@ -30,7 +29,6 @@ export class UsersComponent implements OnInit {
 
   fetchUsers() {
     this.userService.getUsers().subscribe(users => {
-      console.log(users);
       this.dataSource = new MatTableDataSource(users);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
