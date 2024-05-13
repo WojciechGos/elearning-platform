@@ -2,7 +2,7 @@ import { OnInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { HttpClient } from '@angular/common/http';
+import { UserService } from 'src/app/services/user/user.service';
 
 export interface User {
   id: string;
@@ -15,20 +15,20 @@ export interface User {
   styleUrls: ['./users.component.css'],
 })
 export class UsersComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'email'];
+  displayedColumns: string[] = ['id', 'email', 'firstName', 'lastName'];
   dataSource!: MatTableDataSource<User>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private http: HttpClient) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.fetchUsers();
   }
 
   fetchUsers() {
-    this.http.get<any[]>('http://localhost:8080/api/v1/users').subscribe(users => {
+    this.userService.getUsers().subscribe(users => {
       this.dataSource = new MatTableDataSource(users);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
