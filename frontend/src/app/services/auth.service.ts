@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { CartService } from './cart.service';
 
 interface User {
   id: number;
@@ -20,7 +21,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private cartService: CartService
   ) {
     const storedUser = localStorage.getItem('currentUser');
     const user = storedUser ? JSON.parse(storedUser) : null;
@@ -45,6 +47,7 @@ export class AuthService {
           localStorage.setItem('jwtToken', response.token);
           this.currentUserSubject.next(response.currentUser);
           this.router.navigate(['/main-page']);
+          this.cartService.handleLoggedInUser();
           return response;
         })
       );
@@ -70,17 +73,25 @@ export class AuthService {
           localStorage.setItem('jwtToken', user.token);
           this.currentUserSubject.next(user);
           this.router.navigate(['/main-page']);
+          this.cartService.handleLoggedInUser();
           return user;
         })
       );
   }
 
-  logout() {
-    // remove user from local storage and set current user to null
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('jwtToken');
-    this.currentUserSubject.next(null);
-    this.router.navigate(['/main-page']);
+  logout(): Observable<any> {
+    return this.http
+      .post<any>(`http://localhost:8080/api/v1/auth/logout`, {})
+      .pipe(
+        map((response) => {
+          console.log('LOGOUT');
+          localStorage.removeItem('currentUser');
+          localStorage.removeItem('jwtToken');
+          this.currentUserSubject.next(null);
+          this.router.navigate(['/main-page']);
+          return response;
+        })
+      );
   }
 
   public getToken(): string | null {
@@ -101,6 +112,7 @@ export class AuthService {
           this.ngZone.run(() => {
             this.router.navigate(['/main-page']);
           });
+          this.cartService.handleLoggedInUser();
           return response;
         })
       );

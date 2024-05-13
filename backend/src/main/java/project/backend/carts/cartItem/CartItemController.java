@@ -1,20 +1,19 @@
 package project.backend.carts.cartItem;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("api/v1/cartItems")
 public class CartItemController {
 
     private final CartItemService cartItemService;
-
-    public CartItemController(CartItemService cartItemService) {
-        this.cartItemService = cartItemService;
-    }
 
     @GetMapping
     public ResponseEntity<List<CartItem>> getAllCartItems() {
@@ -29,9 +28,8 @@ public class CartItemController {
     }
 
     @PostMapping
-    public ResponseEntity<CartItem> createCartItem(@RequestBody CartItemRequest cartItemRequest) {
-        System.out.println(cartItemRequest);
-        CartItem createdCartItem = cartItemService.createCartItem(cartItemRequest);
+    public ResponseEntity<CartItemDTO> createCartItem(Principal principal, @RequestBody CartItemRequest cartItemRequest) {
+        CartItemDTO createdCartItem = cartItemService.createCartItem(cartItemRequest, principal);
         return new ResponseEntity<>(createdCartItem, HttpStatus.CREATED);
     }
 

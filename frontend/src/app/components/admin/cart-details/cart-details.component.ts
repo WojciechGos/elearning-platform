@@ -12,9 +12,10 @@ import { DatePipe } from '@angular/common';
 })
 export class CartDetailsComponent implements OnInit {
   id!: number;
+  email!: string;
   creationDate!: string;
   cartItems: CartItem[] = [];
-  cartStatuses: string[] = ['PENDING', 'COMPLETED'];
+  cartStatuses: string[] = ['PENDING', 'COMPLETED', 'CANCELLED'];
   selectedStatus: string = '';
 
   constructor(
@@ -26,6 +27,7 @@ export class CartDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.id = params['id'];
+      this.email = params['email'];
       this.loadCart();
     });
   }
@@ -42,6 +44,22 @@ export class CartDetailsComponent implements OnInit {
   }
 
   onStatusSelected() { 
+    if (this.selectedStatus === 'PENDING') {
+      this.cartService.getPendingCartsByUser(this.email).subscribe(carts => {
+        if (carts.length > 0) {
+          alert('There is already a cart with PENDING status');
+          this.loadCart();
+          return;
+        }
+        
+        this.updateCartStatus();
+      });
+    } else {
+      this.updateCartStatus();
+    }
+  }
+
+  updateCartStatus() {
     this.cartService.updateCartStatus(this.id, this.selectedStatus).subscribe(() => {
       console.log('Cart status updated');
     });

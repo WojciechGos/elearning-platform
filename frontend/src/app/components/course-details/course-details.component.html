@@ -46,9 +46,9 @@
         <app-price *ngIf="this.course" [price]="this.course.price"></app-price>
         <div class="btn">
           <app-button
-            [text]="'Add to cart'"
+            [text]="isInCart ? 'Go to Cart' : 'Add to Cart'"
             [type]="'BUY'"
-            (buttonClick)="addToCart()"
+            (buttonClick)="isInCart ? goToCart() : addToCart()"
           ></app-button>
         </div>
       </div>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from 'src/app/services/cart.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { CartItem } from 'src/app/interfaces/cartItem.interface';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -11,19 +13,28 @@ import { CartItem } from 'src/app/interfaces/cartItem.interface';
 export class CartComponent implements OnInit {
   cartItems: CartItem[] = [];
   totalPrice: number = 0;
+  cartId!: number;
+  isLoggedIn: boolean = false;
 
   constructor(
     private cartService: CartService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
      this.loadCart();
+
+    this.authService.currentUser.subscribe((user) => {
+      this.isLoggedIn = !!user;
+    });
   }
 
   loadCart() {
     this.cartService.getCart().subscribe(cart => {
       this.cartItems = cart.items;
+      this.cartId = cart.id;
       this.calculateTotalPrice();
     });
   }
@@ -45,5 +56,16 @@ export class CartComponent implements OnInit {
     };
 
     this.paymentService.pay(payment);
+    
+    this.cartService.updateCartStatus(this.cartId, 'COMPLETED').subscribe(
+      (error) => {
+        console.log("Error:", error);
+      }
+    );
   }
+
+  goToLogin() {
+    this.router.navigate(['/login']); 
+  }
+
 }

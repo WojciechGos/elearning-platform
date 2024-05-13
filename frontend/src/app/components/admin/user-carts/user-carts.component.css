@@ -4,12 +4,16 @@
     align-items: center;
 }
 
+header {
+    margin-top: 20px;
+}
+
 .table-container {
     margin-top: 20px; 
 }
 
-td, th {
-    width: 40%;
+.table-container td, .table-container th {
+    padding: 13px;
 }
 
 tr {

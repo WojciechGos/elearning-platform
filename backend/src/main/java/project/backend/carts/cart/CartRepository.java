@@ -9,4 +9,7 @@ import java.util.List;
 public interface CartRepository extends JpaRepository<Cart, Long> {
     List<Cart> findByUserIdAndCartStatus(Long userId, CartStatus cartStatus);
     List<Cart> findByUserId(Long userId);
+    List<Cart> findByUserEmailAndCartStatus(String email, CartStatus cartStatus);
+
+    boolean existsByUserIdAndCartStatus(Long userId, CartStatus cartStatus);
 }
