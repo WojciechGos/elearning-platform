@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { CartService } from './cart.service';
 
 interface User {
   id: number;
@@ -20,7 +21,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private cartService: CartService
   ) {
     const storedUser = localStorage.getItem('currentUser');
     const user = storedUser ? JSON.parse(storedUser) : null;
@@ -45,6 +47,7 @@ export class AuthService {
           localStorage.setItem('jwtToken', response.token);
           this.currentUserSubject.next(response.currentUser);
           this.router.navigate(['/main-page']);
+          this.cartService.handleLoggedInUser();
           return response;
         })
       );
@@ -70,6 +73,7 @@ export class AuthService {
           localStorage.setItem('jwtToken', user.token);
           this.currentUserSubject.next(user);
           this.router.navigate(['/main-page']);
+          this.cartService.handleLoggedInUser();
           return user;
         })
       );
@@ -108,6 +112,7 @@ export class AuthService {
           this.ngZone.run(() => {
             this.router.navigate(['/main-page']);
           });
+          this.cartService.handleLoggedInUser();
           return response;
         })
       );
