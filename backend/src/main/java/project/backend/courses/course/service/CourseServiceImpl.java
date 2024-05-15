@@ -68,6 +68,7 @@ public class CourseServiceImpl implements CourseService {
         if (course.getDescription() != null) updatedCourse.setDescription(course.getDescription());
         if (course.getPrice() != null) updatedCourse.setPrice(course.getPrice());
         if (course.getLanguage() != null) updatedCourse.setLanguage(course.getLanguage());
+        if (course.getEnrollmentCount() != null) updatedCourse.setEnrollmentCount(course.getEnrollmentCount());
 
         return courseRepository.save(updatedCourse);
     }

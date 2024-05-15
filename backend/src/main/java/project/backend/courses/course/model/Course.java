@@ -65,7 +65,7 @@ public class Course {
     private List<Lesson> lessons;
 
     @Min(value = 0, message = "Enrollment count must be greater than 0")
-    private int enrollmentCount;
+    private Integer enrollmentCount;
 
     private CourseState courseState = CourseState.CREATING;
 
