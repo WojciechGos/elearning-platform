@@ -1,6 +1,8 @@
-package project.backend.carts.cartItem;
+package project.backend.carts.cartItem.service;
 
 import org.springframework.stereotype.Component;
+import project.backend.carts.cartItem.model.CartItem;
+import project.backend.carts.cartItem.dto.CartItemDTO;
 
 @Component
 public class CartItemMapper {

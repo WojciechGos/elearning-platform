@@ -1,11 +1,11 @@
-package project.backend.carts.cartItem;
+package project.backend.carts.cartItem.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import project.backend.carts.cart.Cart;
+import project.backend.carts.cart.model.Cart;
 import project.backend.courses.course.model.Course;
 
 @NoArgsConstructor
