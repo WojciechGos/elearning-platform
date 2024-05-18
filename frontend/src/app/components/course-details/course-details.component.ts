@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'; 
-import { CourseService } from 'src/app/services/course.service';
+import { CourseService } from 'src/app/services/course/course.service';
 import { Course } from 'src/app/interfaces/course.interface';
-import { CartService } from 'src/app/services/cart.service';
+import { CartService } from 'src/app/services/cart/cart.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({

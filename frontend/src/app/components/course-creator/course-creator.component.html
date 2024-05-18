@@ -1,0 +1,17 @@
+<app-navbar></app-navbar>
+
+
+<mat-stepper
+  class="example-stepper"
+  [orientation]="(stepperOrientation | async)!"
+>
+  <mat-step [stepControl]="firstFormGroup" label="Fill out basic course info" [editable]="false">
+    <app-course-creator-course-info></app-course-creator-course-info>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" label="Provide lessons" [editable]="false">
+    <app-course-creator-lesson></app-course-creator-lesson>
+  </mat-step>
+  <mat-step [stepControl]="thirdFormGroup" label="Publish" [editable]="false">
+    
+  </mat-step>
+</mat-stepper>

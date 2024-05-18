@@ -1,0 +1,95 @@
+<mat-card class="course-creator-wrapper">
+  <mat-card-header class="course-creator-header">
+    <mat-card-title>Create a new course</mat-card-title>
+    <mat-card-subtitle
+      >Fill in the form below to create a new course</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <form class="course-creator-form">
+      <mat-form-field class="form-group">
+        <mat-label>Course title</mat-label>
+        <input
+          required
+          matInput
+          type="text"
+          id="course-title"
+          name="course-title"
+          placeholder="Enter course title"
+        />
+      </mat-form-field>
+      <mat-form-field class="form-group">
+        <mat-label>Course description</mat-label>
+        <textarea
+          required
+          matInput
+          id="course-description"
+          name="course-description"
+          placeholder="Enter course description"
+        ></textarea>
+      </mat-form-field>
+      <mat-form-field class="form-group">
+        <mat-label>Course price</mat-label>
+        <input
+          matInput
+          type="number"
+          min="100"
+          value="100"
+          id="course-price"
+          name="course-price"
+          placeholder="Enter course price"
+        />
+      </mat-form-field>
+      <div class="form-group">
+        <label for="course-image">Course image</label>
+        <input type="file" id="course-image" name="course-image" />
+      </div>
+
+      <label id="example-radio-group-label">Pick language</label>
+      
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group"
+        [(ngModel)]="selectedLanguage"
+        [ngModelOptions]="{standalone: true}"
+      >
+        <mat-radio-button
+          class="example-radio-button"
+          *ngFor="let language of languages"
+          [value]="language"
+ 
+        >
+          {{ language }}
+        </mat-radio-button>
+      </mat-radio-group>
+
+      
+      <label id="example-radio-group-label">Pick target audience</label>
+      
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group"
+        [(ngModel)]="selectedTargetAudience"
+        [ngModelOptions]="{standalone: true}"
+      >
+        <mat-radio-button
+          class="example-radio-button"
+          *ngFor="let targetAudience of targetAudiences"
+          [value]="targetAudience"
+ 
+        >
+          {{ targetAudience }}
+        </mat-radio-button>
+      </mat-radio-group>
+
+
+
+
+      <div class="form-group">
+        <button mat-raised-button color="primary" type="submit">
+          Next
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

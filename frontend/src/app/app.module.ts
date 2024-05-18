@@ -33,16 +33,83 @@ import { UsersComponent } from './components/admin/users/users.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CartDetailsComponent} from './components/admin/cart-details/cart-details.component';
+import { CartDetailsComponent } from './components/admin/cart-details/cart-details.component';
 import { CourseSearchComponent } from './components/course-search/course-search.component';
 import { CartItemsListComponent } from './components/cart-items-list/cart-items-list.component';
 import { UserCartsComponent } from './components/admin/user-carts/user-carts.component';
 import { LessonListComponent } from './components/lesson-list/lesson-list.component';
 import { CourseSearchItemComponent } from './components/course-search-item/course-search-item.component';
+import { CourseCreatorComponent } from './components/course-creator/course-creator.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { CourseCreatorCourseInfoComponent } from './components/course-creator-course-info/course-creator-course-info.component';
+import { CourseCreatorLessonComponent } from './components/course-creator-lesson/course-creator-lesson.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatRadioModule } from '@angular/material/radio';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { courseReducers } from './store/course/course.reducers';
+import { CourseModule } from './store/course/course.module';
+
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RegisterComponent, LoggedInPageComponent, NavbarComponent, CourseDetailsComponent, ButtonComponent, RatingComponent, PriceComponent, MainPageComponent, CoursesListComponent, CoursesListItemComponent, CancelComponent, SuccessComponent, CartComponent, CartItemComponent, CourseSearchComponent, UsersComponent, CartDetailsComponent, CartItemsListComponent, UserCartsComponent, LessonListComponent, CourseSearchItemComponent],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule, MatListModule, MatCardModule, MatButtonModule, BrowserAnimationsModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, FormsModule, MatExpansionModule, MatSliderModule, FormsModule],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    RegisterComponent,
+    LoggedInPageComponent,
+    NavbarComponent,
+    CourseDetailsComponent,
+    ButtonComponent,
+    RatingComponent,
+    PriceComponent,
+    MainPageComponent,
+    CoursesListComponent,
+    CoursesListItemComponent,
+    CancelComponent,
+    SuccessComponent,
+    CartComponent,
+    CartItemComponent,
+    CourseSearchComponent,
+    UsersComponent,
+    CartDetailsComponent,
+    CartItemsListComponent,
+    UserCartsComponent,
+    LessonListComponent, 
+    CourseSearchItemComponent, 
+    CourseCreatorComponent, 
+    CourseCreatorCourseInfoComponent, 
+    CourseCreatorLessonComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatListModule,
+    MatCardModule,
+    MatButtonModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    FormsModule,
+    MatExpansionModule,
+    MatSliderModule,
+    FormsModule,
+    MatTabsModule,
+    MatStepperModule,
+    MatButtonToggleModule,
+    MatRadioModule,
+    StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    CourseModule
+  ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
