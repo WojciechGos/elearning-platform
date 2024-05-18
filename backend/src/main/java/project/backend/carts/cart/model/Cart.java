@@ -3,8 +3,7 @@ package project.backend.carts.cart.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import project.backend.auditing.AuditorEntity;
 import project.backend.carts.cartItem.model.CartItem;
 import project.backend.user.User;
@@ -15,6 +14,9 @@ import java.util.List;
 //TODO: add valid annotations?
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Cart extends AuditorEntity {
     @SequenceGenerator(

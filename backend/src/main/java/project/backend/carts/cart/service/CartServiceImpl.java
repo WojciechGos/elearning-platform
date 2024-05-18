@@ -38,10 +38,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart updateCart(Long cartId, Cart cartDetails) {
-        Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        String.format("Cart with id [%s] not found.", cartId)
-                ));
+        Cart cart = getCartById(cartId);
 
         if (CartStatus.PENDING == cartDetails.getCartStatus() && cartRepository.existsByUserIdAndCartStatus(cart.getUser().getId(), CartStatus.PENDING)) {
             throw new IllegalStateException("There is already a pending cart for this user.");
