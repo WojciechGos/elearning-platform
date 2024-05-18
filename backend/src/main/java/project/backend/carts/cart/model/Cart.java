@@ -1,4 +1,4 @@
-package project.backend.carts.cart;
+package project.backend.carts.cart.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import project.backend.auditing.AuditorEntity;
-import project.backend.carts.cartItem.CartItem;
+import project.backend.carts.cartItem.model.CartItem;
 import project.backend.user.User;
 
 import java.math.BigDecimal;

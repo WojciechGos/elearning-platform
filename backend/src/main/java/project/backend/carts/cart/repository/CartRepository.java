@@ -1,7 +1,9 @@
-package project.backend.carts.cart;
+package project.backend.carts.cart.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import project.backend.carts.cart.model.Cart;
+import project.backend.carts.cart.model.CartStatus;
 
 import java.util.List;
 

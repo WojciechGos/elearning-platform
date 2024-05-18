@@ -1,10 +1,14 @@
-package project.backend.carts.cartItem;
+package project.backend.carts.cartItem.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import project.backend.carts.cart.Cart;
-import project.backend.carts.cart.CartService;
-import project.backend.carts.cart.CartStatus;
+import project.backend.carts.cart.model.Cart;
+import project.backend.carts.cart.service.CartService;
+import project.backend.carts.cart.model.CartStatus;
+import project.backend.carts.cartItem.request.CartItemRequest;
+import project.backend.carts.cartItem.model.CartItem;
+import project.backend.carts.cartItem.dto.CartItemDTO;
+import project.backend.carts.cartItem.repository.CartItemRepository;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.service.CourseService;
 import project.backend.exception.ResourceNotFoundException;
@@ -17,17 +21,19 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class CartItemService {
+public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
     private final CartService cartService;
     private final CourseService courseService;
     private final UserService userService;
     private final CartItemMapper cartItemMapper;
 
+    @Override
     public List<CartItem> getAllCartItems() {
         return cartItemRepository.findAll();
     }
 
+    @Override
     public CartItem getCartItemById(Long cartItemId) {
         return cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -35,6 +41,7 @@ public class CartItemService {
                 ));
     }
 
+    @Override
     public CartItemDTO createCartItem(CartItemRequest cartItemRequest, Principal principal) {
         Cart cart;
 
@@ -68,6 +75,7 @@ public class CartItemService {
         return cartItemMapper.mapToDTO(cartItem);
     }
 
+    @Override
     public CartItem updateCartItem(Long cartItemId, CartItem cartItemDetails) {
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -80,6 +88,7 @@ public class CartItemService {
         return cartItemRepository.save(cartItem);
     }
 
+    @Override
     public void deleteCartItem(Long cartItemId) {
         if (!cartItemRepository.existsById(cartItemId)) {
             throw new ResourceNotFoundException(
@@ -88,5 +97,5 @@ public class CartItemService {
         }
         cartItemRepository.deleteById(cartItemId);
     }
-}
 
+}
