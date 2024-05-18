@@ -52,16 +52,10 @@ export class CartComponent implements OnInit {
       amount: this.totalPrice * 100,
       quantity: '1',
       cancelUrl: 'http://localhost:4200/cancel',
-      successUrl: 'http://localhost:4200/success',
+      successUrl: `http://localhost:4200/success?cartId=${this.cartId}`,
     };
 
     this.paymentService.pay(payment);
-    
-    this.cartService.updateCartStatus(this.cartId, 'COMPLETED').subscribe(
-      (error) => {
-        console.log("Error:", error);
-      }
-    );
   }
 
   goToLogin() {

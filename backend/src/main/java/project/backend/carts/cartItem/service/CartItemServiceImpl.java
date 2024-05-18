@@ -1,10 +1,14 @@
-package project.backend.carts.cartItem;
+package project.backend.carts.cartItem.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import project.backend.carts.cart.Cart;
-import project.backend.carts.cart.CartService;
-import project.backend.carts.cart.CartStatus;
+import project.backend.carts.cart.model.Cart;
+import project.backend.carts.cart.service.CartService;
+import project.backend.carts.cart.model.CartStatus;
+import project.backend.carts.cartItem.request.CartItemRequest;
+import project.backend.carts.cartItem.model.CartItem;
+import project.backend.carts.cartItem.dto.CartItemDTO;
+import project.backend.carts.cartItem.repository.CartItemRepository;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.service.CourseService;
 import project.backend.exception.ResourceNotFoundException;
@@ -17,17 +21,19 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class CartItemService {
+public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
     private final CartService cartService;
     private final CourseService courseService;
     private final UserService userService;
     private final CartItemMapper cartItemMapper;
 
+    @Override
     public List<CartItem> getAllCartItems() {
         return cartItemRepository.findAll();
     }
 
+    @Override
     public CartItem getCartItemById(Long cartItemId) {
         return cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -35,51 +41,47 @@ public class CartItemService {
                 ));
     }
 
+    @Override
     public CartItemDTO createCartItem(CartItemRequest cartItemRequest, Principal principal) {
-        Cart cart;
-
-        if(principal != null) {
-            User user = userService.getUserByEmail(principal.getName());
-
-            Optional<Cart> optionalCart = cartService.getOptionalPendingCartByUserEmail(user.getEmail());
-
-            cart = optionalCart.orElseGet(() -> {
-                Cart newCart = new Cart();
-                newCart.setUser(user);
-                newCart.setCartStatus(CartStatus.PENDING);
-                return cartService.createCart(newCart);
-            });
-        } else if(cartItemRequest.cartId() != null) {
-            cart = cartService.getCartById(cartItemRequest.cartId());
-        } else {
-            Cart newCart = new Cart();
-            cart = cartService.createCart(newCart);
-            cart.setCartStatus(CartStatus.PENDING);
-        }
-
+        Cart cart = getCartFromRequest(cartItemRequest, principal);
         Course course = courseService.getCourseById(cartItemRequest.courseId());
-
-        CartItem cartItem = new CartItem(
-                cart,
-                course
-        );
+        CartItem cartItem = CartItem.builder()
+                .cart(cart)
+                .course(course)
+                .build();
 
         cartItem = cartItemRepository.save(cartItem);
         return cartItemMapper.mapToDTO(cartItem);
     }
 
+    private Cart getCartFromRequest(CartItemRequest cartItemRequest, Principal principal) {
+        if(principal != null) {
+            User user = userService.getUserByEmail(principal.getName());
+            Optional<Cart> optionalCart = cartService.getOptionalPendingCartByUserEmail(user.getEmail());
+            return optionalCart.orElseGet(() -> cartService.createCart(
+                    Cart.builder()
+                            .user(user)
+                            .cartStatus(CartStatus.PENDING)
+                            .build()));
+        } else if(cartItemRequest.cartId() != null) {
+            return cartService.getCartById(cartItemRequest.cartId());
+        } else {
+            return cartService.createCart(
+                    Cart.builder()
+                            .cartStatus(CartStatus.PENDING)
+                            .build());
+        }
+    }
+
+    @Override
     public CartItem updateCartItem(Long cartItemId, CartItem cartItemDetails) {
-        CartItem cartItem = cartItemRepository.findById(cartItemId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        String.format("CartItem with id [%s] not found.", cartItemId)
-                ));
-
-        cartItem.setCart(cartItemDetails.getCart());
-        cartItem.setCourse(cartItemDetails.getCourse());
-
+        CartItem cartItem = getCartItemById(cartItemId);
+        if(cartItemDetails.getCart() != null) cartItem.setCart(cartItemDetails.getCart());
+        if(cartItemDetails.getCourse() != null) cartItem.setCourse(cartItemDetails.getCourse());
         return cartItemRepository.save(cartItem);
     }
 
+    @Override
     public void deleteCartItem(Long cartItemId) {
         if (!cartItemRepository.existsById(cartItemId)) {
             throw new ResourceNotFoundException(
@@ -88,5 +90,5 @@ public class CartItemService {
         }
         cartItemRepository.deleteById(cartItemId);
     }
-}
 
+}

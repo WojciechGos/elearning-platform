@@ -1,4 +1,4 @@
-package project.backend.carts.cartItem;
+package project.backend.carts.cartItem.request;
 
 public record CartItemRequest(
         Long courseId,

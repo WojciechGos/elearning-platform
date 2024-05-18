@@ -1,16 +1,16 @@
-package project.backend.carts.cartItem;
+package project.backend.carts.cartItem.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import project.backend.carts.cart.Cart;
+import lombok.*;
+import project.backend.carts.cart.model.Cart;
 import project.backend.courses.course.model.Course;
 
-@NoArgsConstructor
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class CartItem {
     @SequenceGenerator(
@@ -34,11 +34,4 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
-    public CartItem(
-            Cart cart,
-            Course course
-    ) {
-        this.cart = cart;
-        this.course = course;
-    }
 }
