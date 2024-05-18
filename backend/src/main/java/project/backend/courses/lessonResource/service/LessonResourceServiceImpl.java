@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.backend.courses.lessonResource.model.LessonResource;
 import project.backend.courses.lessonResource.repository.LessonResourceRepository;
-import project.backend.exception.ResourceNotFoundException;
+import project.backend.exception.types.ResourceNotFoundException;
 
 @Service
 @RequiredArgsConstructor

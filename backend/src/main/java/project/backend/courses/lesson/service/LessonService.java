@@ -1,7 +1,7 @@
 package project.backend.courses.lesson.service;
 
 import project.backend.courses.lesson.model.Lesson;
-import project.backend.courses.lesson.model.LessonRequest;
+import project.backend.courses.lesson.request.LessonRequest;
 
 import java.util.List;
 

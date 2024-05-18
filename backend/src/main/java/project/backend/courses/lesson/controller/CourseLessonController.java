@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import project.backend.courses.lesson.model.Lesson;
-import project.backend.courses.lesson.model.LessonRequest;
+import project.backend.courses.lesson.request.LessonRequest;
 
 public interface CourseLessonController {
     ResponseEntity<Lesson> addLessonToCourse(

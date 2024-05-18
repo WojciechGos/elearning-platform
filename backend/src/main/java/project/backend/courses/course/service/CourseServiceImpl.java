@@ -5,14 +5,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import project.backend.courses.course.model.Course;
-import project.backend.courses.course.model.FilterCourseDTO;
+import project.backend.courses.course.dto.FilterCourseDTO;
 import project.backend.courses.course.repository.CourseRepository;
 import project.backend.courses.course.model.CourseState;
 import project.backend.courses.course.repository.CourseSpecification;
-import project.backend.exception.ResourceNotFoundException;
+import project.backend.exception.types.ResourceNotFoundException;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

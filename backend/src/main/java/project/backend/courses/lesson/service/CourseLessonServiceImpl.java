@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.service.CourseService;
 import project.backend.courses.lesson.model.Lesson;
-import project.backend.courses.lesson.model.LessonRequest;
+import project.backend.courses.lesson.request.LessonRequest;
 
 @Service
 @RequiredArgsConstructor

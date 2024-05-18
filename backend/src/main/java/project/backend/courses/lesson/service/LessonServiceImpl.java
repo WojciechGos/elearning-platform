@@ -4,11 +4,11 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.backend.courses.lesson.model.Lesson;
-import project.backend.courses.lesson.model.LessonRequest;
+import project.backend.courses.lesson.request.LessonRequest;
 import project.backend.courses.lesson.repository.LessonRepository;
 import project.backend.courses.lessonResource.model.LessonResource;
 import project.backend.courses.lessonResource.service.LessonResourceService;
-import project.backend.exception.ResourceNotFoundException;
+import project.backend.exception.types.ResourceNotFoundException;
 
 import java.util.List;
 

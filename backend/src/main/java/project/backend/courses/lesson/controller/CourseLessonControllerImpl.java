@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.backend.courses.lesson.model.Lesson;
-import project.backend.courses.lesson.model.LessonRequest;
+import project.backend.courses.lesson.request.LessonRequest;
 import project.backend.courses.lesson.service.CourseLessonService;
 
 @RestController

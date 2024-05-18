@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import project.backend.courses.course.model.Course;
-import project.backend.courses.course.model.FilterCourseDTO;
+import project.backend.courses.course.dto.FilterCourseDTO;
 
 import java.util.List;
 

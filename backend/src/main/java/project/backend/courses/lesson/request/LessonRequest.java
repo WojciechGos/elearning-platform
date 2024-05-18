@@ -1,4 +1,4 @@
-package project.backend.courses.lesson.model;
+package project.backend.courses.lesson.request;
 
 
 public record LessonRequest(

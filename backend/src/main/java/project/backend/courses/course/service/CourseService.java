@@ -1,7 +1,7 @@
 package project.backend.courses.course.service;
 
 import project.backend.courses.course.model.Course;
-import project.backend.courses.course.model.FilterCourseDTO;
+import project.backend.courses.course.dto.FilterCourseDTO;
 
 import java.util.List;
 

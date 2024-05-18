@@ -1,4 +1,6 @@
-package project.backend.courses.course.model;
+package project.backend.courses.course.dto;
+
+import project.backend.courses.course.model.Course;
 
 import java.util.List;
 

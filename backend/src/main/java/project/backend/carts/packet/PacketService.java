@@ -2,7 +2,7 @@ package project.backend.carts.packet;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import project.backend.exception.ResourceNotFoundException;
+import project.backend.exception.types.ResourceNotFoundException;
 
 import java.util.List;
 
