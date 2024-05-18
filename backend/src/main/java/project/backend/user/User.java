@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import project.backend.carts.cart.Cart;
+import project.backend.carts.cart.model.Cart;
 import project.backend.token.Token;
 
 @Data

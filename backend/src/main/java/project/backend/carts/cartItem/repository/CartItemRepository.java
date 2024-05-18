@@ -1,10 +1,8 @@
-package project.backend.carts.cartItem;
+package project.backend.carts.cartItem.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import project.backend.carts.cart.Cart;
-
-import java.util.List;
+import project.backend.carts.cartItem.model.CartItem;
 
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
