@@ -43,48 +43,44 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     public CartItemDTO createCartItem(CartItemRequest cartItemRequest, Principal principal) {
-        Cart cart;
-
-        if(principal != null) {
-            User user = userService.getUserByEmail(principal.getName());
-
-            Optional<Cart> optionalCart = cartService.getOptionalPendingCartByUserEmail(user.getEmail());
-
-            cart = optionalCart.orElseGet(() -> {
-                Cart newCart = new Cart();
-                newCart.setUser(user);
-                newCart.setCartStatus(CartStatus.PENDING);
-                return cartService.createCart(newCart);
-            });
-        } else if(cartItemRequest.cartId() != null) {
-            cart = cartService.getCartById(cartItemRequest.cartId());
-        } else {
-            Cart newCart = new Cart();
-            cart = cartService.createCart(newCart);
-            cart.setCartStatus(CartStatus.PENDING);
-        }
-
+        Cart cart = getCartFromRequest(cartItemRequest, principal);
         Course course = courseService.getCourseById(cartItemRequest.courseId());
-
-        CartItem cartItem = new CartItem(
-                cart,
-                course
-        );
+        CartItem cartItem = CartItem.builder()
+                .cart(cart)
+                .course(course)
+                .build();
 
         cartItem = cartItemRepository.save(cartItem);
         return cartItemMapper.mapToDTO(cartItem);
     }
 
+    private Cart getCartFromRequest(CartItemRequest cartItemRequest, Principal principal) {
+        if(principal != null) {
+            System.out.println("1 + principal.getName() = " + principal.getName());
+            User user = userService.getUserByEmail(principal.getName());
+            Optional<Cart> optionalCart = cartService.getOptionalPendingCartByUserEmail(user.getEmail());
+            return optionalCart.orElseGet(() -> cartService.createCart(
+                    Cart.builder()
+                            .user(user)
+                            .cartStatus(CartStatus.PENDING)
+                            .build()));
+        } else if(cartItemRequest.cartId() != null) {
+            System.out.println("2");
+            return cartService.getCartById(cartItemRequest.cartId());
+        } else {
+            System.out.println("3");
+            return cartService.createCart(
+                    Cart.builder()
+                            .cartStatus(CartStatus.PENDING)
+                            .build());
+        }
+    }
+
     @Override
     public CartItem updateCartItem(Long cartItemId, CartItem cartItemDetails) {
-        CartItem cartItem = cartItemRepository.findById(cartItemId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        String.format("CartItem with id [%s] not found.", cartItemId)
-                ));
-
-        cartItem.setCart(cartItemDetails.getCart());
-        cartItem.setCourse(cartItemDetails.getCourse());
-
+        CartItem cartItem = getCartItemById(cartItemId);
+        if(cartItemDetails.getCart() != null) cartItem.setCart(cartItemDetails.getCart());
+        if(cartItemDetails.getCourse() != null) cartItem.setCourse(cartItemDetails.getCourse());
         return cartItemRepository.save(cartItem);
     }
 

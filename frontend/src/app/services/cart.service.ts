@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, forkJoin, of } from 'rxjs';
+import { Observable, forkJoin, of, catchError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CartItem } from '../interfaces/cartItem.interface';
 
@@ -25,10 +25,16 @@ export class CartService {
   }
 
   getCart(): Observable<any> {
-    if(localStorage.getItem('cartId') ) { 
+    if (localStorage.getItem('cartId')) {
       return this.getCartByCartID(Number(localStorage.getItem('cartId')));
+    } else if(localStorage.getItem('currentUser')) {
+      return this.http.get<any>(`${this.apiUrl}/carts/pending`).pipe(
+        catchError(() => {
+          return of({ items: [] });
+        })
+      );
     } else {
-      return this.http.get<any>(`${this.apiUrl}/carts/pending`);
+      return of({ items: [] });
     }
   }
 
@@ -77,16 +83,21 @@ export class CartService {
 
   private addItemsToLoggedInUserCart(items: any[]): Observable<any> {
     localStorage.removeItem('cartId');
+  
     return this.getCart().pipe(
       switchMap((cart) => {
-        const existingCourseIds = cart.items.map((item: any) => item.course.id);
-        
-        const newItems = items.filter((item: any) => !existingCourseIds.includes(item.course.id));
-        
-        if (newItems.length > 0) {
-          return forkJoin(newItems.map((item: any) => this.addCartItem(item.course.id)));
+        if (!cart || Object.keys(cart).length === 0) {
+          return forkJoin(items.map((item: any) => this.addCartItem(item.course.id)));
         } else {
-          return of(null);
+          console.log('Items in cart');
+          const existingCourseIds = cart.items ? cart.items.map((item: any) => item.course.id) : [];
+          const newItems = items.filter((item: any) => !existingCourseIds.includes(item.course.id));
+  
+          if (newItems.length > 0) {
+            return forkJoin(newItems.map((item: any) => this.addCartItem(item.course.id)));
+          } else {
+            return of(null);
+          }
         }
       })
     );
