@@ -56,7 +56,6 @@ public class CartItemServiceImpl implements CartItemService {
 
     private Cart getCartFromRequest(CartItemRequest cartItemRequest, Principal principal) {
         if(principal != null) {
-            System.out.println("1 + principal.getName() = " + principal.getName());
             User user = userService.getUserByEmail(principal.getName());
             Optional<Cart> optionalCart = cartService.getOptionalPendingCartByUserEmail(user.getEmail());
             return optionalCart.orElseGet(() -> cartService.createCart(
@@ -65,10 +64,8 @@ public class CartItemServiceImpl implements CartItemService {
                             .cartStatus(CartStatus.PENDING)
                             .build()));
         } else if(cartItemRequest.cartId() != null) {
-            System.out.println("2");
             return cartService.getCartById(cartItemRequest.cartId());
         } else {
-            System.out.println("3");
             return cartService.createCart(
                     Cart.builder()
                             .cartStatus(CartStatus.PENDING)
