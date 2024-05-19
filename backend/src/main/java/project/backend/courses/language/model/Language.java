@@ -1,14 +1,14 @@
 package project.backend.courses.language.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
+@Builder
+@AllArgsConstructor
 public class Language {
     @SequenceGenerator(
             name = "language_sequence",
@@ -23,7 +23,7 @@ public class Language {
     private Long id;
     private String name;
 
-    public Language(String english) {
-        this.name = english;
+    public Language(String name) {
+        this.name = name;
     }
 }

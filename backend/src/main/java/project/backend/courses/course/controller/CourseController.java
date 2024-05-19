@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.dto.FilterCourseDTO;
 
@@ -24,13 +25,13 @@ public interface CourseController {
             @RequestParam(required = false) List<String> fields
     );
 
-    ResponseEntity<Course> getCourse(@PathVariable("courseId") Long courseId);
+    ResponseEntity<CourseDTO> getCourse(@PathVariable("courseId") Long courseId);
 
-    ResponseEntity<Course> createCourse(@RequestBody Course course);
+    ResponseEntity<CourseDTO> createCourse(@RequestBody CourseDTO course);
 
-    ResponseEntity<Course> updateCourse(
+    ResponseEntity<CourseDTO> updateCourse(
             @PathVariable("courseId") Long courseId,
-            @RequestBody Course course);
+            @RequestBody CourseDTO course);
 
     ResponseEntity<Void> deleteCourse(@PathVariable("courseId") Long courseId);
 

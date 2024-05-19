@@ -25,4 +25,9 @@ public class LanguageServiceImpl implements LanguageService {
         return languageRepository.findById(languageId).orElseThrow(() -> new ResourceNotFoundException("Language not found with id [%s] ".formatted(languageId)));
     }
 
+    @Override
+    public Language getLanguageByName(String name) {
+        return languageRepository.findByName(name).orElseThrow(() -> new ResourceNotFoundException("Language not found with name [%s] ".formatted(name)));
+    }
+
 }

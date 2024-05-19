@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.backend.courses.lesson.model.Lesson;
-import project.backend.courses.lesson.request.LessonRequest;
+import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.lesson.service.CourseLessonService;
 
 @RestController
@@ -19,7 +19,7 @@ public class CourseLessonControllerImpl implements CourseLessonController {
     @PostMapping()
     public ResponseEntity<Lesson> addLessonToCourse(
             @PathVariable("courseId") Long courseId,
-            @RequestBody LessonRequest lesson) {
+            @RequestBody LessonDTO lesson) {
         Lesson createdLesson = courseLessonService.addLessonToCourse(courseId, lesson);
         return new ResponseEntity<>(createdLesson, HttpStatus.CREATED);
     }

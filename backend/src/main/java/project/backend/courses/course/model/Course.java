@@ -17,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString
 public class Course {
     @SequenceGenerator(
             name = "course_sequence",
@@ -38,6 +39,7 @@ public class Course {
 
     @Min(value = 1, message = "Price must be greater than 0")
     private BigDecimal price;
+    @Min(value = 1, message = "Price must be greater than 0")
     private BigDecimal discountPrice;
 
 

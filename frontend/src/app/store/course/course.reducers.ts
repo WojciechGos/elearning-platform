@@ -1,6 +1,6 @@
 import { CourseState } from "../../interfaces/courseState.interface";
 import { createReducer, on } from "@ngrx/store";
-import { createCourseFailure, createCourseSuccess, getCourse } from "./course.actions";
+import { createCourseFailure, createCourseSuccess, getCourse, setCourse } from "./course.actions";
 import { state } from "@angular/animations";
 
 export const initialState: CourseState = {
@@ -12,6 +12,7 @@ export const initialState: CourseState = {
 export const courseReducers = createReducer(
     initialState,
     on(getCourse, (state) => ({ ...state, loading: true })),
+    on(setCourse, (state, action) => ({ ...state, loading: true , course: action.course})),
     on(createCourseSuccess, (state, action) => ({
         ...state,
         loading: false,

@@ -5,8 +5,8 @@
     <div class="course-info">
       <div *ngIf="this.course" class="categories-wrapper ">
         <div *ngFor="let category of this.course.categories">
-          <a [routerLink]="['/course-search']" [queryParams]="{ category: category.name }">
-            <p class="category">{{ category.name }},</p>
+          <a [routerLink]="['/course-search']" [queryParams]="{ categories: category }">
+            <p class="category">{{ category }},</p>
           </a>
         </div>
       </div>
@@ -31,7 +31,7 @@
         <div class="additional-info">
           <div class="update-info">Last update 11:2023</div>
           <div *ngIf="this.course" class="language">
-            {{ this.course.language.name }}
+            {{ this.course.language }}
           </div>
         </div>
       </div>

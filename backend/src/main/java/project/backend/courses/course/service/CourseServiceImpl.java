@@ -4,26 +4,44 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+import project.backend.courses.category.model.Category;
+import project.backend.courses.category.service.CategoryService;
+import project.backend.courses.course.dto.CourseDTO;
+import project.backend.courses.course.mapper.CourseDTOMapper;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.dto.FilterCourseDTO;
 import project.backend.courses.course.repository.CourseRepository;
 import project.backend.courses.course.model.CourseState;
 import project.backend.courses.course.repository.CourseSpecification;
+import project.backend.courses.language.model.Language;
+import project.backend.courses.language.service.LanguageService;
+import project.backend.exception.types.BadRequestException;
 import project.backend.exception.types.ResourceNotFoundException;
 
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
+    private final LanguageService languageService;
+    private final CategoryService categoryService;
+    private final CourseDTOMapper courseDTOMapper;
 
     @Override
     public Course getCourseById(Long courseId) {
         return courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
+    }
+
+    @Override
+    public CourseDTO getCourseDTOById(Long courseId) {
+        return courseDTOMapper.toDTO(getCourseById(courseId));
     }
 
     @Override
@@ -50,25 +68,53 @@ public class CourseServiceImpl implements CourseService {
         Pageable pageable = PageRequest.of(page, limit);
         Long count = courseRepository.count(spec);
         List<Course> courseList = courseRepository.findAll(spec, pageable).getContent();
-        return new FilterCourseDTO(count, courseList);
+        List<CourseDTO> courseDTOList = courseList.stream().map(courseDTOMapper::toDTO).toList();
+        return new FilterCourseDTO(count, courseDTOList);
     }
 
     @Override
-    public Course createCourse(Course course) {
-        return courseRepository.save(course);
+    public CourseDTO createCourse(@Validated CourseDTO course) {
+
+        System.out.println(course);
+        Language language = languageService.getLanguageByName(course.language());
+
+        if(course.categories() == null)
+            throw new BadRequestException("You must provide at least one category for the course.");
+
+        List<Category> categories = course.categories().stream().map(category -> categoryService.getCategoryByName(category)).toList();
+        System.out.println(categories);
+        Course newCourse = Course.builder()
+                .title(course.title())
+                .description(course.description())
+                .price(course.price())
+                .discountPrice(new BigDecimal(0))
+                .language(language)
+                .categories(categories)
+                .rating(0)
+                .imageURL(course.imageURL())
+                .targetAudience(course.targetAudience())
+                .courseState(CourseState.CREATING)
+                .enrollmentCount(0)
+                .build();
+        System.out.println(newCourse);
+
+        return courseDTOMapper.toDTO(courseRepository.save(newCourse));
     }
 
     @Override
-    public Course updateCourse(Long id, Course course) {
+    public CourseDTO updateCourse(Long id, CourseDTO course) {
         Course updatedCourse = courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(id)));
 
-        if (course.getTitle() != null) updatedCourse.setTitle(course.getTitle());
-        if (course.getDescription() != null) updatedCourse.setDescription(course.getDescription());
-        if (course.getPrice() != null) updatedCourse.setPrice(course.getPrice());
-        if (course.getLanguage() != null) updatedCourse.setLanguage(course.getLanguage());
-        if (course.getEnrollmentCount() != null) updatedCourse.setEnrollmentCount(course.getEnrollmentCount());
+        if (course.title() != null) updatedCourse.setTitle(course.title());
+        if (course.description() != null) updatedCourse.setDescription(course.description());
+        if (course.price() != null) updatedCourse.setPrice(course.price());
+        if (course.language() != null){
+            Language language = languageService.getLanguageByName(course.language());
+            updatedCourse.setLanguage(language);
+        }
+        if (course.enrollmentCount() != null) updatedCourse.setEnrollmentCount(course.enrollmentCount());
 
-        return courseRepository.save(updatedCourse);
+        return courseDTOMapper.toDTO(courseRepository.save(updatedCourse));
     }
 
     @Override

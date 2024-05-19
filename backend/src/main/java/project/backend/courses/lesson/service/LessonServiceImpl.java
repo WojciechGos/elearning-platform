@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.backend.courses.lesson.model.Lesson;
-import project.backend.courses.lesson.request.LessonRequest;
+import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.lesson.repository.LessonRepository;
 import project.backend.courses.lessonResource.model.LessonResource;
 import project.backend.courses.lessonResource.service.LessonResourceService;
@@ -30,7 +30,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public Lesson createLesson(LessonRequest lesson) {
+    public Lesson createLesson(LessonDTO lesson) {
 
         return lessonRepository.save(new Lesson(
                 lesson.title(),

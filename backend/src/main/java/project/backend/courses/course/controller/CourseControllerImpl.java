@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.dto.FilterCourseDTO;
 import project.backend.courses.course.service.CourseService;
@@ -47,24 +48,24 @@ public class CourseControllerImpl implements CourseController {
 
     @Override
     @GetMapping("/{courseId}")
-    public ResponseEntity<Course> getCourse(@PathVariable("courseId") Long courseId) {
-        Course course = courseService.getCourseById(courseId);
+    public ResponseEntity<CourseDTO> getCourse(@PathVariable("courseId") Long courseId) {
+        CourseDTO course = courseService.getCourseDTOById(courseId);
         return new ResponseEntity<>(course, HttpStatus.OK);
     }
 
     @Override
     @PostMapping
-    public ResponseEntity<Course> createCourse(@RequestBody Course course) {
-        Course newCourse = courseService.createCourse(course);
+    public ResponseEntity<CourseDTO> createCourse(@RequestBody CourseDTO course) {
+        CourseDTO newCourse = courseService.createCourse(course);
         return new ResponseEntity<>(newCourse, HttpStatus.CREATED);
     }
 
     @Override
     @PatchMapping("/{courseId}")
-    public ResponseEntity<Course> updateCourse(
+    public ResponseEntity<CourseDTO> updateCourse(
             @PathVariable("courseId") Long courseId,
-            @RequestBody Course course) {
-        Course updatedCourse = courseService.updateCourse(courseId, course);
+            @RequestBody CourseDTO course) {
+        CourseDTO updatedCourse = courseService.updateCourse(courseId, course);
         return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
     }
 

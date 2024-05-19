@@ -1,7 +1,7 @@
-package project.backend.courses.lesson.request;
+package project.backend.courses.lesson.dto;
 
 
-public record LessonRequest(
+public record LessonDTO(
     String title,
     String description,
     String content,

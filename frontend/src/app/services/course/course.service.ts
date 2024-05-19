@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, } from 'rxjs';
 import { Course } from '../../interfaces/course.interface';
 import { environment } from 'src/environments/environment';
 import { CourseFilter } from '../../interfaces/courseFilter.interface';
@@ -23,7 +23,7 @@ export class CourseService {
     return this.http.get<Course[]>(`${environment.apiUrl}/api/v1/courses`);
   }
 
-  getCourseById(id: number): Observable<Course> { // Add this method
+  getCourseById(id: number): Observable<Course> { 
     return this.http.get<Course>(`${environment.apiUrl}/api/v1/courses/${id}`);
   }
 
