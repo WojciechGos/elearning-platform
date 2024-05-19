@@ -46,15 +46,19 @@ export class NavbarComponent implements OnInit {
     this.isListVisible = false;
   }
 
-  logout(): void {
-    this.authService.logout().subscribe(
-      (response) => {
-        console.log('Logged out');
-        this.router.navigate(['/main-page']);
-      },
-      (error) => {
-        console.error('Logout failed', error);
-      }
-    );
+  // logout(): void {
+  //   this.authService.logout().subscribe(
+  //     (response) => {
+  //       console.log('Logged out');
+  //       this.router.navigate(['/main-page']);
+  //     },
+  //     (error) => {
+  //       console.error('Logout failed', error);
+  //     }
+  //   );
+  // }
+
+  navigateToUserProfile(): void {
+    this.router.navigate(['/user-profile']);
   }
 }

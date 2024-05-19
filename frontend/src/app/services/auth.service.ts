@@ -7,7 +7,9 @@ import { CartService } from './cart.service';
 
 interface User {
   id: number;
-  currentUser: string;
+  firstName: string;
+  lastName: string;
+  email: string;
   accessToken: string;
   refreshToken: string;
 }
