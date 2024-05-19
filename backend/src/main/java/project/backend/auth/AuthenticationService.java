@@ -37,9 +37,13 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
         repository.save(user);
-        var jwtToken = jwtService.generateToken(user);
+        var jwtAccessToken = jwtService.generateAccessToken(user);
+        var jwtRefreshToken = jwtService.generateRefreshToken(user);
+        saveUserToken(user, jwtAccessToken, jwtRefreshToken);
+
         return ResponseEntity.ok(AuthenticationResponse.builder()
-                .token(jwtToken)
+                .accessToken(jwtAccessToken)
+                .refreshToken(jwtRefreshToken)
                 .currentUser(user.getFirstName() + " " + user.getLastName())
                 .build());
     }
@@ -54,9 +58,13 @@ public class AuthenticationService {
             );
             var user = repository.findByEmail(request.getEmail())
                     .orElseThrow(() -> new Exception("User not found"));
-            var jwtToken = jwtService.generateToken(user);
+            var jwtAccessToken = jwtService.generateAccessToken(user);
+            var jwtRefreshToken = jwtService.generateRefreshToken(user);
+            saveUserToken(user, jwtAccessToken, jwtRefreshToken);
+
             return ResponseEntity.ok(AuthenticationResponse.builder()
-                    .token(jwtToken)
+                    .accessToken(jwtAccessToken)
+                    .refreshToken(jwtRefreshToken)
                     .currentUser(user.getFirstName() + " " + user.getLastName())
                     .build());
         } catch (Exception e) {
@@ -64,11 +72,11 @@ public class AuthenticationService {
         }
     }
 
-
-    private void saveUserToken(User user, String jwtToken) {
+    private void saveUserToken(User user, String accessToken, String refreshToken) {
         var token = Token.builder()
                 .user(user)
-                .token(jwtToken)
+                .token(accessToken)
+                .refreshToken(refreshToken)
                 .tokenType(TokenType.BEARER)
                 .expired(false)
                 .revoked(false)
@@ -101,9 +109,5 @@ public class AuthenticationService {
                 .build();
         repository.save(newUser);
         return newUser;
-    }
-
-    public String generateJwtToken(User user) {
-        return jwtService.generateToken(user);
     }
 }
