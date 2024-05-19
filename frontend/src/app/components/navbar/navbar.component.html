@@ -45,13 +45,12 @@
         class="logout-button"
       ></app-button> -->
 
-      <div *ngIf="isLoggedIn" class="user-icon-container">
-        <img
-          src="../../../assets/images/user-icon.png"
-          alt="User"
-          class="user-icon"
-          (click)="navigateToUserProfile()"
-        />
+      <div
+        *ngIf="isLoggedIn"
+        class="user-icon-container"
+        (click)="navigateToUserProfile()"
+      >
+        <div class="user-icon">{{ userInitials }}</div>
       </div>
     </div>
   </div>
