@@ -37,20 +37,32 @@
         class="sign-up-button"
         routerLink="/register"
       ></app-button>
-      <app-button
+      <!-- <app-button
         *ngIf="isLoggedIn"
         [text]="'Logout'"
         [type]="'LOG_OUT'"
         (click)="logout()"
         class="logout-button"
-      ></app-button>
+      ></app-button> -->
+
+      <div *ngIf="isLoggedIn" class="user-icon-container">
+        <img
+          src="../../../assets/images/user-icon.png"
+          alt="User"
+          class="user-icon"
+          (click)="navigateToUserProfile()"
+        />
+      </div>
     </div>
   </div>
 </nav>
 <div *ngIf="isListVisible" class="menu-list" (mouseleave)="hideList()">
-    <mat-list *ngFor="let category of categories">
-      <a [routerLink]="['/course-search']" [queryParams]="{ categories: category.name }">
-        <mat-list-item class="menu-item">{{ category.name }}</mat-list-item>
-      </a>
-    </mat-list>
-</div>  
+  <mat-list *ngFor="let category of categories">
+    <a
+      [routerLink]="['/course-search']"
+      [queryParams]="{ categories: category.name }"
+    >
+      <mat-list-item class="menu-item">{{ category.name }}</mat-list-item>
+    </a>
+  </mat-list>
+</div>
