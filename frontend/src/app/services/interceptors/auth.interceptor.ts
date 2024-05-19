@@ -1,29 +1,54 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
   HttpEvent,
+  HttpHandler,
   HttpInterceptor,
-  HttpResponse,
-  HttpErrorResponse
+  HttpRequest,
+  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
+import { Observable, throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.authService.getToken();
-    if (token) {
-      request = request.clone({
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    const accessToken = this.authService.getAccessToken();
+    if (accessToken) {
+      req = req.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
     }
-    return next.handle(request);
+
+    return next.handle(req).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          // Unauthorized, try to refresh the token
+          return this.authService.refreshToken().pipe(
+            switchMap((response) => {
+              req = req.clone({
+                setHeaders: {
+                  Authorization: `Bearer ${response.accessToken}`,
+                },
+              });
+              return next.handle(req);
+            }),
+            catchError((refreshError) => {
+              this.authService.logout();
+              return throwError(refreshError);
+            })
+          );
+        } else {
+          return throwError(error);
+        }
+      })
+    );
   }
 }
