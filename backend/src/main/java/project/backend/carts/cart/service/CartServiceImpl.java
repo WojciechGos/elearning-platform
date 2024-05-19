@@ -2,7 +2,10 @@ package project.backend.carts.cart;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import project.backend.exception.types.ResourceNotFoundException;
+import project.backend.carts.cart.repository.CartRepository;
+import project.backend.carts.cart.model.Cart;
+import project.backend.carts.cart.model.CartStatus;
+import project.backend.exception.ResourceNotFoundException;
 import project.backend.user.User;
 import project.backend.user.UserService;
 
@@ -11,13 +14,16 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class CartService {
+public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final UserService userService;
+
+    @Override
     public List<Cart> getAllCarts() {
         return cartRepository.findAll();
     }
 
+    @Override
     public Cart getCartById(Long cartId) {
         return cartRepository.findById(cartId)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -25,15 +31,14 @@ public class CartService {
                 ));
     }
 
+    @Override
     public Cart createCart(Cart cart) {
         return cartRepository.save(cart);
     }
 
+    @Override
     public Cart updateCart(Long cartId, Cart cartDetails) {
-        Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        String.format("Cart with id [%s] not found.", cartId)
-                ));
+        Cart cart = getCartById(cartId);
 
         if (CartStatus.PENDING == cartDetails.getCartStatus() && cartRepository.existsByUserIdAndCartStatus(cart.getUser().getId(), CartStatus.PENDING)) {
             throw new IllegalStateException("There is already a pending cart for this user.");
@@ -46,6 +51,7 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
+    @Override
     public void deleteCart(Long cartId) {
         if (!cartRepository.existsById(cartId)) {
             throw new ResourceNotFoundException(
@@ -55,6 +61,7 @@ public class CartService {
         cartRepository.deleteById(cartId);
     }
 
+    @Override
     public Optional<Cart> getOptionalPendingCartByUserEmail(String email) {
         User user = userService.getUserByEmail(email);
 
@@ -65,6 +72,7 @@ public class CartService {
         return Optional.of(carts.get(0));
     }
 
+    @Override
     public Cart getPendingCart(String email) {
         User user = userService.getUserByEmail(email);
         List<Cart> carts = cartRepository.findByUserIdAndCartStatus(user.getId(), CartStatus.PENDING);
@@ -78,12 +86,14 @@ public class CartService {
         return carts.get(0);
     }
 
+    @Override
     public List<Cart> getAllCartsByUser(String email) {
         User user = userService.getUserByEmail(email);
 
         return cartRepository.findByUserId(user.getId());
     }
 
+    @Override
     public List<Cart> getAllPendingCartsByUser(String email) {
         return cartRepository.findByUserEmailAndCartStatus(email, CartStatus.PENDING);
     }
