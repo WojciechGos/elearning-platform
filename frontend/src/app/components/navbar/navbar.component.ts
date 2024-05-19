@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit {
   categories: Category[] = [];
   searchInput: string = '';
   isLoggedIn: boolean = false;
+  userInitials: string = '';
 
   constructor(
     private router: Router,
@@ -24,6 +25,9 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.authService.currentUser.subscribe((user) => {
       this.isLoggedIn = !!user;
+      if (user) {
+        this.userInitials = this.getUserInitials(user.firstName, user.lastName);
+      }
     });
   }
 
@@ -46,17 +50,10 @@ export class NavbarComponent implements OnInit {
     this.isListVisible = false;
   }
 
-  // logout(): void {
-  //   this.authService.logout().subscribe(
-  //     (response) => {
-  //       console.log('Logged out');
-  //       this.router.navigate(['/main-page']);
-  //     },
-  //     (error) => {
-  //       console.error('Logout failed', error);
-  //     }
-  //   );
-  // }
+  getUserInitials(firstName: string, lastName: string): string {
+    if (!firstName || !lastName) return '';
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  }
 
   navigateToUserProfile(): void {
     this.router.navigate(['/user-profile']);
