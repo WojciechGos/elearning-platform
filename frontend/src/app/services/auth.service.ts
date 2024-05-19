@@ -6,12 +6,9 @@ import { Router } from '@angular/router';
 import { CartService } from './cart.service';
 
 interface User {
-  id: number;
+  email: string;
   firstName: string;
   lastName: string;
-  email: string;
-  accessToken: string;
-  refreshToken: string;
 }
 
 @Injectable({
@@ -53,9 +50,9 @@ export class AuthService {
     password: string,
     firstName: string,
     lastName: string
-  ): Observable<User> {
+  ): Observable<any> {
     return this.http
-      .post<User>(`http://localhost:8080/api/v1/auth/register`, {
+      .post<any>(`http://localhost:8080/api/v1/auth/register`, {
         email,
         password,
         firstName,
@@ -70,10 +67,11 @@ export class AuthService {
   }
 
   private storeUserCredentials(response: any) {
-    localStorage.setItem('currentUser', JSON.stringify(response.currentUser));
+    const user = response.user;
+    localStorage.setItem('currentUser', JSON.stringify(user));
     localStorage.setItem('accessToken', response.accessToken);
     localStorage.setItem('refreshToken', response.refreshToken);
-    this.currentUserSubject.next(response.currentUser);
+    this.currentUserSubject.next(user);
     this.router.navigate(['/main-page']);
     this.cartService.handleLoggedInUser();
   }

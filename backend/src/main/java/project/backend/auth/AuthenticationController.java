@@ -14,6 +14,8 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import org.springframework.http.HttpStatus;
 import project.backend.user.User;
 import project.backend.config.JwtService;
+import project.backend.user.UserDTO;
+import project.backend.user.UserMapper;
 
 import java.util.Collections;
 import java.util.Map;
@@ -25,6 +27,7 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
     private final JwtService jwtService;
+    private final UserMapper userMapper;
 
     @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody RegisterRequest request) {
@@ -59,9 +62,9 @@ public class AuthenticationController {
                     user = service.createUserFromGooglePayload(payload);
                 }
 
-                String jwtToken = jwtService.generateAccessToken(user);
+                String jwtAccessToken = jwtService.generateAccessToken(user);
                 String refreshToken = jwtService.generateRefreshToken(user);
-                return ResponseEntity.ok(new AuthenticationResponse(jwtToken, refreshToken, user.getFirstName() + " " + user.getLastName()));
+                return ResponseEntity.ok(new AuthenticationResponse(jwtAccessToken, refreshToken, userMapper.mapToDTO(user)));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Google ID token");
             }
@@ -85,7 +88,7 @@ public class AuthenticationController {
             }
 
             String newAccessToken = jwtService.generateAccessToken(user);
-            return ResponseEntity.ok(new AuthenticationResponse(newAccessToken, refreshToken, user.getFirstName() + " " + user.getLastName()));
+            return ResponseEntity.ok(new AuthenticationResponse(newAccessToken, refreshToken, userMapper.mapToDTO(user)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during token refresh: " + e.getMessage());
         }
@@ -97,7 +100,4 @@ public class AuthenticationController {
         SecurityContextHolder.clearContext();
         return ResponseEntity.ok().build();
     }
-
 }
-
-
