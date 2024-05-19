@@ -1,12 +1,12 @@
 <div class="user-profile">
   <h2>Dane Użytkownika</h2>
   <div>
-    <p><strong>Imie i nazwisko:</strong> {{ user }}</p>
-    <!-- <p><strong>Email:</strong> {{ user.email }}</p> -->
-    <button (click)="logout()">Logout</button>
+    <p><strong>First name:</strong> {{ user?.firstName }}</p>
+    <p><strong>Last name:</strong> {{ user?.lastName }}</p>
+    <p><strong>Email:</strong> {{ user?.email }}</p>
+    <button (click)="logout()">Log out</button>
   </div>
   <div class="user-courses">
-    <h3>My course</h3>
-    <!-- Tutaj można dodać logikę do wyświetlania kursów użytkownika -->
+    <h3>My courses</h3>
   </div>
 </div>
