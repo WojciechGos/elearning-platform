@@ -8,7 +8,8 @@ import { CartService } from './cart.service';
 interface User {
   id: number;
   currentUser: string;
-  token: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 @Injectable({
@@ -39,15 +40,7 @@ export class AuthService {
       .post<any>(`http://localhost:8080/api/v1/auth/login`, { email, password })
       .pipe(
         map((response) => {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem(
-            'currentUser',
-            JSON.stringify(response.currentUser)
-          );
-          localStorage.setItem('jwtToken', response.token);
-          this.currentUserSubject.next(response.currentUser);
-          this.router.navigate(['/main-page']);
-          this.cartService.handleLoggedInUser();
+          this.storeUserCredentials(response);
           return response;
         })
       );
@@ -67,16 +60,20 @@ export class AuthService {
         lastName,
       })
       .pipe(
-        map((user) => {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify(user.currentUser));
-          localStorage.setItem('jwtToken', user.token);
-          this.currentUserSubject.next(user);
-          this.router.navigate(['/main-page']);
-          this.cartService.handleLoggedInUser();
-          return user;
+        map((response) => {
+          this.storeUserCredentials(response);
+          return response;
         })
       );
+  }
+
+  private storeUserCredentials(response: any) {
+    localStorage.setItem('currentUser', JSON.stringify(response.currentUser));
+    localStorage.setItem('accessToken', response.accessToken);
+    localStorage.setItem('refreshToken', response.refreshToken);
+    this.currentUserSubject.next(response.currentUser);
+    this.router.navigate(['/main-page']);
+    this.cartService.handleLoggedInUser();
   }
 
   logout(): Observable<any> {
@@ -84,18 +81,40 @@ export class AuthService {
       .post<any>(`http://localhost:8080/api/v1/auth/logout`, {})
       .pipe(
         map((response) => {
-          console.log('LOGOUT');
-          localStorage.removeItem('currentUser');
-          localStorage.removeItem('jwtToken');
-          this.currentUserSubject.next(null);
-          this.router.navigate(['/main-page']);
+          this.clearUserCredentials();
           return response;
         })
       );
   }
 
-  public getToken(): string | null {
-    return localStorage.getItem('jwtToken');
+  private clearUserCredentials() {
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    this.currentUserSubject.next(null);
+    this.router.navigate(['/main-page']);
+  }
+
+  public getAccessToken(): string | null {
+    return localStorage.getItem('accessToken');
+  }
+
+  public getRefreshToken(): string | null {
+    return localStorage.getItem('refreshToken');
+  }
+
+  public refreshToken(): Observable<any> {
+    const refreshToken = this.getRefreshToken();
+    return this.http
+      .post<any>(`http://localhost:8080/api/v1/auth/refresh-token`, {
+        refreshToken,
+      })
+      .pipe(
+        map((response) => {
+          localStorage.setItem('accessToken', response.accessToken);
+          return response;
+        })
+      );
   }
 
   loginWithGoogle(token: string): Observable<any> {
@@ -103,16 +122,10 @@ export class AuthService {
       .post<any>(`http://localhost:8080/api/v1/auth/google-login`, { token })
       .pipe(
         map((response) => {
-          localStorage.setItem(
-            'currentUser',
-            JSON.stringify(response.currentUser)
-          );
-          localStorage.setItem('jwtToken', response.token);
-          this.currentUserSubject.next(response.currentUser);
+          this.storeUserCredentials(response);
           this.ngZone.run(() => {
             this.router.navigate(['/main-page']);
           });
-          this.cartService.handleLoggedInUser();
           return response;
         })
       );
