@@ -1,11 +1,12 @@
-package project.backend.carts.cart;
+package project.backend.carts.cart.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.backend.carts.cart.repository.CartRepository;
 import project.backend.carts.cart.model.Cart;
 import project.backend.carts.cart.model.CartStatus;
-import project.backend.exception.ResourceNotFoundException;
+
+import project.backend.exception.types.ResourceNotFoundException;
 import project.backend.user.User;
 import project.backend.user.UserService;
 
