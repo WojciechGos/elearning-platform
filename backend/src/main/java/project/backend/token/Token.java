@@ -12,33 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-//@Data
-//@Builder
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Entity
-//public class Token {
-//
-//    @Id
-//    @GeneratedValue
-//    public Integer id;
-//
-//    @Column(unique = true)
-//    public String token;
-//
-//    @Enumerated(EnumType.STRING)
-//    public TokenType tokenType = TokenType.BEARER;
-//
-//    public boolean revoked;
-//
-//    public boolean expired;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    public User user;
-//}
-
-
 @Getter
 @Setter
 @Builder
@@ -53,6 +26,9 @@ public class Token {
 
     @Column(unique = true)
     private String token;
+
+    @Column(unique = true)
+    private String refreshToken;
 
     @Enumerated(EnumType.STRING)
     private TokenType tokenType = TokenType.BEARER;
