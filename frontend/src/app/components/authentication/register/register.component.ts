@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 
 declare const google: any;
@@ -12,12 +12,12 @@ declare const google: any;
 export class RegisterComponent {
   @ViewChild('googleBtn') googleBtn: ElementRef | undefined;
 
-  registerForm: FormGroup;
+  registerForm: UntypedFormGroup;
   serverError: string | null = null;
   auth2: any;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authService: AuthService
   ) {
     this.registerForm = this.formBuilder.group(
@@ -82,7 +82,7 @@ export class RegisterComponent {
     }
   }
 
-  private matchPassword(group: FormGroup): { [key: string]: any } | null {
+  private matchPassword(group: UntypedFormGroup): { [key: string]: any } | null {
     let pass = group.get('password')?.value;
     let confirmPass = group.get('confirmPassword')?.value;
     return pass === confirmPass ? null : { passwordMismatch: true };
