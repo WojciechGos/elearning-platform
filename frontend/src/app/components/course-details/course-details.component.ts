@@ -45,6 +45,7 @@ export class CourseDetailsComponent implements OnInit
   }
   
   addToCart() {
+    console.log(this.course.id);
     this.cartService.addCartItem(this.course.id).subscribe(
         (response) => {
           if(!this.isLoggedIn) {
