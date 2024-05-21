@@ -1,16 +1,36 @@
 <app-navbar></app-navbar>
 
-<mat-stepper
-  class="example-stepper"
-  [linear]="true"
-  #stepper
-  (selectionChange)="onStepChange($event)"
->
-  <mat-step label="Fill out basic course info">
-    <app-course-creator-course-info></app-course-creator-course-info>
+  <!-- (selectionChange)="onStepChange($event)" 
+  [linear]="true" 
+  #stepper -->
+<mat-stepper 
+
+  >
+  <mat-step
+    [stepControl]="courseFormGroup"
+    label="Fill out course info"
+    [editable]="false"
+    disabled
+  >
+    <app-course-creator-course-info
+      [formGroup]="courseFormGroup"
+    ></app-course-creator-course-info>
   </mat-step>
-  <mat-step label="Provide lessons">
+
+  <mat-step
+    [stepControl]="secondFormGroup"
+    label="Provide lessons"
+    [editable]="false"
+    disabled
+  >
     <app-course-creator-lesson></app-course-creator-lesson>
   </mat-step>
-  <mat-step label="Publish"> </mat-step>
+
+  <mat-step
+    [stepControl]="thirdFormGroup"
+    label="Publish"
+    [editable]="false"
+    disabled
+  >
+  </mat-step>
 </mat-stepper>

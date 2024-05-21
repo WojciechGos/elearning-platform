@@ -1,15 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { StepperOrientation, MatStepperModule } from '@angular/material/stepper';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { AsyncPipe } from '@angular/common';
 import { MatStepper } from '@angular/material/stepper';
-
+import { CourseCreatorCourseInfoComponent } from '../course-creator-course-info/course-creator-course-info.component';
 
 @Component({
   selector: 'app-course-creator',
@@ -18,16 +10,33 @@ import { MatStepper } from '@angular/material/stepper';
 })
 export class CourseCreatorComponent implements OnInit {
 
+  courseFormGroup = this._formBuilder.group({
+    title: ['', Validators.required],
+    description: ['', Validators.required],
+    price: ['', Validators.required],
+    image: [''],
+    language: ['', Validators.required],
+    targetAudience: ['', Validators.required],
+    categories: [[], Validators.required]
+  });
+
+  secondFormGroup = this._formBuilder.group({
+    secondCtrl: ['', Validators.required],
+  });
+  thirdFormGroup = this._formBuilder.group({
+    thirdCtrl: ['', Validators.required],
+  });
+
   @ViewChild(MatStepper) stepper !: MatStepper;
+  @ViewChild(CourseCreatorCourseInfoComponent) courseCreatorCourseInfoComponent !: CourseCreatorCourseInfoComponent;
 
-  constructor(
+  constructor(private _formBuilder: FormBuilder) {}
 
-  ) {
-  }
   onStepChange(event: any): void {
-    // Prevent changing step by clicking on the step label
-    if (event.previouslySelectedIndex !== event.selectedIndex) {
-      this.stepper.selectedIndex = event.previouslySelectedIndex;
+    console.log('Step changed: ', event);
+    // When user decide to change step from 0 to 1 by stepper in header, make sure to create course
+    if(event.previouslySelectedIndex === 0) {
+      this.courseCreatorCourseInfoComponent.createCourse();
     }
   }
 
