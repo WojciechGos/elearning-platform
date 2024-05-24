@@ -1,0 +1,12 @@
+.form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group mat-label {
+    order: 1;
+  }
+  
+  .form-group matInput {
+    order: 2;
+  }

@@ -52,6 +52,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { courseReducers } from './store/course/course.reducers';
 import { CourseModule } from './store/course/course.module';
+import { CourseCreatorLessonItemComponent } from './components/course-creator-lesson-item/course-creator-lesson-item.component';
+import { CourseCreatorPublishComponent } from './components/course-creator-publish/course-creator-publish.component';
 
 
 @NgModule({
@@ -81,7 +83,7 @@ import { CourseModule } from './store/course/course.module';
     CourseSearchItemComponent, 
     CourseCreatorComponent, 
     CourseCreatorCourseInfoComponent, 
-    CourseCreatorLessonComponent
+    CourseCreatorLessonComponent, CourseCreatorLessonItemComponent, CourseCreatorPublishComponent
   ],
   imports: [
     BrowserModule,

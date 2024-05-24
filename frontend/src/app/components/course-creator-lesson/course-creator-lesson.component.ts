@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppStateInterface } from 'src/app/interfaces/appState.interface';
 import { Course } from 'src/app/interfaces/course.interface';
 import { getCourse } from 'src/app/store/course/course.actions';
 import { courseSelector } from 'src/app/store/course/course.selectors';
+import { FormArray } from '@angular/forms';
+import { FormGroup, } from '@angular/forms';
+import { getNewLessonFormGroup } from 'src/app/services/lesson/lesson.form';
 
 @Component({
   selector: 'app-course-creator-lesson',
@@ -12,28 +15,34 @@ import { courseSelector } from 'src/app/store/course/course.selectors';
   styleUrls: ['./course-creator-lesson.component.css']
 })
 export class CourseCreatorLessonComponent implements OnInit {
-  
-  course$: Observable<Course|null>;
+  @Input() formArray !: FormArray;
+  @ViewChild('courseCreatorLessonItemContainer', { read: ViewContainerRef, static: true }) container!: ViewContainerRef;
+  course$: Observable<Course | null>;
+  lessonCounter :number = 2;
 
-  constructor(private store: Store<AppStateInterface>) { 
+
+  constructor(
+    private store: Store<AppStateInterface>,
+  ) {
     this.course$ = this.store.pipe(select(courseSelector));
   }
 
+ 
+  get getFormGroups(): FormGroup[] {
+    return this.formArray.controls as FormGroup[];
+  }
+  get getFormArray() : FormArray {
+    return this.formArray as FormArray;
+  
+  }
   ngOnInit(): void {
     this.store.dispatch(getCourse());
   }
 
-  step = 0;
-
-  setStep(index: number) {
-    this.step = index;
+  addLesson(): void {
+    this.formArray.push(getNewLessonFormGroup(this.lessonCounter));
+    this.lessonCounter++;
   }
 
-  nextStep() {
-    this.step++;
-  }
 
-  prevStep() {
-    this.step--;
-  }
 }

@@ -4,7 +4,7 @@
     <mat-card-subtitle>Fill in the form below to create a new course</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <form [formGroup]="formGroup" (ngSubmit)="createCourse()">
+    <form [formGroup]="formGroup">
       <mat-form-field class="form-group">
         <mat-label>Course title</mat-label>
         <input
@@ -86,11 +86,6 @@
         </mat-list-option>
       </mat-selection-list>
 
-      <div class="form-group">
-        <button mat-raised-button color="primary" type="submit">
-          Next
-        </button>
-      </div>
     </form>
   </mat-card-content>
 </mat-card>

@@ -1,0 +1,48 @@
+<mat-expansion-panel hideToggle>
+  <mat-expansion-panel-header>
+    <mat-panel-title> {{formGroup.value.lessonNumber}}. {{formGroup.value.title}}</mat-panel-title>
+
+  </mat-expansion-panel-header>
+
+  <form [formGroup]="formGroup" (ngSubmit)="createOrUpdateLesson()">
+    <mat-form-field class="form-group">
+      <mat-label>Lesson title</mat-label>
+      <input
+        matInput
+        type="text"
+        id="lesson-title"
+        formControlName="title"
+        placeholder="Enter lesson title"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field class="form-group">
+      <mat-label>Lesson description</mat-label>
+      <textarea
+        matInput
+        id="lesson-description"
+        formControlName="description"
+        placeholder="Enter lesson description"
+        required
+      ></textarea>
+    </mat-form-field>
+
+
+    <div class="form-group">
+      <label for="course-video">Course video</label>
+      <input
+        type="file"
+        id="course-video"
+        formControlName="videoUrl"
+        (change)="onFileChange($event)"
+        accept="video/*"
+      />
+    </div>
+
+    <div class="form-group">
+      <button mat-raised-button color="primary" type="submit">
+        Create Lesson
+      </button>
+    </div>
+  </form>
+</mat-expansion-panel>
