@@ -8,6 +8,7 @@ import project.backend.courses.lesson.model.Lesson;
 public class LessonDTOMapper {
     public LessonDTO toDTO(Lesson lesson) {
         return new LessonDTO(
+                lesson.getId(),
                 lesson.getTitle(),
                 lesson.getDescription(),
                 lesson.getContent(),

@@ -7,7 +7,7 @@ import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.dto.LessonDTO;
 
 public interface CourseLessonController {
-    ResponseEntity<Lesson> addLessonToCourse(
+    ResponseEntity<LessonDTO> addLessonToCourse(
             @PathVariable("courseId") Long courseId,
             @RequestBody LessonDTO lesson);
 }

@@ -4,5 +4,5 @@ import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.dto.LessonDTO;
 
 public interface CourseLessonService {
-    Lesson addLessonToCourse(Long courseId, LessonDTO lesson);
+    LessonDTO addLessonToCourse(Long courseId, LessonDTO lesson);
 }

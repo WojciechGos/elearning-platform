@@ -10,19 +10,20 @@ import project.backend.courses.lesson.service.CourseLessonService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/v1/course/{courseId}/lessons")
+@RequestMapping(path = "api/v1/courses/{courseId}/lessons")
 public class CourseLessonControllerImpl implements CourseLessonController {
 
     private final CourseLessonService courseLessonService;
 
     @Override
     @PostMapping()
-    public ResponseEntity<Lesson> addLessonToCourse(
+    public ResponseEntity<LessonDTO> addLessonToCourse(
             @PathVariable("courseId") Long courseId,
             @RequestBody LessonDTO lesson) {
-        Lesson createdLesson = courseLessonService.addLessonToCourse(courseId, lesson);
+        LessonDTO createdLesson = courseLessonService.addLessonToCourse(courseId, lesson);
         return new ResponseEntity<>(createdLesson, HttpStatus.CREATED);
     }
+
 
 
 }
