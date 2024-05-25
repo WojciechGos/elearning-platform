@@ -5,11 +5,7 @@ import project.backend.config.JwtService;
 import project.backend.token.Token;
 import project.backend.token.TokenRepository;
 import project.backend.token.TokenType;
-import project.backend.user.Role;
-import project.backend.user.User;
-import project.backend.user.UserDTO;
-import project.backend.user.UserMapper;
-import project.backend.user.UserRepository;
+import project.backend.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,7 +22,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserMapper userMapper;
+    private final UserMapper userMapper;  // Dodajemy UserMapper
 
     public ResponseEntity<Object> register(RegisterRequest request) {
         if (repository.findByEmail(request.getEmail()).isPresent()) {
@@ -43,11 +39,12 @@ public class AuthenticationService {
         var jwtAccessToken = jwtService.generateAccessToken(user);
         var jwtRefreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(user, jwtAccessToken, jwtRefreshToken);
+        var userDTO = userMapper.mapToDTO(user);
 
         return ResponseEntity.ok(AuthenticationResponse.builder()
                 .accessToken(jwtAccessToken)
                 .refreshToken(jwtRefreshToken)
-                .user(userMapper.mapToDTO(user))
+                .user(userDTO)
                 .build());
     }
 
@@ -64,11 +61,12 @@ public class AuthenticationService {
             var jwtAccessToken = jwtService.generateAccessToken(user);
             var jwtRefreshToken = jwtService.generateRefreshToken(user);
             saveUserToken(user, jwtAccessToken, jwtRefreshToken);
+            var userDTO = userMapper.mapToDTO(user);
 
             return ResponseEntity.ok(AuthenticationResponse.builder()
                     .accessToken(jwtAccessToken)
                     .refreshToken(jwtRefreshToken)
-                    .user(userMapper.mapToDTO(user))
+                    .user(userDTO)
                     .build());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
@@ -88,7 +86,7 @@ public class AuthenticationService {
     }
 
     private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId().intValue());
         if (validUserTokens.isEmpty())
             return;
         validUserTokens.forEach(token -> {
