@@ -1,0 +1,13 @@
+<div class="content-wrapper">
+    <div class="video-wrapper">
+        <video style="width: 100%;" controls>
+            <source [src]="videoUrl" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="details-wrapper">
+        <h2> {{ this.title }} </h2>
+        <p> {{ this.description }} </p>
+        <p> {{ this.content }} </p>
+    </div>
+</div>
