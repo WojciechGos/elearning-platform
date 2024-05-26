@@ -13,6 +13,7 @@ import { UsersComponent } from './components/admin/users/users.component';
 import { CartDetailsComponent} from './components/admin/cart-details/cart-details.component';
 import { CourseSearchComponent } from './components/course-search/course-search.component';
 import { UserCartsComponent } from './components/admin/user-carts/user-carts.component';
+import { CourseDisplayComponent } from './components/course-display/course-display.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -32,6 +33,8 @@ const routes: Routes = [
   { path: 'cart-details/:id/:email', component: CartDetailsComponent },
   { path: 'course-search', component: CourseSearchComponent},
   { path: 'user-carts/:email', component: UserCartsComponent},
+  {path: 'course-display/:id', component: CourseDisplayComponent},
+  {path: 'course-display/:id/:lessonId', component: CourseDisplayComponent}
 ];
 
 @NgModule({

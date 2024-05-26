@@ -1,0 +1,15 @@
+<app-navbar></app-navbar>
+<div class="content-wrapper">
+    <app-lesson-display 
+    [title]="lessonTitle" 
+    [description]="lessonDescription" 
+    [videoUrl]="videoUrl"
+    [content]="lessonContent"></app-lesson-display>
+    <div *ngIf="course" class="course-content">
+        <h2>COURSE CONTENT</h2>
+        <div *ngFor="let lesson of course.lessons; let i = index" class="lesson" (click)="goToLesson(i)">
+            Lesson {{ i + 1 }}: {{ lesson.title }}
+        </div>
+    </div>
+</div>
+  

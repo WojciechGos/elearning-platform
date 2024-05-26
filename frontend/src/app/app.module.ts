@@ -39,9 +39,11 @@ import { CartItemsListComponent } from './components/cart-items-list/cart-items-
 import { UserCartsComponent } from './components/admin/user-carts/user-carts.component';
 import { LessonListComponent } from './components/lesson-list/lesson-list.component';
 import { CourseSearchItemComponent } from './components/course-search-item/course-search-item.component';
+import { CourseDisplayComponent } from './components/course-display/course-display.component';
+import { LessonDisplayComponent } from './components/lesson-display/lesson-display.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RegisterComponent, LoggedInPageComponent, NavbarComponent, CourseDetailsComponent, ButtonComponent, RatingComponent, PriceComponent, MainPageComponent, CoursesListComponent, CoursesListItemComponent, CancelComponent, SuccessComponent, CartComponent, CartItemComponent, CourseSearchComponent, UsersComponent, CartDetailsComponent, CartItemsListComponent, UserCartsComponent, LessonListComponent, CourseSearchItemComponent],
+  declarations: [AppComponent, LoginComponent, RegisterComponent, LoggedInPageComponent, NavbarComponent, CourseDetailsComponent, ButtonComponent, RatingComponent, PriceComponent, MainPageComponent, CoursesListComponent, CoursesListItemComponent, CancelComponent, SuccessComponent, CartComponent, CartItemComponent, CourseSearchComponent, UsersComponent, CartDetailsComponent, CartItemsListComponent, UserCartsComponent, LessonListComponent, CourseSearchItemComponent, CourseDisplayComponent, LessonDisplayComponent],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule, MatListModule, MatCardModule, MatButtonModule, BrowserAnimationsModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, FormsModule, MatExpansionModule, MatSliderModule, FormsModule],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],
