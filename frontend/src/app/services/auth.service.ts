@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { CartService } from './cart.service';
 
@@ -105,14 +105,21 @@ export class AuthService {
 
   public refreshToken(): Observable<any> {
     const refreshToken = this.getRefreshToken();
+    console.log('Attempting to refresh token:', refreshToken);
+
     return this.http
       .post<any>(`http://localhost:8080/api/v1/auth/refresh-token`, {
         refreshToken,
       })
       .pipe(
         map((response) => {
+          console.log('Token refreshed:', response.accessToken);
           localStorage.setItem('accessToken', response.accessToken);
           return response;
+        }),
+        catchError((error) => {
+          console.error('Refresh token failed:', error);
+          return throwError(error);
         })
       );
   }

@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             userEmail = jwtService.extractUsername(jwt);
         } catch (ExpiredJwtException e) {
-            // Token wygasł, ustawmy odpowiedni status odpowiedzi
+            // Token wygasł, ustawiany odpowiedni status odpowiedzi
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Token expired");
             return;

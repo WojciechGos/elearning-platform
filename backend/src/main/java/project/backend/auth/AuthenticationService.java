@@ -22,7 +22,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserMapper userMapper;  // Dodajemy UserMapper
+    private final UserMapper userMapper;
 
     public ResponseEntity<Object> register(RegisterRequest request) {
         if (repository.findByEmail(request.getEmail()).isPresent()) {
