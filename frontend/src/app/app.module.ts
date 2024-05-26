@@ -41,6 +41,7 @@ import { LessonListComponent } from './components/lesson-list/lesson-list.compon
 import { CourseSearchItemComponent } from './components/course-search-item/course-search-item.component';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { AuthGuard } from './guards/auth.guard';
     UserCartsComponent,
     LessonListComponent,
     CourseSearchItemComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
