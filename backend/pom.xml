@@ -15,10 +15,28 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>21</java.version>
+        <aws.java.sdk.version>2.25.60</aws.java.sdk.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${aws.java.sdk.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+        </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>io.awspring.cloud</groupId>-->
 <!--            <artifactId>spring-cloud-aws-starter-s3</artifactId>-->
@@ -30,11 +48,11 @@
 <!--            <version>3.0.0</version>-->
 <!--        </dependency>-->
 
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-s3</artifactId>
-            <version>1.12.261</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.amazonaws</groupId>-->
+<!--            <artifactId>aws-java-sdk-s3</artifactId>-->
+<!--            <version>1.12.261</version>-->
+<!--        </dependency>-->
 
 
         <dependency>

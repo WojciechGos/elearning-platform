@@ -1,7 +1,6 @@
 package project.backend.courses.file.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +14,6 @@ import project.backend.courses.file.service.FileService;
 @RequestMapping(path = "api/v1/files")
 public class FileControllerImpl implements FileController {
 
-
     private final FileService fileService;
 
     @Override
@@ -25,7 +23,8 @@ public class FileControllerImpl implements FileController {
     }
 
     @Override
+    @GetMapping("/download")
     public ResponseEntity<String> getDownloadUrl() {
-        return null;
+        return new ResponseEntity<>(fileService.generateDownloadUrl("test"), HttpStatus.OK);
     }
 }
