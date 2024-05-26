@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
+import { environment } from 'src/environments/environment';
 
 declare const google: any;
 
@@ -34,8 +35,7 @@ export class RegisterComponent {
 
   ngAfterViewInit(): void {
     google.accounts.id.initialize({
-      client_id:
-        '659439241514-h8n75fq8ospqergqnuf67na0b27fec5k.apps.googleusercontent.com',
+      client_id: environment.googleClientId,
       callback: (response: any) => {
         console.log('Google sign-in response:', response);
         this.authService

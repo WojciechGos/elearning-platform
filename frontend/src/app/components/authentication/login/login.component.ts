@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { environment } from 'src/environments/environment';
@@ -10,7 +10,7 @@ declare const google: any;
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements AfterViewInit {
   loginForm: FormGroup;
   serverError: string | null = null;
   auth2: any;
@@ -26,10 +26,9 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     google.accounts.id.initialize({
-      client_id:
-        '659439241514-h8n75fq8ospqergqnuf67na0b27fec5k.apps.googleusercontent.com',
+      client_id: environment.googleClientId,
       callback: (response: any) => {
         console.log('Google sign-in response:', response);
         this.authService
