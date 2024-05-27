@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 
+import project.backend.courses.file.request.FileRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
@@ -30,12 +31,12 @@ public class S3FileServiceImpl implements FileService {
     private final S3Presigner presigner;
 
     @Override
-    public String generateUploadUrl(String keyName) {
+    public String generateUploadUrl(FileRequest fileRequest) {
 
         System.out.println("bucketName: " + bucketName);
         PutObjectRequest objectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
-                .key(keyName)
+                .key(fileRequest.keyName())
 //                    .metadata(metadata)
                 .build();
 
@@ -55,12 +56,12 @@ public class S3FileServiceImpl implements FileService {
     }
 
     @Override
-    public String generateDownloadUrl(String keyName) {
+    public String generateDownloadUrl(FileRequest fileRequest) {
         try (S3Presigner presigner = S3Presigner.create()) {
 
             GetObjectRequest objectRequest = GetObjectRequest.builder()
                     .bucket(bucketName)
-                    .key(keyName)
+                    .key(fileRequest.keyName())
                     .build();
 
             GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
