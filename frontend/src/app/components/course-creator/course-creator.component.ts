@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup, FormControl, FormArray, NG_VALUE_AC
 import { MatStepper } from '@angular/material/stepper';
 import { CourseCreatorCourseInfoComponent } from '../course-creator-course-info/course-creator-course-info.component';
 import { getNewLessonFormGroup } from 'src/app/services/lesson/lesson.form';
+import { CourseState } from 'src/app/enums/course.state';
 
 @Component({
   selector: 'app-course-creator',
@@ -75,7 +76,7 @@ export class CourseCreatorComponent implements OnInit {
   
   
   publishFormGroup = new FormGroup({
-    publish: new FormControl('', {
+    courseState: new FormControl(CourseState, {
       validators: [
         Validators.required
       ],

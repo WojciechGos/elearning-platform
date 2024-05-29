@@ -4,6 +4,7 @@ import { Observable, } from 'rxjs';
 import { Course } from '../../interfaces/course.interface';
 import { environment } from 'src/environments/environment';
 import { CourseFilter } from '../../interfaces/courseFilter.interface';
+import { CourseState } from 'src/app/enums/course.state';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,9 @@ export class CourseService {
 
   updateCourse(id: number, course: Course): Observable<Course> {
     return this.http.put<Course>(`${environment.apiUrl}/api/v1/courses/${id}`, course);
+  }
+
+  updateCourseStatus(id: number, courseState: CourseState): Observable<Course> {
+    return this.http.put<Course>(`${environment.apiUrl}/api/v1/courses/${id}`, { courseState });
   }
 }

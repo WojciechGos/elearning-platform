@@ -10,21 +10,27 @@
     <app-course-creator-course-info
       [formGroup]="courseFormGroup"
     ></app-course-creator-course-info>
-    <button mat-button  (click)="nextStep('course')">Next</button>
+    <div class="navigation-container navigation-next">
+      <button mat-raised-button color="primary" (click)="nextStep('course')">Next</button>
+    </div>
   </mat-step>
 
   <mat-step label="Provide lessons" [stepControl]="lessonsFormArray">
     <app-course-creator-lesson
       [formArray]="lessonsFormArray"
     ></app-course-creator-lesson>
-    <button mat-button matStepperPrevious>Back</button>
-    <button mat-button >Next</button>
+    <div class="navigation-container navigation-double">
+      <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary">Next</button>
+    </div>
   </mat-step>
 
   <mat-step [stepControl]="publishFormGroup" label="Publish">
     <app-course-creator-publish
       [formGroup]="publishFormGroup"
     ></app-course-creator-publish>
-    <button mat-button matStepperPrevious>Back</button>
+    <div class="navigation-container navigation-back">
+      <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+    </div>
   </mat-step>
 </mat-stepper>
