@@ -9,6 +9,8 @@ import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.lesson.service.CourseLessonService;
 import project.backend.courses.utils.file.response.FileResponse;
 
+import java.security.Principal;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v1/courses/{courseId}/lessons")
@@ -19,9 +21,10 @@ public class CourseLessonControllerImpl implements CourseLessonController {
     @Override
     @PostMapping()
     public ResponseEntity<LessonDTO> addLessonToCourse(
+            Principal principal,
             @PathVariable("courseId") Long courseId,
             @RequestBody LessonDTO lesson) {
-        LessonDTO createdLesson = courseLessonService.addLessonToCourse(courseId, lesson);
+        LessonDTO createdLesson = courseLessonService.addLessonToCourse(courseId, lesson, principal);
         return new ResponseEntity<>(createdLesson, HttpStatus.CREATED);
     }
 

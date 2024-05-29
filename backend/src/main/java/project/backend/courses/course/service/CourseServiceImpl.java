@@ -23,8 +23,11 @@ import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
 
 import org.springframework.data.domain.Pageable;
+import project.backend.user.User;
+import project.backend.user.UserService;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +39,7 @@ public class CourseServiceImpl implements CourseService {
     private final LanguageService languageService;
     private final CategoryService categoryService;
     private final CourseDTOMapper courseDTOMapper;
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    private final UserService userService;
 
     @Override
     public Course getCourseById(Long courseId) {
@@ -105,9 +108,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDTO updateCourse(Long id, CourseDTO course) {
+    public CourseDTO updateCourse(Long id, CourseDTO course, Principal principal) {
         Course updatedCourse = courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(id)));
+        User user = userService.getUserByEmail(principal.getName());
 
+        System.out.println(user);
         if (course.title() != null) updatedCourse.setTitle(course.title());
         if (course.description() != null) updatedCourse.setDescription(course.description());
         if (course.price() != null) updatedCourse.setPrice(course.price());
@@ -116,13 +121,13 @@ public class CourseServiceImpl implements CourseService {
             updatedCourse.setLanguage(language);
         }
 
-        if (auth.getAuthorities() != null) {
-            if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))){
+        if (user.getAuthorities() != null) {
+            if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))){
                 if (course.courseState() != null){
                     updatedCourse.setCourseState(course.courseState());
                 }
             }
-            else if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))){
+            else if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))){
                 if(course.courseState() != null){
                     if(course.courseState() == CourseState.READY_TO_ACCEPT || course.courseState() == CourseState.HIDDEN) {
                         updatedCourse.setCourseState(course.courseState());
@@ -133,9 +138,6 @@ public class CourseServiceImpl implements CourseService {
                 }
             }
         }
-
-
-
         return courseDTOMapper.toDTO(courseRepository.save(updatedCourse));
     }
 

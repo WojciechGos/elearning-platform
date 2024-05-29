@@ -8,8 +8,11 @@ import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.utils.file.request.FileRequest;
 import project.backend.courses.utils.file.response.FileResponse;
 
+import java.security.Principal;
+
 public interface CourseLessonController {
     ResponseEntity<LessonDTO> addLessonToCourse(
+            Principal principal,
             @PathVariable("courseId") Long courseId,
             @RequestBody LessonDTO lesson);
 }

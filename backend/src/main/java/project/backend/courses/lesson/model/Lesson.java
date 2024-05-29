@@ -1,5 +1,6 @@
 package project.backend.courses.lesson.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -45,8 +46,9 @@ public class Lesson {
     private String videoUrl;
     private Duration duration;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @ManyToOne
+//            (fetch = FetchType.LAZY)
     private Course course;
 
     @OneToMany

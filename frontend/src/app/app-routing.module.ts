@@ -10,7 +10,7 @@ import { CancelComponent } from './components/payment/cancel/cancel.component';
 import { SuccessComponent } from './components/payment/success/success.component';
 import { CartComponent } from './components/cart/cart.component';
 import { UsersComponent } from './components/admin/users/users.component';
-import { CartDetailsComponent} from './components/admin/cart-details/cart-details.component';
+import { CartDetailsComponent } from './components/admin/cart-details/cart-details.component';
 import { CourseSearchComponent } from './components/course-search/course-search.component';
 import { UserCartsComponent } from './components/admin/user-carts/user-carts.component';
 import { CourseCreatorComponent } from './components/course-creator/course-creator.component';
@@ -27,20 +27,20 @@ const routes: Routes = [
   },
   { path: 'main-page', component: MainPageComponent },
   { path: '', redirectTo: '/main-page', pathMatch: 'full' },
-  { path: 'cancel', component: CancelComponent},
-  { path: 'success', component: SuccessComponent},
-  { path: 'cart', component: CartComponent},
-  { path: 'users', component: UsersComponent},
+  { path: 'cancel', component: CancelComponent },
+  { path: 'success', component: SuccessComponent },
+  { path: 'cart', component: CartComponent },
+  { path: 'users', component: UsersComponent },
   { path: 'cart-details/:id/:email', component: CartDetailsComponent },
-  { path: 'course-search', component: CourseSearchComponent},
-  { path: 'user-carts/:email', component: UserCartsComponent},
-  {path: 'course-display/:id', component: CourseDisplayComponent},
-  {path: 'course-display/:id/:lessonId', component: CourseDisplayComponent}
-  { path: 'course-creator', component: CourseCreatorComponent}
+  { path: 'course-search', component: CourseSearchComponent },
+  { path: 'user-carts/:email', component: UserCartsComponent },
+  { path: 'course-display/:id', component: CourseDisplayComponent },
+  { path: 'course-display/:id/:lessonId', component: CourseDisplayComponent },
+  { path: 'course-creator', component: CourseCreatorComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

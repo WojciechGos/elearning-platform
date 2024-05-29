@@ -10,6 +10,7 @@ import project.backend.courses.course.model.Course;
 import project.backend.courses.course.dto.FilterCourseDTO;
 import project.backend.courses.course.service.CourseService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -64,11 +65,12 @@ public class CourseControllerImpl implements CourseController {
     @Override
     @PutMapping("/{courseId}")
     public ResponseEntity<CourseDTO> updateCourse(
+            Principal principal,
             @PathVariable("courseId") Long courseId,
-            @RequestBody CourseDTO course,
-            HttpServletRequest request) {
-        System.out.println(request.getUserPrincipal());
-        CourseDTO updatedCourse = courseService.updateCourse(courseId, course);
+            @RequestBody CourseDTO course
+    ) {
+
+        CourseDTO updatedCourse = courseService.updateCourse(courseId, course, principal);
         return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
     }
 

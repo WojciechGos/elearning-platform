@@ -9,6 +9,7 @@ import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.dto.FilterCourseDTO;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface CourseController {
@@ -31,9 +32,9 @@ public interface CourseController {
     ResponseEntity<CourseDTO> createCourse(@RequestBody CourseDTO course);
 
     ResponseEntity<CourseDTO> updateCourse(
+            Principal principal,
             @PathVariable("courseId") Long courseId,
-            @RequestBody CourseDTO course,
-            HttpServletRequest request
+            @RequestBody CourseDTO course
     );
 
     ResponseEntity<Void> deleteCourse(@PathVariable("courseId") Long courseId);

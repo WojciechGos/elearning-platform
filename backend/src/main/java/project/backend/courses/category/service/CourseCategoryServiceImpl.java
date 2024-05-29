@@ -20,7 +20,7 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
         Course course = courseService.getCourseById(courseId);
         Category category = categoryService.getCategory(categoryId);
         course.getCategories().add(category);
-        courseService.updateCourse(courseId, courseDTOMapper.toDTO(course));
+//        courseService.updateCourse(courseId, courseDTOMapper.toDTO(course));
     }
 
     @Override
@@ -28,6 +28,6 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
         Course course = courseService.getCourseById(courseId);
         Category category = categoryService.getCategory(categoryId);
         course.getCategories().remove(category);
-        courseService.updateCourse(courseId, courseDTOMapper.toDTO(course));
+//        courseService.updateCourse(courseId, courseDTOMapper.toDTO(course));
     }
 }

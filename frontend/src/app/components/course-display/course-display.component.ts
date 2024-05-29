@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CourseService } from 'src/app/services/course.service';
+import { CourseService } from 'src/app/services/course/course.service';
 import { ActivatedRoute } from '@angular/router';
 import { Course } from 'src/app/interfaces/course.interface';
 import { Router } from '@angular/router';

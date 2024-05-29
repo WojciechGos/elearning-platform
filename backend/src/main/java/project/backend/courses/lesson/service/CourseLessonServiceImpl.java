@@ -9,11 +9,7 @@ import project.backend.courses.course.service.CourseService;
 import project.backend.courses.lesson.mapper.LessonDTOMapper;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.dto.LessonDTO;
-import project.backend.courses.utils.file.request.FileRequest;
-import project.backend.courses.utils.file.response.FileResponse;
-import project.backend.courses.utils.file.service.FileService;
-
-import java.util.UUID;
+import java.security.Principal;
 
 @Service
 @RequiredArgsConstructor
@@ -23,11 +19,10 @@ public class CourseLessonServiceImpl implements CourseLessonService{
     private final LessonService lessonService;
     private final CourseDTOMapper courseDTOMapper;
     private final LessonDTOMapper lessonDTOMapper;
-    private final FileService fileService;
 
     @Override
     @Transactional
-    public LessonDTO addLessonToCourse(Long courseId, LessonDTO lesson) {
+    public LessonDTO addLessonToCourse(Long courseId, LessonDTO lesson, Principal principal) {
         Course course = courseService.getCourseById(courseId);
 
         Lesson createdLesson = lessonService.createLesson(lesson);
@@ -38,7 +33,7 @@ public class CourseLessonServiceImpl implements CourseLessonService{
 
         // assign created lesson to the existing course
         course.getLessons().add(createdLesson);
-        courseService.updateCourse(courseId, courseDTOMapper.toDTO(course));
+        courseService.updateCourse(courseId, courseDTOMapper.toDTO(course), principal);
 
         return lessonDTO;
     }
