@@ -3,14 +3,19 @@ package project.backend.courses.lesson.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import project.backend.courses.course.model.Course;
+import project.backend.courses.utils.file.request.FileRequest;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.lesson.repository.LessonRepository;
 import project.backend.courses.lessonResource.model.LessonResource;
 import project.backend.courses.lessonResource.service.LessonResourceService;
+import project.backend.courses.utils.file.response.FileResponse;
+import project.backend.courses.utils.file.service.FileService;
 import project.backend.exception.types.ResourceNotFoundException;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +23,7 @@ public class LessonServiceImpl implements LessonService {
 
     private final LessonRepository lessonRepository;
     private final LessonResourceService lessonResourceService;
+    private final FileService fileService;
 
     @Override
     public List<Lesson> getLessons() {
@@ -46,6 +52,10 @@ public class LessonServiceImpl implements LessonService {
     }
 
     public void deleteLesson(Long lessonId) {
+        Lesson lesson = getLesson(lessonId);
+        if (lesson.getVideoUrl() != null) {
+            fileService.deleteFile(lesson.getVideoUrl());
+        }
         lessonRepository.deleteById(lessonId);
     }
 
@@ -56,6 +66,43 @@ public class LessonServiceImpl implements LessonService {
         lesson.getLessonResources().add(createdLessonResource);
         lessonRepository.save(lesson);
         return createdLessonResource;
+    }
+
+
+    @Override
+    public String getSignedUrlForDownloadLessonVideo(Long lessonId) {
+        Lesson lesson = getLesson(lessonId);
+        return fileService.generateDownloadUrl(lesson.getVideoUrl(), "video/mp4");
+    }
+
+    @Override
+    public FileResponse getSignedUrlForUploadLessonVideo(Long lessonId) {
+        Lesson lesson = getLesson(lessonId);
+
+        // if video already exists in S3, delete it
+        if (lesson.getVideoUrl() != null) {
+            fileService.deleteFile(lesson.getVideoUrl());
+        }
+
+        Course course = lesson.getCourse();
+        String fileName = "courses/" + course.getId() + "/" + UUID.randomUUID().toString();
+
+        lesson.setVideoUrl(fileName);
+        lessonRepository.save(lesson);
+
+        String url = fileService.generateUploadUrl(fileName, "video/mp4");
+
+        return new FileResponse(url, fileName);
+    }
+
+    @Override
+    public void deleteVideoFromLesson(Long lessonId) {
+        Lesson lesson = getLesson(lessonId);
+        if (lesson.getVideoUrl() != null) {
+            fileService.deleteFile(lesson.getVideoUrl());
+            lesson.setVideoUrl(null);
+            lessonRepository.save(lesson);
+        }
     }
 
 }

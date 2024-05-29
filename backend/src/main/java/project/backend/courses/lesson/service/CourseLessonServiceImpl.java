@@ -9,6 +9,11 @@ import project.backend.courses.course.service.CourseService;
 import project.backend.courses.lesson.mapper.LessonDTOMapper;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.dto.LessonDTO;
+import project.backend.courses.utils.file.request.FileRequest;
+import project.backend.courses.utils.file.response.FileResponse;
+import project.backend.courses.utils.file.service.FileService;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +23,7 @@ public class CourseLessonServiceImpl implements CourseLessonService{
     private final LessonService lessonService;
     private final CourseDTOMapper courseDTOMapper;
     private final LessonDTOMapper lessonDTOMapper;
+    private final FileService fileService;
 
     @Override
     @Transactional

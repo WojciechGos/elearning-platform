@@ -45,7 +45,8 @@ public class Lesson {
     private String videoUrl;
     private Duration duration;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private Course course;
 
     @OneToMany

@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.dto.LessonDTO;
+import project.backend.courses.utils.file.request.FileRequest;
+import project.backend.courses.utils.file.response.FileResponse;
 
 public interface CourseLessonController {
     ResponseEntity<LessonDTO> addLessonToCourse(

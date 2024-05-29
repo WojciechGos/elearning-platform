@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, forwardRef} from '@angular/core';
-import { FormGroup,NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/interfaces/appState.interface';
 import { Course } from 'src/app/interfaces/course.interface';
@@ -50,14 +50,16 @@ export class CourseCreatorCourseInfoComponent implements OnInit {
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;
     });
+
+    this.courseService.getCourseById(1).subscribe((course) => {
+      this.store.dispatch(setCourse({ course }));
+    });
   }
 
   // this function can be called from the parent component which is 'course-creator.component.ts'
   createCourse() {
-    console.log("create course");
     console.log(this.formGroup)
     if (this.formGroup.valid) {
-      console.log("valid form");
 
       const newCourse: Course = {
         id: 0, // it will be ignored by the backend

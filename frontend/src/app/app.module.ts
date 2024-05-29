@@ -50,11 +50,12 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
-import { courseReducers } from './store/course/course.reducers';
 import { CourseModule } from './store/course/course.module';
 import { CourseCreatorLessonItemComponent } from './components/course-creator-lesson-item/course-creator-lesson-item.component';
 import { CourseCreatorPublishComponent } from './components/course-creator-publish/course-creator-publish.component';
-
+import { MatIconModule } from '@angular/material/icon'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -79,10 +80,10 @@ import { CourseCreatorPublishComponent } from './components/course-creator-publi
     CartDetailsComponent,
     CartItemsListComponent,
     UserCartsComponent,
-    LessonListComponent, 
-    CourseSearchItemComponent, 
-    CourseCreatorComponent, 
-    CourseCreatorCourseInfoComponent, 
+    LessonListComponent,
+    CourseSearchItemComponent,
+    CourseCreatorComponent,
+    CourseCreatorCourseInfoComponent,
     CourseCreatorLessonComponent, CourseCreatorLessonItemComponent, CourseCreatorPublishComponent
   ],
   imports: [
@@ -110,7 +111,10 @@ import { CourseCreatorPublishComponent } from './components/course-creator-publi
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    CourseModule
+    CourseModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatSelectModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],

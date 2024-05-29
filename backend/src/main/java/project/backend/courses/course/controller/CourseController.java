@@ -1,5 +1,6 @@
 package project.backend.courses.course.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +32,9 @@ public interface CourseController {
 
     ResponseEntity<CourseDTO> updateCourse(
             @PathVariable("courseId") Long courseId,
-            @RequestBody CourseDTO course);
+            @RequestBody CourseDTO course,
+            HttpServletRequest request
+    );
 
     ResponseEntity<Void> deleteCourse(@PathVariable("courseId") Long courseId);
 

@@ -3,6 +3,8 @@ package project.backend.courses.course.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import project.backend.courses.category.model.Category;
@@ -17,6 +19,7 @@ import project.backend.courses.course.repository.CourseSpecification;
 import project.backend.courses.language.model.Language;
 import project.backend.courses.language.service.LanguageService;
 import project.backend.exception.types.BadRequestException;
+import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
 
 import org.springframework.data.domain.Pageable;
@@ -33,6 +36,7 @@ public class CourseServiceImpl implements CourseService {
     private final LanguageService languageService;
     private final CategoryService categoryService;
     private final CourseDTOMapper courseDTOMapper;
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
     @Override
     public Course getCourseById(Long courseId) {
@@ -78,10 +82,10 @@ public class CourseServiceImpl implements CourseService {
         System.out.println(course);
         Language language = languageService.getLanguageByName(course.language());
 
-        if(course.categories() == null)
+        if (course.categories() == null)
             throw new BadRequestException("You must provide at least one category for the course.");
 
-        List<Category> categories = course.categories().stream().map(category -> categoryService.getCategoryByName(category)).toList();
+        List<Category> categories = course.categories().stream().map(categoryService::getCategoryByName).toList();
         System.out.println(categories);
         Course newCourse = Course.builder()
                 .title(course.title())
@@ -96,7 +100,6 @@ public class CourseServiceImpl implements CourseService {
                 .courseState(CourseState.CREATING)
                 .enrollmentCount(0)
                 .build();
-        System.out.println(newCourse);
 
         return courseDTOMapper.toDTO(courseRepository.save(newCourse));
     }
@@ -108,11 +111,30 @@ public class CourseServiceImpl implements CourseService {
         if (course.title() != null) updatedCourse.setTitle(course.title());
         if (course.description() != null) updatedCourse.setDescription(course.description());
         if (course.price() != null) updatedCourse.setPrice(course.price());
-        if (course.language() != null){
+        if (course.language() != null) {
             Language language = languageService.getLanguageByName(course.language());
             updatedCourse.setLanguage(language);
         }
-        if (course.enrollmentCount() != null) updatedCourse.setEnrollmentCount(course.enrollmentCount());
+
+        if (auth.getAuthorities() != null) {
+            if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))){
+                if (course.courseState() != null){
+                    updatedCourse.setCourseState(course.courseState());
+                }
+            }
+            else if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))){
+                if(course.courseState() != null){
+                    if(course.courseState() == CourseState.READY_TO_ACCEPT || course.courseState() == CourseState.HIDDEN) {
+                        updatedCourse.setCourseState(course.courseState());
+                    }
+                    else {
+                        throw new ForbiddenException("Insufficient role: You can only change course state to READY_TO_ACCEPT or HIDDEN.");
+                    }
+                }
+            }
+        }
+
+
 
         return courseDTOMapper.toDTO(courseRepository.save(updatedCourse));
     }

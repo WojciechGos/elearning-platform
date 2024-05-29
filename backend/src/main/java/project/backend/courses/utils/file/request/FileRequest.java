@@ -1,4 +1,4 @@
-package project.backend.courses.file.request;
+package project.backend.courses.utils.file.request;
 
 public record FileRequest(
         String keyName

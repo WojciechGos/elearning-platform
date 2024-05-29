@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.lesson.service.CourseLessonService;
+import project.backend.courses.utils.file.response.FileResponse;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +24,5 @@ public class CourseLessonControllerImpl implements CourseLessonController {
         LessonDTO createdLesson = courseLessonService.addLessonToCourse(courseId, lesson);
         return new ResponseEntity<>(createdLesson, HttpStatus.CREATED);
     }
-
-
 
 }

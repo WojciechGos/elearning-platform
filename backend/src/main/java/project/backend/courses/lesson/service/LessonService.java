@@ -1,7 +1,9 @@
 package project.backend.courses.lesson.service;
 
+import project.backend.courses.utils.file.request.FileRequest;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.dto.LessonDTO;
+import project.backend.courses.utils.file.response.FileResponse;
 
 import java.util.List;
 
@@ -15,5 +17,10 @@ public interface LessonService {
     Lesson updateLesson(Lesson lesson);
 
     void deleteLesson(Long lessonId);
+
+    String getSignedUrlForDownloadLessonVideo(Long lessonId);
+    FileResponse getSignedUrlForUploadLessonVideo(Long lessonId);
+
+    void deleteVideoFromLesson(Long lessonId);
 
 }

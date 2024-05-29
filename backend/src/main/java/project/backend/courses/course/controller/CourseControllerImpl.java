@@ -1,5 +1,6 @@
 package project.backend.courses.course.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,10 +62,12 @@ public class CourseControllerImpl implements CourseController {
     }
 
     @Override
-    @PatchMapping("/{courseId}")
+    @PutMapping("/{courseId}")
     public ResponseEntity<CourseDTO> updateCourse(
             @PathVariable("courseId") Long courseId,
-            @RequestBody CourseDTO course) {
+            @RequestBody CourseDTO course,
+            HttpServletRequest request) {
+        System.out.println(request.getUserPrincipal());
         CourseDTO updatedCourse = courseService.updateCourse(courseId, course);
         return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
     }
