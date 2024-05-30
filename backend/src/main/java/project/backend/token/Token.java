@@ -13,7 +13,7 @@ import project.backend.user.User;
 public class Token {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     @Column(unique = true)

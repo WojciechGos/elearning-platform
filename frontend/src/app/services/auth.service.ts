@@ -137,4 +137,16 @@ export class AuthService {
         })
       );
   }
+
+  getGoogleClientId(): Observable<string> {
+    return this.http.get<{ googleClientId: string }>(
+      `http://localhost:8080/api/v1/auth/google-client-id`
+    ).pipe(
+      map(response => response.googleClientId),
+      catchError(error => {
+        console.error('Failed to fetch Google Client ID', error);
+        return throwError(error);
+      })
+    );
+  }
 }
