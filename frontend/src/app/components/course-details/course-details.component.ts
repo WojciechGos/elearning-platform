@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, isDevMode } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'; 
 import { CourseService } from 'src/app/services/course/course.service';
 import { Course } from 'src/app/interfaces/course.interface';
@@ -25,6 +25,10 @@ export class CourseDetailsComponent implements OnInit
   ) { }
 
   ngOnInit(): void {
+
+    if(isDevMode() == true) {
+      this.course.imageUrl = "./assets/images/course-image.png"; 
+    }
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       const numId = Number(id); 
