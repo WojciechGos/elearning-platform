@@ -12,7 +12,7 @@ export interface Course {
     language ?: string;
     totalDuration ?: number;
     rating : number;
-    imageUrl ?: string;
+    imageUrl : string;
     lessons: Lesson[];
     enrollmentCount ?: number;
     courseState ?: string;
