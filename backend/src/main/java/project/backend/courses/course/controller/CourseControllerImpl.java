@@ -9,6 +9,7 @@ import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.dto.FilterCourseDTO;
 import project.backend.courses.course.service.CourseService;
+import project.backend.courses.utils.file.response.FileResponse;
 
 import java.security.Principal;
 import java.util.List;
@@ -78,6 +79,20 @@ public class CourseControllerImpl implements CourseController {
     @DeleteMapping("/{courseId}")
     public ResponseEntity<Void> deleteCourse(@PathVariable("courseId") Long courseId) {
         courseService.deleteCourse(courseId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @Override
+    @GetMapping("/{courseId}/image")
+    public ResponseEntity<FileResponse> getSignedUrlForImageUpload(@PathVariable("courseId") Long courseId) {
+        FileResponse response = new FileResponse(courseService.getSignedUrlForImageUpload(courseId));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    @DeleteMapping("/{courseId}/image")
+    public ResponseEntity<Void> deleteCourseImage(@PathVariable("courseId") Long courseId) {
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

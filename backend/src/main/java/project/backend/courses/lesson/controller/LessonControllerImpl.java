@@ -64,8 +64,8 @@ public class LessonControllerImpl implements LessonController {
 
     @Override
     @GetMapping("/{lessonId}/video/download")
-    public ResponseEntity<String> getSignedUrlForDownloadLessonVideo(@PathVariable("lessonId") Long lessonId) {
-        return new ResponseEntity<>(lessonService.getSignedUrlForDownloadLessonVideo(lessonId), HttpStatus.OK);
+    public ResponseEntity<FileResponse> getSignedUrlForDownloadLessonVideo(@PathVariable("lessonId") Long lessonId) {
+        return new ResponseEntity<>(new FileResponse(lessonService.getSignedUrlForDownloadLessonVideo(lessonId)), HttpStatus.OK);
     }
 
     @Override

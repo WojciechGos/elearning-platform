@@ -17,6 +17,6 @@ public interface LessonController {
 
     ResponseEntity<Void> deleteLesson(@PathVariable("lessonId") Long lessonId);
     ResponseEntity<FileResponse> getSignedUrlForUploadLessonVideo(Long lessonId);
-    ResponseEntity<String> getSignedUrlForDownloadLessonVideo(Long lessonId);
+    ResponseEntity<FileResponse> getSignedUrlForDownloadLessonVideo(Long lessonId);
     ResponseEntity<Void> deleteVideoFromLesson(Long lessonId);
 }

@@ -1,10 +1,9 @@
 package project.backend.courses.course.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import project.backend.courses.category.model.Category;
@@ -18,6 +17,7 @@ import project.backend.courses.course.model.CourseState;
 import project.backend.courses.course.repository.CourseSpecification;
 import project.backend.courses.language.model.Language;
 import project.backend.courses.language.service.LanguageService;
+import project.backend.courses.utils.file.service.FileService;
 import project.backend.exception.types.BadRequestException;
 import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
@@ -29,7 +29,8 @@ import project.backend.user.UserService;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -40,10 +41,13 @@ public class CourseServiceImpl implements CourseService {
     private final CategoryService categoryService;
     private final CourseDTOMapper courseDTOMapper;
     private final UserService userService;
+    private final FileService fileService;
+    @Value("${aws.s3.url}")
+    private String awsS3Url;
 
     @Override
     public Course getCourseById(Long courseId) {
-        return courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
+        return courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] " .formatted(courseId)));
     }
 
     @Override
@@ -109,7 +113,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDTO updateCourse(Long id, CourseDTO course, Principal principal) {
-        Course updatedCourse = courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(id)));
+        Course updatedCourse = courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] " .formatted(id)));
         User user = userService.getUserByEmail(principal.getName());
 
         System.out.println(user);
@@ -122,17 +126,15 @@ public class CourseServiceImpl implements CourseService {
         }
 
         if (user.getAuthorities() != null) {
-            if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))){
-                if (course.courseState() != null){
+            if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                if (course.courseState() != null) {
                     updatedCourse.setCourseState(course.courseState());
                 }
-            }
-            else if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))){
-                if(course.courseState() != null){
-                    if(course.courseState() == CourseState.READY_TO_ACCEPT || course.courseState() == CourseState.HIDDEN) {
+            } else if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                if (course.courseState() != null) {
+                    if (course.courseState() == CourseState.READY_TO_ACCEPT || course.courseState() == CourseState.HIDDEN) {
                         updatedCourse.setCourseState(course.courseState());
-                    }
-                    else {
+                    } else {
                         throw new ForbiddenException("Insufficient role: You can only change course state to READY_TO_ACCEPT or HIDDEN.");
                     }
                 }
@@ -148,8 +150,28 @@ public class CourseServiceImpl implements CourseService {
             because some users may have already bought it.
             However, for sake of simplicity we will just hide it
          */
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] " .formatted(courseId)));
         course.setCourseState(CourseState.HIDDEN);
+        courseRepository.save(course);
+    }
+
+
+    @Override
+    public String getSignedUrlForImageUpload(Long courseId) {
+        Course course = getCourseById(courseId);
+
+        String fileName = "public/courses/" + courseId + "/" + UUID.randomUUID().toString();
+        course.setImageURL(awsS3Url + "/" + fileName);
+        courseRepository.save(course);
+
+        return fileService.generateUploadUrl(fileName, "image/png, image/jpeg, image/jpg");
+    }
+
+    @Override
+    public void deleteCourseImage(Long courseId) {
+        Course course = getCourseById(courseId);
+        fileService.deleteFile(course.getImageURL());
+        course.setImageURL(null);
         courseRepository.save(course);
     }
 

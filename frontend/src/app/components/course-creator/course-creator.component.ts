@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, forwardRef } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl, FormArray, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { CourseCreatorCourseInfoComponent } from '../course-creator-course-info/course-creator-course-info.component';
-import { getNewLessonFormGroup } from 'src/app/services/lesson/lesson.form';
+import { getNewLessonFormGroup } from 'src/app/utils/lesson.form';
 import { CourseState } from 'src/app/enums/course.state';
 
 @Component({
@@ -72,9 +72,9 @@ export class CourseCreatorComponent implements OnInit {
       nonNullable: true,
     }),
   });
- 
-  
-  
+
+
+
   publishFormGroup = new FormGroup({
     courseState: new FormControl(CourseState, {
       validators: [
@@ -83,7 +83,7 @@ export class CourseCreatorComponent implements OnInit {
       nonNullable: true,
     }),
   });
-  
+
 
   lessonsFormArray = new FormArray([getNewLessonFormGroup()]);
 
@@ -96,19 +96,24 @@ export class CourseCreatorComponent implements OnInit {
     console.log('Step changed: ', event);
     // When user decide to change step from 0 to 1 by stepper in header, make sure to create course
     if (event.previouslySelectedIndex === 0) {
-      
+
     }
   }
 
-  nextStep(type:string): void {
-    if(type === 'course'){
-      if(this.courseFormGroup.valid){
+  nextStep(type: string): void {
+    if (type === 'course') {
+      if (this.courseFormGroup.valid) {
         this.courseCreatorCourseInfoComponent.createCourse();
         this.stepper.next();
-        
       }
-
     }
+    else if (type === 'lesson') {
+      console.log(this.lessonsFormArray)
+      if (this.lessonsFormArray.valid) {
+        this.stepper.next();
+      }
+    }
+
   }
 
 

@@ -1,12 +1,14 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/interfaces/appState.interface';
 import { Course } from 'src/app/interfaces/course.interface';
 import { setCourse } from 'src/app/store/course/course.actions';
 import { CourseService } from 'src/app/services/course/course.service';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { Category } from 'src/app/interfaces/category.interface';
+import { Observable } from 'rxjs';
+import { courseSelector } from 'src/app/store/course/course.selectors';
 
 
 
@@ -24,20 +26,13 @@ import { Category } from 'src/app/interfaces/category.interface';
 })
 export class CourseCreatorCourseInfoComponent implements OnInit {
   @Input() formGroup !: FormGroup;
-
+  course$: Observable<Course | null> = this.store.pipe(select(courseSelector));
 
   languages = ['English', 'Spanish', 'Polish'];
   targetAudiences = ['BEGINNER', 'INTERMEDIATE', 'ADVANCED'];
   categories !: Category[];
   courseImage: File | null = null;
-
-
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.courseImage = file;
-    }
-  }
+  imageUrl !: string;
 
   constructor(
     private store: Store<AppStateInterface>,
@@ -53,6 +48,38 @@ export class CourseCreatorCourseInfoComponent implements OnInit {
 
     this.courseService.getCourseById(1).subscribe((course) => {
       this.store.dispatch(setCourse({ course }));
+    });
+  }
+
+
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+
+    this.course$.subscribe((course) => {
+
+      if (course == null) return;
+
+
+      // this.courseService.createCourse(this.formGroup.value).subscribe((lesson) => {
+      //   this.lessonId = lesson.id;
+      //   this.uploadVideo(file);
+      // });
+
+      this.uploadImage(course.id, file);
+    });
+  }
+
+  uploadImage(courseId: number, file: File) {
+
+    this.courseService.getSignedUrlForImageUpload(courseId).subscribe((response) => {
+      this.courseService.uploadImageToSignedUrl(response.signedUrl, file).subscribe((s3Response) => {
+        console.log(`Image uploaded ${s3Response}`);
+        this.courseService.getCourseById(courseId).subscribe((course) => {
+          console.log(course)
+          if (course.imageUrl != null)
+            this.imageUrl = course.imageUrl;
+        });
+      });
     });
   }
 

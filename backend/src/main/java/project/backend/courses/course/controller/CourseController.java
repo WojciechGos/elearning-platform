@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.dto.FilterCourseDTO;
+import project.backend.courses.utils.file.response.FileResponse;
 
 import java.security.Principal;
 import java.util.List;
@@ -39,4 +40,6 @@ public interface CourseController {
 
     ResponseEntity<Void> deleteCourse(@PathVariable("courseId") Long courseId);
 
+    ResponseEntity<FileResponse> getSignedUrlForImageUpload(Long courseId);
+    ResponseEntity<Void> deleteCourseImage(Long courseId);
 }

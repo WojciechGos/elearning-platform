@@ -19,28 +19,17 @@ export const getNewLessonFormGroup = (lessonNumber:number = 1): FormGroup =>{
       }),
 
       content: new FormControl('', {
-        validators: [
-          Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(30),
-        ],
         nonNullable: true,
       }),
 
       lessonNumber: new FormControl(lessonNumber, {
         validators: [
-          Validators.required,
           Validators.pattern("^[0-9]*$"),
         ],
         nonNullable: true,
       }),
 
       videoUrl: new FormControl('', {
-        validators: [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(30),
-        ],
         nonNullable: true,
       }),
     });

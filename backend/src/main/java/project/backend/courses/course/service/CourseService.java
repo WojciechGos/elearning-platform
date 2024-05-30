@@ -32,4 +32,8 @@ public interface CourseService {
 
     void deleteCourse(Long courseId);
 
+    String getSignedUrlForImageUpload(Long courseId);
+
+    void deleteCourseImage(Long courseId);
+
 }

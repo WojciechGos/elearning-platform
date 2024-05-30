@@ -14,110 +14,428 @@ import java.util.List;
 public class LessonCommandLineRunner implements CommandLineRunner {
 
     private final LessonRepository lessonRepository;
-
+    //    private/courses/0/test.mp4
     private static final List<List<Lesson>> lessonsGroups = List.of(
 
             // 0
             List.of(
-                    new Lesson("Java introduction", "Introduction to Java programming language", "Java is a high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible.", 1, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Java variables", "Java variables and data types", "Variables are containers for storing data values. In Java, there are different types of variables, for example: String, int, float, double, etc.", 2, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Java operators", "Java operators and expressions", "Operators are special symbols that perform specific operations on one, two, or three operands, and then return a result.", 3, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Java control statements", "Java control statements", "Control statements are used to control the flow of execution in a program. In Java, we have three types of control statements: selection, iteration, and jump.", 4, "https://www.youtube.com/watch?v=grEKMHGYyns")
+                    Lesson.builder()
+                            .title("Java introduction")
+                            .description("Introduction to Java programming language")
+                            .content("Java is a high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible.")
+                            .videoUrl("private/courses/0/test.mp4")
+                            .build(),
+                    Lesson.builder()
+                            .title("Java variables")
+                            .description("Java variables and data types")
+                            .content("Variables are containers for storing data values. In Java, there are different types of variables, for example: String, int, float, double, etc.")
+                            .videoUrl("private/courses/0/test1.mp4")
+                            .build(),
+                    Lesson.builder()
+                            .title("Java operators")
+                            .description("Java operators and expressions")
+                            .content("Operators are special symbols that perform specific operations on one, two, or three operands, and then return a result.")
+                            .videoUrl("private/courses/0/test.mp4")
+                            .build(),
+                    Lesson.builder()
+                            .title("Java control statements")
+                            .description("Java control statements")
+                            .content("Control statements are used to control the flow of execution in a program. In Java, we have three types of control statements: selection, iteration, and jump.")
+                            .videoUrl("private/courses/0/test.mp4")
+                            .build()
             ),
             // 1
             List.of(
-                    new Lesson("Business introduction", "Introduction to business management", "Business management is the process of organizing, coordinating, and controlling a business's activities to achieve defined objectives.", 1, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Business planning", "Business planning and strategy", "Business planning is the process of setting goals, defining strategies, and outlining tasks and schedules to achieve those goals.", 2, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Business operations", "Business operations and management", "Business operations are the activities that a business engages in to produce a product or service. Operations management is the process of managing these activities.", 3, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Business finance", "Business finance and accounting", "Business finance is the management of money and other assets. Accounting is the process of recording, summarizing, and analyzing financial transactions.", 4, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Business marketing", "Business marketing and sales", "Business marketing is the process of promoting and selling products or services. Sales is the process of closing deals and generating revenue.", 5, "https://www.youtube.com/watch?v=grEKMHGYyns")
+                    Lesson.builder()
+                            .title("Business introduction")
+                            .description("Introduction to business management")
+                            .content("Business management is the process of organizing, coordinating, and controlling a business's activities to achieve defined objectives.")
+                            .videoUrl("private/courses/0/test.mp4")
+                            .build(),
+                    Lesson.builder()
+                            .title("Business planning")
+                            .description("Business planning and strategy")
+                            .content("Business planning is the process of setting goals, defining strategies, and outlining tasks and schedules to achieve those goals.")
+                            .videoUrl("private/courses/0/test.mp4")
+                            .build(),
+                    Lesson.builder()
+                            .title("Business operations")
+                            .description("Business operations and management")
+                            .content("Business operations are the activities that a business engages in to produce a product or service. Operations management is the process of managing these activities.")
+                            .videoUrl("private/courses/0/test.mp4")
+                            .build(),
+                    Lesson.builder()
+                            .title("Business finance")
+                            .description("Business finance and accounting")
+                            .content("Business finance is the management of money and other assets. Accounting is the process of recording, summarizing, and analyzing financial transactions.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Business marketing")
+                            .description("Business marketing and sales")
+                            .content("Business marketing is the process of promoting and selling products or services. Sales is the process of closing deals and generating revenue.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build()
             ),
             // 2
             List.of(
-                    new Lesson("Python introduction", "Introduction to Python programming language", "Python is a high-level, interpreted, and general-purpose programming language that is known for its simplicity and readability.", 1, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Python variables", "Python variables and data types", "Variables are containers for storing data values. In Python, there are different types of variables, for example: String, int, float, double, etc.", 2, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Python operators", "Python operators and expressions", "Operators are special symbols that perform specific operations on one, two, or three operands, and then return a result.", 3, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Python control statements", "Python control statements", "Control statements are used to control the flow of execution in a program. In Python, we have three types of control statements: selection, iteration, and jump.", 4, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Python functions", "Python functions and modules", "Functions are blocks of code that perform a specific task. Modules are files that contain functions, classes, and variables that can be imported and used in other programs.", 5, "https://www.youtube.com/watch?v=grEKMHGYyns")
+                    Lesson.builder()
+                            .title("Python introduction")
+                            .description("Introduction to Python programming language")
+                            .content("Python is a high-level, interpreted, and general-purpose programming language that is known for its simplicity and readability.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Python variables")
+                            .description("Python variables and data types")
+                            .content("Variables are containers for storing data values. In Python, there are different types of variables, for example: String, int, float, double, etc.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Python operators")
+                            .description("Python operators and expressions")
+                            .content("Operators are special symbols that perform specific operations on one, two, or three operands, and then return a result.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Python control statements")
+                            .description("Python control statements")
+                            .content("Control statements are used to control the flow of execution in a program. In Python, we have three types of control statements: selection, iteration, and jump.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Python functions")
+                            .description("Python functions and modules")
+                            .content("Functions are blocks of code that perform a specific task. Modules are files that contain functions, classes, and variables that can be imported and used in other programs.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build()
             ),
             // 3
             List.of(
-                    new Lesson("Data Science introduction", "Introduction to data science", "Data science is an interdisciplinary field that uses scientific methods, processes, algorithms, and systems to extract knowledge and insights from structured and unstructured data.", 1, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Data Science data analysis", "Data analysis and visualization", "Data analysis is the process of inspecting, cleaning, transforming, and modeling data to discover useful information, suggest conclusions, and support decision-making.", 2, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Data Science machine learning", "Machine learning and predictive modeling", "Machine learning is a subset of artificial intelligence that uses statistical techniques to enable computers to learn and make predictions from data without being explicitly programmed.", 3, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Data Science big data", "Big data and data engineering", "Big data refers to large and complex data sets that are difficult to process using traditional data processing applications. Data engineering is the process of designing, building, and managing data pipelines.", 4, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Data Science data science tools", "Data science tools and technologies", "Data science tools are software applications, programming languages, and libraries that data scientists use to analyze, visualize, and interpret data.", 5, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Data Science data science tools", "Data science tools and technologies", "Data science tools are software applications, programming languages, and libraries that data scientists use to analyze, visualize, and interpret data.", 5, "https://www.youtube.com/watch?v=grEKMHGYyns")
+                    Lesson.builder()
+                            .title("Data Science introduction")
+                            .description("Introduction to data science")
+                            .content("Data science is an interdisciplinary field that uses scientific methods, processes, algorithms, and systems to extract knowledge and insights from structured and unstructured data.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Data Science data analysis")
+                            .description("Data analysis and visualization")
+                            .content("Data analysis is the process of inspecting, cleaning, transforming, and modeling data to discover useful information, suggest conclusions, and support decision-making.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Data Science machine learning")
+                            .description("Machine learning and predictive modeling")
+                            .content("Machine learning is a subset of artificial intelligence that uses statistical techniques to enable computers to learn and make predictions from data without being explicitly programmed.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Data Science big data")
+                            .description("Big data and data engineering")
+                            .content("Big data refers to large and complex data sets that are difficult to process using traditional data processing applications. Data engineering is the process of designing, building, and managing data pipelines.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Data Science data science tools")
+                            .description("Data science tools and technologies")
+                            .content("Data science tools are software applications, programming languages, and libraries that data scientists use to analyze, visualize, and interpret data.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build()
             ),
             // 4
             List.of(
-                    new Lesson("Web Development introduction", "Introduction to web development", "Web development is the process of building and maintaining websites and web applications. It includes web design, web content development, client-side/server-side scripting, and network security configuration.", 1, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Web Development front-end", "Front-end development and design", "Front-end development is the practice of creating the user interface and user experience of a website or web application. It involves HTML, CSS, and JavaScript.", 2, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Web Development back-end", "Back-end development and databases", "Back-end development is the practice of creating the server-side logic and database of a website or web application. It involves programming languages like PHP, Python, and Ruby.", 3, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Web Development web frameworks", "Web frameworks and libraries", "Web frameworks are software libraries that provide a standard way to build and deploy web applications. They include tools for routing, templating, and database access.", 4, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Web Development web security", "Web security and performance", "Web security is the practice of protecting websites and web applications from cyber threats. Web performance is the practice of optimizing websites and web applications for speed and efficiency.", 5, "https://www.youtube.com/watch?v=grEKMHGYyns")
+                    Lesson.builder()
+                            .title("Web Development introduction")
+                            .description("Introduction to web development")
+                            .content("Web development is the process of building and maintaining websites and web applications. It includes web design, web content development, client-side/server-side scripting, and network security configuration.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Web Development front-end")
+                            .description("Front-end development and design")
+                            .content("Front-end development is the practice of creating the user interface and user experience of a website or web application. It involves HTML, CSS, and JavaScript.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Web Development back-end")
+                            .description("Back-end development and databases")
+                            .content("Back-end development is the practice of creating the server-side logic and database of a website or web application. It involves programming languages like PHP, Python, and Ruby.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Web Development web frameworks")
+                            .description("Web frameworks and libraries")
+                            .content("Web frameworks are software libraries that provide a standard way to build and deploy web applications. They include tools for routing, templating, and database access.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Web Development web security")
+                            .description("Web security and performance")
+                            .content("Web security is the practice of protecting websites and web applications from cyber threats. Web performance is the practice of optimizing websites and web applications for speed and efficiency.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build()
             ),
             // 5
             List.of(
-                    new Lesson("Mobile App Development introduction", "Introduction to mobile app development", "Mobile app development is the process of creating software applications that run on mobile devices like smartphones and tablets. It involves designing, building, and testing mobile apps for iOS and Android platforms.", 1, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Mobile App Development app design", "Mobile app design and user experience", "Mobile app design is the process of creating the user interface and user experience of a mobile app. It involves wireframing, prototyping, and usability testing.", 2, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Mobile App Development app development", "Mobile app development and programming", "Mobile app development is the process of writing code to build the functionality of a mobile app. It involves programming languages like Swift, Kotlin, and React Native.", 3, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Mobile App Development app testing", "Mobile app testing and deployment", "Mobile app testing is the process of evaluating the functionality, usability, and performance of a mobile app. Deployment is the process of releasing the app to the app store.", 4, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Mobile App Development app marketing", "Mobile app marketing and monetization", "Mobile app marketing is the process of promoting and selling a mobile app to users. Monetization is the process of generating revenue from the app through ads, in-app purchases, and subscriptions.", 5, "https://www.youtube.com/watch?v=grEKMHGYyns")
+                    Lesson.builder()
+                            .title("Mobile App Development introduction")
+                            .description("Introduction to mobile app development")
+                            .content("Mobile app development is the process of creating software applications that run on mobile devices like smartphones and tablets. It involves designing, building, and testing mobile apps for iOS and Android platforms.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Mobile App Development app design")
+                            .description("Mobile app design and user experience")
+                            .content("Mobile app design is the process of creating the user interface and user experience of a mobile app. It involves wireframing, prototyping, and usability testing.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Mobile App Development app development")
+                            .description("Mobile app development and programming")
+                            .content("Mobile app development is the process of writing code to build the functionality of a mobile app. It involves programming languages like Swift, Kotlin, and React Native.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Mobile App Development app testing")
+                            .description("Mobile app testing and deployment")
+                            .content("Mobile app testing is the process of evaluating the functionality, usability, and performance of a mobile app. Deployment is the process of releasing the app to the app store.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Mobile App Development app marketing")
+                            .description("Mobile app marketing and monetization")
+                            .content("Mobile app marketing is the process of promoting and selling a mobile app to users. Monetization is the process of generating revenue from the app through ads, in-app purchases, and subscriptions.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build()
             ),
             // 6
             List.of(
-                    new Lesson("Artificial Intelligence introduction", "Introduction to artificial intelligence", "Artificial intelligence is the simulation of human intelligence processes by machines, especially computer systems. It involves learning, reasoning, problem-solving, perception, and language understanding.", 1, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Artificial Intelligence machine learning", "Machine learning and deep learning", "Machine learning is a subset of artificial intelligence that uses statistical techniques to enable machines to learn and make predictions from data. Deep learning is a subset of machine learning that uses neural networks to model and analyze complex patterns.", 2, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Artificial Intelligence natural language processing", "Natural language processing and chatbots", "Natural language processing is the ability of a computer program to understand, interpret, and generate human language. Chatbots are AI-powered programs that can simulate conversations with users.", 3, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Artificial Intelligence computer vision", "Computer vision and image recognition", "Computer vision is the ability of a computer program to interpret and understand visual information from the real world. Image recognition is the process of identifying and classifying objects in images.", 4, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Artificial Intelligence AI ethics", "AI ethics and responsible AI", "AI ethics is the study of the moral and ethical implications of artificial intelligence. Responsible AI is the practice of developing AI systems that are fair, transparent, and accountable.", 5, "https://www.youtube.com/watch?v=grEKMHGYyns")
-
+                    Lesson.builder()
+                            .title("Artificial Intelligence introduction")
+                            .description("Introduction to artificial intelligence")
+                            .content("Artificial intelligence is the simulation of human intelligence processes by machines, especially computer systems. It involves learning, reasoning, problem-solving, perception, and language understanding.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Artificial Intelligence machine learning")
+                            .description("Machine learning and deep learning")
+                            .content("Machine learning is a subset of artificial intelligence that uses statistical techniques to enable machines to learn and make predictions from data. Deep learning is a subset of machine learning that uses neural networks to model and analyze complex patterns.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Artificial Intelligence natural language processing")
+                            .description("Natural language processing and chatbots")
+                            .content("Natural language processing is the ability of a computer program to understand, interpret, and generate human language. Chatbots are AI-powered programs that can simulate conversations with users.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Artificial Intelligence computer vision")
+                            .description("Computer vision and image recognition")
+                            .content("Computer vision is the ability of a computer program to interpret and understand visual information from the real world. Image recognition is the process of identifying and classifying objects in images.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Artificial Intelligence AI ethics")
+                            .description("AI ethics and responsible AI")
+                            .content("AI ethics is the study of the moral and ethical implications of artificial intelligence. Responsible AI is the practice of developing AI systems that are fair, transparent, and accountable.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build()
             ),
             // 7
             List.of(
-                    new Lesson("Cloud Computing introduction", "Introduction to cloud computing", "Cloud computing is the delivery of computing services like servers, storage, databases, networking, software, and analytics over the internet. It offers faster innovation, flexible resources, and economies of scale.", 1, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Cloud Computing cloud services", "Cloud services and deployment models", "Cloud services are the different types of services that are delivered over the cloud, like infrastructure as a service (IaaS), platform as a service (PaaS), and software as a service (SaaS). Deployment models are the different ways that cloud services can be deployed, like public cloud, private cloud, and hybrid cloud.", 2, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Cloud Computing cloud security", "Cloud security and compliance", "Cloud security is the practice of protecting cloud-based data, applications, and infrastructure from cyber threats. Compliance is the process of adhering to legal, regulatory, and industry standards.", 3, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Cloud Computing cloud migration", "Cloud migration and management", "Cloud migration is the process of moving data, applications, and workloads to the cloud. Cloud management is the process of monitoring, optimizing, and securing cloud-based resources.", 4, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Cloud Computing cloud computing trends", "Cloud computing trends and future", "Cloud computing trends are the emerging technologies and practices that are shaping the future of cloud computing. The future of cloud computing is expected to include serverless computing, edge computing, and quantum computing.", 5, "https://www.youtube.com/watch?v=grEKMHGYyns")
+                    Lesson.builder()
+                            .title("Cloud Computing introduction")
+                            .description("Introduction to cloud computing")
+                            .content("Cloud computing is the delivery of computing services like servers, storage, databases, networking, software, and analytics over the internet. It offers faster innovation, flexible resources, and economies of scale.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Cloud Computing cloud services")
+                            .description("Cloud services and deployment models")
+                            .content("Cloud services are the different types of services that are delivered over the cloud, like infrastructure as a service (IaaS), platform as a service (PaaS), and software as a service (SaaS). Deployment models are the different ways that cloud services can be deployed, like public cloud, private cloud, and hybrid cloud.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Cloud Computing cloud security")
+                            .description("Cloud security and compliance")
+                            .content("Cloud security is the practice of protecting cloud-based data, applications, and infrastructure from cyber threats. Compliance is the process of adhering to legal, regulatory, and industry standards.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Cloud Computing cloud migration")
+                            .description("Cloud migration and management")
+                            .content("Cloud migration is the process of moving data, applications, and workloads to the cloud. Cloud management is the process of monitoring, optimizing, and securing cloud-based resources.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Cloud Computing cloud computing trends")
+                            .description("Cloud computing trends and future")
+                            .content("Cloud computing trends are the emerging technologies and practices that are shaping the future of cloud computing. The future of cloud computing is expected to include serverless computing, edge computing, and quantum computing.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build()
             ),
             // 8
             List.of(
-                    new Lesson("Cybersecurity introduction", "Introduction to cybersecurity", "Cybersecurity is the practice of protecting computer systems, networks, and data from cyber threats like hacking, malware, and data breaches. It involves implementing security measures, monitoring for threats, and responding to security incidents.", 1, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Cybersecurity network security", "Network security and encryption", "Network security is the practice of securing computer networks from unauthorized access, misuse, and modification. Encryption is the process of encoding data to prevent unauthorized access.", 2, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Cybersecurity information security", "Information security and risk management", "Information security is the practice of protecting information from unauthorized access, use, disclosure, disruption, modification, or destruction. Risk management is the process of identifying, assessing, and mitigating risks to information security.", 3, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Cybersecurity cybersecurity tools", "Cybersecurity tools and technologies", "Cybersecurity tools are software applications and hardware devices that help organizations protect their computer systems, networks, and data from cyber threats. They include firewalls, antivirus software, and intrusion detection systems.", 4, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Cybersecurity cybersecurity best practices", "Cybersecurity best practices and compliance", "Cybersecurity best practices are the guidelines and procedures that organizations follow to protect their computer systems, networks, and data from cyber threats. Compliance is the process of adhering to legal, regulatory, and industry standards for cybersecurity.", 5, "https://www.youtube.com/watch?v=grEKMHGYyns")
+                    Lesson.builder()
+                            .title("Cybersecurity introduction")
+                            .description("Introduction to cybersecurity")
+                            .content("Cybersecurity is the practice of protecting computer systems, networks, and data from cyber threats like hacking, malware, and data breaches. It involves implementing security measures, monitoring for threats, and responding to security incidents.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Cybersecurity network security")
+                            .description("Network security and encryption")
+                            .content("Network security is the practice of securing computer networks from unauthorized access, misuse, and modification. Encryption is the process of encoding data to prevent unauthorized access.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Cybersecurity information security")
+                            .description("Information security and risk management")
+                            .content("Information security is the practice of protecting information from unauthorized access, use, disclosure, disruption, modification, or destruction. Risk management is the process of identifying, assessing, and mitigating risks to information security.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Cybersecurity cybersecurity tools")
+                            .description("Cybersecurity tools and technologies")
+                            .content("Cybersecurity tools are software applications and hardware devices that help organizations protect their computer systems, networks, and data from cyber threats. They include firewalls, antivirus software, and intrusion detection systems.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Cybersecurity cybersecurity best practices")
+                            .description("Cybersecurity best practices and compliance")
+                            .content("Cybersecurity best practices are the guidelines and procedures that organizations follow to protect their computer systems, networks, and data from cyber threats. Compliance is the process of adhering to legal, regulatory, and industry standards for cybersecurity.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build()
             ),
             // 9
             List.of(
-                    new Lesson("UI/UX Design introduction", "Introduction to UI/UX design", "UI/UX design is the process of creating user interfaces and user experiences for websites, web applications, and mobile apps. It involves wireframing, prototyping, and usability testing to create intuitive and engaging designs.", 1, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("UI/UX Design user research", "User research and personas", "User research is the process of understanding the needs, behaviors, and motivations of users to inform the design of products and services. Personas are fictional characters that represent different user types and help designers empathize with users.", 2, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("UI/UX Design information architecture", "Information architecture and navigation", "Information architecture is the organization and structure of content on a website or app. Navigation is the way users move through and interact with a website or app to find information and complete tasks.", 3, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("UI/UX Design wireframing", "Wireframing and prototyping", "Wireframing is the process of creating a visual blueprint of a website or app to show the layout and functionality. Prototyping is the process of creating interactive mockups to test and refine the design.", 4, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("UI/UX Design usability testing", "Usability testing and user feedback", "Usability testing is the process of evaluating a website or app by testing it with real users to identify usability issues and gather feedback. User feedback is the input and insights that users provide about their experience with a website or app.", 5, "https://www.youtube.com/watch?v=grEKMHGYyns")
+                    Lesson.builder()
+                            .title("UI/UX Design introduction")
+                            .description("Introduction to UI/UX design")
+                            .content("UI/UX design is the process of creating user interfaces and user experiences for websites, web applications, and mobile apps. It involves wireframing, prototyping, and usability testing to create intuitive and engaging designs.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("UI/UX Design user research")
+                            .description("User research and personas")
+                            .content("User research is the process of understanding the needs, behaviors, and motivations of users to inform the design of products and services. Personas are fictional characters that represent different user types and help designers empathize with users.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("UI/UX Design information architecture")
+                            .description("Information architecture and navigation")
+                            .content("Information architecture is the organization and structure of content on a website or app. Navigation is the way users move through and interact with a website or app to find information and complete tasks.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("UI/UX Design wireframing")
+                            .description("Wireframing and prototyping")
+                            .content("Wireframing is the process of creating a visual blueprint of a website or app to show the layout and functionality. Prototyping is the process of creating interactive mockups to test and refine the design.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("UI/UX Design usability testing")
+                            .description("Usability testing and user feedback")
+                            .content("Usability testing is the process of evaluating a website or app by testing it with real users to identify usability issues and gather feedback. User feedback is the input and insights that users provide about their experience with a website or app.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build()
             ),
             // 10
             List.of(
-                    new Lesson("Java Advanced", "Advanced Java programming concepts", "Advanced Java programming concepts like multithreading, collections, and exception handling", 1, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Java Spring Framework", "Introduction to Spring Framework", "Introduction to Spring Framework and Spring Boot", 2, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Java Hibernate", "Introduction to Hibernate ORM", "Introduction to Hibernate ORM and JPA", 3, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Java Microservices", "Introduction to Microservices architecture", "Introduction to Microservices architecture and design patterns", 4, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Java Testing", "Introduction to Java testing frameworks", "Introduction to Java testing frameworks like JUnit and Mockito", 5, "https://www.youtube.com/watch?v=grEKMHGYyns")
+                    Lesson.builder()
+                            .title("Java Advanced")
+                            .description("Advanced Java programming concepts")
+                            .content("Advanced Java programming concepts like multithreading, collections, and exception handling")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Java Spring Framework")
+                            .description("Introduction to Spring Framework")
+                            .content("Introduction to Spring Framework and Spring Boot")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Java Hibernate")
+                            .description("Introduction to Hibernate ORM")
+                            .content("Introduction to Hibernate ORM and JPA")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Java Microservices")
+                            .description("Introduction to Microservices architecture")
+                            .content("Introduction to Microservices architecture and design patterns")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Java Testing")
+                            .description("Introduction to Java testing frameworks")
+                            .content("Introduction to Java testing frameworks like JUnit and Mockito")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build()
             ),
             // 11
             List.of(
-                    new Lesson("Business decision making", "Business decision making and problem-solving", "Business decision making is the process of selecting the best course of action from a set of alternatives. Problem-solving is the process of identifying and solving problems to achieve business objectives.", 1, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Business leadership", "Business leadership and management", "Business leadership is the ability to inspire and motivate employees to achieve business goals. Management is the process of planning, organizing, and controlling business activities to achieve defined objectives.", 2, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Business innovation", "Business innovation and creativity", "Business innovation is the process of introducing new ideas, products, or processes to improve business performance. Creativity is the ability to generate new and original ideas.", 3, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Business communication", "Business communication and negotiation", "Business communication is the exchange of information between people within and outside an organization. Negotiation is the process of reaching agreements through discussion and compromise.", 4, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Business entrepreneurship", "Business entrepreneurship and startups", "Business entrepreneurship is the process of starting and growing a new business venture. Startups are new companies that are founded to develop and market innovative products or services.", 5, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Strategic Management", "Developing Business Strategies", "Strategic management involves the formulation and implementation of plans and initiatives to achieve long-term goals and objectives. It encompasses environmental scanning, strategy formulation, strategy implementation, and evaluation.", 6, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Financial Management", "Managing Business Finances", "Financial management is the process of planning, organizing, directing, and controlling the financial activities of an organization. It includes budgeting, forecasting, cash flow management, and financial analysis.", 7, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Market Analysis", "Understanding Market Trends", "Market analysis involves studying and interpreting market trends, customer behavior, competitor strategies, and other factors affecting the demand for products or services. It helps businesses make informed decisions regarding marketing strategies and product development.", 8, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Human Resource Management", "Managing Human Capital", "Human resource management focuses on the recruitment, training, development, and retention of employees to achieve organizational goals. It includes activities such as hiring, performance evaluation, compensation management, and employee relations.", 9, "https://www.youtube.com/watch?v=grEKMHGYyns"),
-                    new Lesson("Supply Chain Management", "Optimizing Supply Chains", "Supply chain management involves the planning, sourcing, production, and distribution of goods and services to meet customer demand efficiently and effectively. It aims to minimize costs, maximize efficiency, and enhance customer satisfaction.", 10, "https://www.youtube.com/watch?v=grEKMHGYyns")
+                    Lesson.builder()
+                            .title("Business decision making")
+                            .description("Business decision making and problem-solving")
+                            .content("Business decision making is the process of selecting the best course of action from a set of alternatives. Problem-solving is the process of identifying and solving problems to achieve business objectives.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Business leadership")
+                            .description("Business leadership and management")
+                            .content("Business leadership is the ability to inspire and motivate employees to achieve business goals. Management is the process of planning, organizing, and controlling business activities to achieve defined objectives.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Business innovation")
+                            .description("Business innovation and creativity")
+                            .content("Business innovation is the process of introducing new ideas, products, or processes to improve business performance. Creativity is the ability to generate new and original ideas.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Business communication")
+                            .description("Business communication and negotiation")
+                            .content("Business communication is the exchange of information between people within and outside an organization. Negotiation is the process of reaching agreements through discussion and compromise.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Business entrepreneurship")
+                            .description("Business entrepreneurship and startups")
+                            .content("Business entrepreneurship is the process of starting and growing a new business venture. Startups are new companies that are founded to develop and market innovative productsor services.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Strategic Management")
+                            .description("Developing Business Strategies")
+                            .content("Strategic management involves the formulation and implementation of plans and initiatives to achieve long-term goals and objectives. It encompasses environmental scanning, strategy formulation, strategy implementation, and evaluation.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Financial Management")
+                            .description("Managing Business Finances")
+                            .content("Financial management is the process of planning, organizing, directing, and controlling the financial activities of an organization. It includes budgeting, forecasting, cash flow management, and financial analysis.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Market Analysis")
+                            .description("Understanding Market Trends")
+                            .content("Market analysis involves studying and interpreting market trends, customer behavior, competitor strategies, and other factors affecting the demand for products or services. It helps businesses make informed decisions regarding marketing strategies and product development.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Human Resource Management")
+                            .description("Managing Human Capital")
+                            .content("Human resource management focuses on the recruitment, training, development, and retention of employees to achieve organizational goals. It includes activities such as hiring, performance evaluation, compensation management, and employee relations.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build(),
+                    Lesson.builder()
+                            .title("Supply Chain Management")
+                            .description("Optimizing Supply Chains")
+                            .content("Supply chain management involves the planning, sourcing, production, and distribution of goods and services to meet customer demand efficiently and effectively. It aims to minimize costs, maximize efficiency, and enhance customer satisfaction.")
+                            .videoUrl("https://www.youtube.com/watch?v=grEKMHGYyns")
+                            .build()
             )
     );
 

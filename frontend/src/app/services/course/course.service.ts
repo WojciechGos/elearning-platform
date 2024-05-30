@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, } from 'rxjs';
 import { Course } from '../../interfaces/course.interface';
 import { environment } from 'src/environments/environment';
@@ -39,4 +39,21 @@ export class CourseService {
   updateCourseStatus(id: number, courseState: CourseState): Observable<Course> {
     return this.http.put<Course>(`${environment.apiUrl}/api/v1/courses/${id}`, { courseState });
   }
+
+  uploadImageToSignedUrl(signedUrl: string, file: File): Observable<any> {
+
+    const blob = new Blob([file], { type: 'image/png, image/jpeg, image/jpg' });
+    const headers = new HttpHeaders().set('Skip-Auth', 'True');
+    return this.http.put(signedUrl, blob, { headers, observe: 'response' });
+  }
+
+  getSignedUrlForImageUpload(courseId: number): Observable<{ signedUrl: string }> {
+    return this.http.get<{ signedUrl: string }>(`${environment.apiUrl}/api/v1/courses/${courseId}/image`);
+  }
+
+  deleteCourseImage(courseId: number): Observable<{ }> {
+    return this.http.get<{  }>(`${environment.apiUrl}/api/v1/courses/${courseId}/image`);
+  }
+
+
 }

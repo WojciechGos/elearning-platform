@@ -7,7 +7,7 @@ import { getCourse } from 'src/app/store/course/course.actions';
 import { courseSelector } from 'src/app/store/course/course.selectors';
 import { FormArray } from '@angular/forms';
 import { FormGroup, } from '@angular/forms';
-import { getNewLessonFormGroup } from 'src/app/services/lesson/lesson.form';
+import { getNewLessonFormGroup } from 'src/app/utils/lesson.form';
 
 @Component({
   selector: 'app-course-creator-lesson',

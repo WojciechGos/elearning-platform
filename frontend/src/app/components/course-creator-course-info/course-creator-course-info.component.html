@@ -1,7 +1,9 @@
 <mat-card class="course-creator-wrapper">
   <mat-card-header class="course-creator-header">
     <mat-card-title>Create a new course</mat-card-title>
-    <mat-card-subtitle>Fill in the form below to create a new course</mat-card-subtitle>
+    <mat-card-subtitle
+      >Fill in the form below to create a new course</mat-card-subtitle
+    >
   </mat-card-header>
   <mat-card-content>
     <form [formGroup]="formGroup">
@@ -39,11 +41,24 @@
         />
       </mat-form-field>
       <div class="form-group">
-        <label for="course-image">Course image</label>
-        <input type="file" id="course-image" formControlName="image" (change)="onFileChange($event)" />
+        <h2>Course image</h2>
+        <button type="button" mat-raised-button (click)="fileInput.click()">
+          Choose File
+        </button>
+        <input
+          hidden
+          id="course-image"
+          (change)="onFileChange($event)"
+          accept="image/png, image/jpeg"
+          #fileInput
+          type="file"
+          id="file"
+        />
+
+        <img *ngIf="imageUrl" [src]="imageUrl" />
       </div>
 
-      <label id="example-radio-group-label">Pick language</label>
+      <h2>Language</h2>
       <mat-radio-group
         aria-labelledby="example-radio-group-label"
         class="example-radio-group"
@@ -58,9 +73,9 @@
           {{ language }}
         </mat-radio-button>
       </mat-radio-group>
-      <br/>
+      <br />
 
-      <label id="example-radio-group-label">Pick target audience</label>
+      <h2>Target audience</h2>
       <mat-radio-group
         aria-labelledby="example-radio-group-label"
         class="example-radio-group"
@@ -77,15 +92,14 @@
       </mat-radio-group>
 
       <h2>Categories</h2>
-      <mat-selection-list
-        formControlName="categories"
-        required
-      >
-        <mat-list-option *ngFor="let category of categories" [value]="category.name">
+      <mat-selection-list formControlName="categories" required>
+        <mat-list-option
+          *ngFor="let category of categories"
+          [value]="category.name"
+        >
           {{ category.name }}
         </mat-list-option>
       </mat-selection-list>
-
     </form>
   </mat-card-content>
 </mat-card>

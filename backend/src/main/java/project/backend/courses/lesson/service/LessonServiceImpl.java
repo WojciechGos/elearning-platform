@@ -85,14 +85,16 @@ public class LessonServiceImpl implements LessonService {
         }
 
         Course course = lesson.getCourse();
-        String fileName = "courses/" + course.getId() + "/" + UUID.randomUUID().toString();
+
+        String fileName = "private/courses/" + course.getId() + "/lessons/" + UUID.randomUUID().toString();
+        System.out.println(fileName);
 
         lesson.setVideoUrl(fileName);
         lessonRepository.save(lesson);
 
         String url = fileService.generateUploadUrl(fileName, "video/mp4");
 
-        return new FileResponse(url, fileName);
+        return new FileResponse(url);
     }
 
     @Override
