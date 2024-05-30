@@ -47,10 +47,13 @@
     </div>
   </div>
 </nav>
-<div *ngIf="isListVisible" class="menu-list" (mouseleave)="hideList()">
-    <mat-list *ngFor="let category of categories">
+<div *ngIf="isListVisible" class="categories-wrapper" (mouseleave)="hideList()">
+  <ul class="categories-list">
+    <li *ngFor="let category of categories">
       <a [routerLink]="['/course-search']" [queryParams]="{ categories: category.name }">
-        <mat-list-item class="menu-item">{{ category.name }}</mat-list-item>
+        {{ category.name }}
       </a>
-    </mat-list>
-</div>  
+    </li>
+  </ul>
+</div>
+ 

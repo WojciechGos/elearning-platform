@@ -98,23 +98,34 @@ a {
     color: white;
 }
 
-.menu-list {
+.categories-wrapper {
     position: absolute;
-    left: 13%;
+    left: 11%;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
-    background-color: rgb(228, 232, 234);
+    background-color: rgb(231, 232, 231);
     margin-top: 5px;
-}
-
-.menu-item {
     cursor: pointer;
-    font-family: system-ui;
-    margin: 0;
-    padding: 0;
 }
 
-.menu-item:hover {
-    color: #868080;
+.categories-list {
+    list-style: none;
+    padding: 5px 0;
+    margin: 0;
+    font-size: 16px;
+}
+
+.categories-list li {
+    margin-bottom: 8px; 
+    padding: 7px 12px;
+}
+
+.categories-list li:hover {
+    color: #767272;
+}
+
+.categories-list a {
+    text-decoration: none; 
+    color: inherit; 
 }
 
 .buttons-wrapper {
