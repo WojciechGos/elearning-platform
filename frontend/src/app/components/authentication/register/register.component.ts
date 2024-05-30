@@ -1,7 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
-import { environment } from 'src/environments/environment';
 
 declare const google: any;
 
@@ -10,12 +9,12 @@ declare const google: any;
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent {
-  @ViewChild('googleBtn') googleBtn: ElementRef | undefined;
+export class RegisterComponent implements AfterViewInit {
+  @ViewChild('googleBtn', { static: true }) googleBtn: ElementRef | undefined;
 
   registerForm: FormGroup;
   serverError: string | null = null;
-  auth2: any;
+  googleClientId: string | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,27 +33,36 @@ export class RegisterComponent {
   }
 
   ngAfterViewInit(): void {
-    google.accounts.id.initialize({
-      client_id: environment.googleClientId,
-      callback: (response: any) => {
-        console.log('Google sign-in response:', response);
-        this.authService
-          .loginWithGoogle(response.credential)
-          .subscribe((user) => {
-            console.log('Login successful', user);
-            this.serverError = null;
-          });
+    this.authService.getGoogleClientId().subscribe({
+      next: (clientId) => {
+        this.googleClientId = clientId;
+        google.accounts.id.initialize({
+          client_id: this.googleClientId,
+          callback: (response: any) => {
+            this.authService.loginWithGoogle(response.credential).subscribe({
+              next: (user) => {
+                console.log('Login successful', user);
+                this.serverError = null;
+              },
+              error: (error) => {
+                console.error('Login failed', error);
+                this.serverError = 'Google login failed';
+              },
+            });
+          },
+        });
+
+        google.accounts.id.renderButton(document.getElementById('googleBtn'), {
+          type: 'standard',
+          theme: 'filled_blue',
+          size: 'large',
+          shape: 'rectangle',
+          width: 400,
+        });
       },
-    });
-
-    console.log(document.getElementById('googleBtn'));
-
-    google.accounts.id.renderButton(document.getElementById('googleBtn'), {
-      type: 'standard',
-      theme: 'filled_blue',
-      size: 'large',
-      shape: 'rectangle',
-      width: 400,
+      error: (error) => {
+        console.error('Failed to fetch Google Client ID', error);
+      },
     });
   }
 

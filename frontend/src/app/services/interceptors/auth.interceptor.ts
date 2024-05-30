@@ -19,6 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const accessToken = this.authService.getAccessToken();
+     console.log('Intercepting request:', req.url);
 
     let authReq = req;
     if (accessToken && !req.url.includes('refresh-token')) {
@@ -34,6 +35,7 @@ export class AuthInterceptor implements HttpInterceptor {
         console.error('HTTP Error:', error);
 
         if (error.status === 401 && !req.url.includes('refresh-token')) {
+          console.log('Attempting to refresh token...');
           return this.authService.refreshToken().pipe(
             switchMap((response) => {
               authReq = req.clone({

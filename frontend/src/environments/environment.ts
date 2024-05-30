@@ -9,8 +9,6 @@ export const environment = {
   apiUrl: 'http://localhost:8080',
   stripe:
     'pk_test_51P7ZH2FTbBwyZWuBOYEdHY350S3NpmkmsrvnACxJifHm801jbKsdVStYftaz4Ugh7KC2buFiIzevxztr8GlJogXP00Z4icj8pZ',
-  googleClientId:
-    '659439241514-h8n75fq8ospqergqnuf67na0b27fec5k.apps.googleusercontent.com',
 };
 
 /*
