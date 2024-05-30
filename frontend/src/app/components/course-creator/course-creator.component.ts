@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, forwardRef } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl, FormArray, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, ViewChild, forwardRef } from '@angular/core';
+import { Validators, FormGroup, FormControl, FormArray, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { CourseCreatorCourseInfoComponent } from '../course-creator-course-info/course-creator-course-info.component';
 import { getNewLessonFormGroup } from 'src/app/utils/lesson.form';
@@ -17,7 +17,7 @@ import { CourseState } from 'src/app/enums/course.state';
     }
   ]
 })
-export class CourseCreatorComponent implements OnInit {
+export class CourseCreatorComponent {
 
   courseFormGroup = new FormGroup({
     title: new FormControl('', {
@@ -121,6 +121,4 @@ export class CourseCreatorComponent implements OnInit {
     this.stepper.selectedIndex = 0;
   }
 
-  ngOnInit() {
-  }
 }

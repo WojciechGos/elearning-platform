@@ -38,7 +38,6 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
     private final LanguageService languageService;
-    private final CategoryService categoryService;
     private final CourseDTOMapper courseDTOMapper;
     private final UserService userService;
     private final FileService fileService;
@@ -86,21 +85,13 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDTO createCourse(@Validated CourseDTO course) {
 
-        System.out.println(course);
-        Language language = languageService.getLanguageByName(course.language());
-
-        if (course.categories() == null)
-            throw new BadRequestException("You must provide at least one category for the course.");
-
-        List<Category> categories = course.categories().stream().map(categoryService::getCategoryByName).toList();
-        System.out.println(categories);
         Course newCourse = Course.builder()
                 .title(course.title())
                 .description(course.description())
                 .price(course.price())
                 .discountPrice(new BigDecimal(0))
-                .language(language)
-                .categories(categories)
+                .language(null)
+                .categories(null)
                 .rating(0)
                 .imageUrl(course.imageUrl())
                 .targetAudience(course.targetAudience())

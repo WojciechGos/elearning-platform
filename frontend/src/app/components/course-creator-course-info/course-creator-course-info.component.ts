@@ -33,6 +33,20 @@ export class CourseCreatorCourseInfoComponent implements OnInit {
   categories !: Category[];
   courseImage: File | null = null;
   imageUrl !: string;
+  newCourse: Course = {
+    id: 0, // it will be ignored by the backend
+    title: '',
+    description: '',
+    targetAudience: '',
+    language: '', // it will be ignored by the backend
+    price: 1,
+    categories: this.formGroup.value.categories, // it will be ignored by the backend
+    rating: 0, // it will be ignored by the backend
+    imageUrl: "",
+    discountPrice: 0, // it will be ignored by the backend
+    enrollmentCount: 0, // it will be ignored by the backend
+    lessons: [], // it will be ignored by the backend
+  };
 
   constructor(
     private store: Store<AppStateInterface>,
@@ -45,10 +59,7 @@ export class CourseCreatorCourseInfoComponent implements OnInit {
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;
     });
-
-    this.courseService.getCourseById(1).subscribe((course) => {
-      this.store.dispatch(setCourse({ course }));
-    });
+    this.createCourse();
   }
 
 
@@ -69,42 +80,45 @@ export class CourseCreatorCourseInfoComponent implements OnInit {
     });
   }
 
-  uploadImage(courseId: number, file: File) {
+  uploadImage(courseId: number, file: File): void {
 
     this.courseService.getSignedUrlForImageUpload(courseId).subscribe((response) => {
       this.courseService.uploadImageToSignedUrl(response.signedUrl, file).subscribe((s3Response) => {
-        console.log(`Image uploaded ${s3Response}`);
         this.courseService.getCourseById(courseId).subscribe((course) => {
-          console.log(course)
-          if (course.imageUrl != null)
-            this.imageUrl = course.imageUrl;
+          this.imageUrl = course.imageUrl;
         });
       });
     });
   }
 
+  updateCourse() : void {
+    if(this.formGroup.valid){
+      this.course$.subscribe((course) => {
+        if (course == null) return;
+
+        this.newCourse.title = this.formGroup.value.title;
+        this.newCourse.description = this.formGroup.value.description;
+        this.newCourse.targetAudience = this.formGroup.value.targetAudience;
+        this.newCourse.language = this.formGroup.value.language;
+        this.newCourse.price = this.formGroup.value.price;
+        this.newCourse.categories = this.formGroup.value.categories;
+
+        this.courseService.updateCourse(course.id, this.newCourse).subscribe((course) =>
+          this.store.dispatch(setCourse({ course })));
+      });
+    }
+  }
+
+  addCategory(category: Category): void {
+
+  }
+
   // this function can be called from the parent component which is 'course-creator.component.ts'
-  createCourse() {
+  createCourse() : void{
     console.log(this.formGroup)
     if (this.formGroup.valid) {
-
-      const newCourse: Course = {
-        id: 0, // it will be ignored by the backend
-        title: this.formGroup.value.title,
-        description: this.formGroup.value.description,
-        targetAudience: this.formGroup.value.targetAudience,
-        language: this.formGroup.value.language,
-        price: this.formGroup.value.price,
-        categories: this.formGroup.value.categories,
-        rating: 0, // it will be ignored by the backend
-        imageUrl: "",
-        discountPrice: 0, // it will be ignored by the backend
-        enrollmentCount: 0, // it will be ignored by the backend
-        lessons: [], // it will be ignored by the backend
-      };
-      this.courseService.createCourse(newCourse).subscribe((course) =>
+      this.courseService.createCourse(this.newCourse).subscribe((course) =>
         this.store.dispatch(setCourse({ course })));
-
     }
   }
 }

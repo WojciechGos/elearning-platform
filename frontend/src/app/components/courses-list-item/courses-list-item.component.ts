@@ -13,11 +13,7 @@ export class CoursesListItemComponent implements OnInit {
   @Input() discountPrice!: number;
   @Input() rating!: number;
 
-  devMode: boolean = isDevMode();
-  constructor() { }
-
   ngOnInit(): void {
-    console.log(this.image)
     if(isDevMode() == true) {
       this.image="./assets/images/course-image.png"
     }
