@@ -17,6 +17,7 @@ export class CoursesListItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.image)
     if(isDevMode() == true) {
       this.image="./assets/images/course-image.png"
     }

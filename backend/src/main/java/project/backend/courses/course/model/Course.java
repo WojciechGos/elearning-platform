@@ -61,7 +61,7 @@ public class Course {
 
     @NotNull(message = "Image URL cannot be null.")
     @NotBlank(message = "Image URL cannot be blank")
-    private String imageURL;
+    private String imageUrl;
 
     @OneToMany
     private List<Lesson> lessons;

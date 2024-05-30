@@ -17,7 +17,7 @@ public record CourseDTO(
         String language,
         Long totalDuration,
         Double rating,
-        String imageURL,
+        String imageUrl,
         List<LessonDTO> lessons,
         Integer enrollmentCount,
         CourseState courseState,

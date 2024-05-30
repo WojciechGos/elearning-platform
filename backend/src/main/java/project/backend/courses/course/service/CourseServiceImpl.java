@@ -102,7 +102,7 @@ public class CourseServiceImpl implements CourseService {
                 .language(language)
                 .categories(categories)
                 .rating(0)
-                .imageURL(course.imageURL())
+                .imageUrl(course.imageUrl())
                 .targetAudience(course.targetAudience())
                 .courseState(CourseState.CREATING)
                 .enrollmentCount(0)
@@ -161,7 +161,7 @@ public class CourseServiceImpl implements CourseService {
         Course course = getCourseById(courseId);
 
         String fileName = "public/courses/" + courseId + "/" + UUID.randomUUID().toString();
-        course.setImageURL(awsS3Url + "/" + fileName);
+        course.setImageUrl(awsS3Url + "/" + fileName);
         courseRepository.save(course);
 
         return fileService.generateUploadUrl(fileName, "image/png, image/jpeg, image/jpg");
@@ -170,8 +170,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void deleteCourseImage(Long courseId) {
         Course course = getCourseById(courseId);
-        fileService.deleteFile(course.getImageURL());
-        course.setImageURL(null);
+        fileService.deleteFile(course.getImageUrl());
+        course.setImageUrl(null);
         courseRepository.save(course);
     }
 

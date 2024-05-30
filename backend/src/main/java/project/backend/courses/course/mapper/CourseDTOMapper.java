@@ -1,6 +1,5 @@
 package project.backend.courses.course.mapper;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.backend.courses.course.dto.CourseDTO;
@@ -8,7 +7,6 @@ import project.backend.courses.course.model.Course;
 import project.backend.courses.category.model.Category;
 import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.lesson.mapper.LessonDTOMapper;
-import project.backend.courses.lesson.model.Lesson;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,7 +40,7 @@ public class CourseDTOMapper {
                 course.getLanguage().getName(),
                 duration,
                 course.getRating(),
-                course.getImageURL(),
+                course.getImageUrl(),
                 lessonList,
                 course.getEnrollmentCount(),
                 course.getCourseState(),
