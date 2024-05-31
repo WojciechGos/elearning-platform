@@ -14,6 +14,7 @@ import { CartDetailsComponent } from './components/admin/cart-details/cart-detai
 import { CourseSearchComponent } from './components/course-search/course-search.component';
 import { UserCartsComponent } from './components/admin/user-carts/user-carts.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { CourseDisplayComponent } from './components/course-display/course-display.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -38,6 +39,8 @@ const routes: Routes = [
     component: UserProfileComponent,
     canActivate: [AuthGuard],
   },
+  {path: 'course-display/:id', component: CourseDisplayComponent},
+  {path: 'course-display/:id/:lessonId', component: CourseDisplayComponent}
 ];
 
 @NgModule({

@@ -40,11 +40,13 @@ public class AuthenticationController {
         return response;
     }
 
+
     @PostMapping("/login")
     public ResponseEntity<Object> authenticate(@RequestBody AuthenticationRequest request) {
         ResponseEntity<Object> response = service.authenticate(request);
         return response;
     }
+
 
     @PostMapping("/google-login")
     public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> tokenMap) {

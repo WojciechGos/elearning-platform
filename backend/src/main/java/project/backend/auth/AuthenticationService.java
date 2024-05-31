@@ -78,6 +78,8 @@ public class AuthenticationService {
                 .user(user)
                 .token(accessToken)
                 .refreshToken(refreshToken)
+                .token(accessToken)
+                .refreshToken(refreshToken)
                 .tokenType(TokenType.BEARER)
                 .expired(false)
                 .revoked(false)

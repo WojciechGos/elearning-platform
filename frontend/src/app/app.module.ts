@@ -42,6 +42,8 @@ import { CourseSearchItemComponent } from './components/course-search-item/cours
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { CourseDisplayComponent } from './components/course-display/course-display.component';
+import { LessonDisplayComponent } from './components/lesson-display/lesson-display.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     UserCartsComponent,
     LessonListComponent,
     CourseSearchItemComponent,
+    CourseDisplayComponent,
+    LessonDisplayComponent,
     UserProfileComponent,
   ],
   imports: [
