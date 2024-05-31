@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, AfterViewInit, ViewChild } from '@angular/core';
 import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/interfaces/appState.interface';
@@ -9,6 +9,7 @@ import { CategoryService } from 'src/app/services/category/category.service';
 import { Category } from 'src/app/interfaces/category.interface';
 import { Observable } from 'rxjs';
 import { courseSelector } from 'src/app/store/course/course.selectors';
+import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 
 
 
@@ -24,8 +25,10 @@ import { courseSelector } from 'src/app/store/course/course.selectors';
     }
   ]
 })
-export class CourseCreatorCourseInfoComponent implements OnInit {
+export class CourseCreatorCourseInfoComponent implements OnInit, AfterViewInit {
+
   @Input() formGroup !: FormGroup;
+  @ViewChild('selectionList') selectionList !: MatSelectionList;
   course$: Observable<Course | null> = this.store.pipe(select(courseSelector));
 
   languages = ['English', 'Spanish', 'Polish'];
@@ -33,6 +36,7 @@ export class CourseCreatorCourseInfoComponent implements OnInit {
   categories !: Category[];
   courseImage: File | null = null;
   imageUrl !: string;
+
   newCourse: Course = {
     id: 0, // it will be ignored by the backend
     title: '',
@@ -40,7 +44,7 @@ export class CourseCreatorCourseInfoComponent implements OnInit {
     targetAudience: '',
     language: '', // it will be ignored by the backend
     price: 1,
-    categories: this.formGroup.value.categories, // it will be ignored by the backend
+    categories: [], // it will be ignored by the backend
     rating: 0, // it will be ignored by the backend
     imageUrl: "",
     discountPrice: 0, // it will be ignored by the backend
@@ -62,6 +66,47 @@ export class CourseCreatorCourseInfoComponent implements OnInit {
     this.createCourse();
   }
 
+  ngAfterViewInit() {
+
+    this.selectionList.selectedOptions.changed.subscribe((event) => {
+
+
+      if (event.added.length > 0) {
+        const category = event.added[0].value as string;
+
+        this.addCategoryToCourse(this.findCategoryByName(category) as Category);
+      }
+      else if (event.removed.length > 0) {
+        const category = event.removed[0].value as string;
+        this.removeCategoryFromCourse(this.findCategoryByName(category) as Category);
+      }
+    });
+  }
+
+  addCategoryToCourse(category: Category): void {
+    this.course$.subscribe((course) => {
+
+      if (course == null) return;
+
+      this.categoryService.addCategoryToCourse(category.id, course.id).subscribe((response) => {
+        console.log(`Category ${category.name} added to course ${course.title}`);
+      });
+    });
+  }
+
+  removeCategoryFromCourse(category: Category): void {
+    this.course$.subscribe((course) => {
+      if (course == null) return;
+
+      this.categoryService.removeCategoryFromCourse(category.id, course.id).subscribe((response) => {
+        console.log(`Category ${category.name} removed from course ${course.title}`);
+      });
+    });
+  }
+
+  findCategoryByName(name: string): Category | undefined {
+    return this.categories.find((category) => category.name === name);
+  }
 
   onFileChange(event: any) {
     const file = event.target.files[0];
@@ -91,34 +136,43 @@ export class CourseCreatorCourseInfoComponent implements OnInit {
     });
   }
 
-  updateCourse() : void {
-    if(this.formGroup.valid){
-      this.course$.subscribe((course) => {
-        if (course == null) return;
+  updateCourse(courseId: number): void {
 
-        this.newCourse.title = this.formGroup.value.title;
-        this.newCourse.description = this.formGroup.value.description;
-        this.newCourse.targetAudience = this.formGroup.value.targetAudience;
-        this.newCourse.language = this.formGroup.value.language;
-        this.newCourse.price = this.formGroup.value.price;
-        this.newCourse.categories = this.formGroup.value.categories;
 
-        this.courseService.updateCourse(course.id, this.newCourse).subscribe((course) =>
-          this.store.dispatch(setCourse({ course })));
-      });
-    }
+    this.newCourse.title = this.formGroup.value.title;
+    this.newCourse.description = this.formGroup.value.description;
+    this.newCourse.targetAudience = this.formGroup.value.targetAudience;
+    this.newCourse.language = this.formGroup.value.language;
+    this.newCourse.price = this.formGroup.value.price;
+
+    this.courseService.updateCourse(courseId, this.newCourse).subscribe((course) =>
+      console.log("course updated")
+      );
+
   }
 
-  addCategory(category: Category): void {
 
+
+  createCourse(): void {
+    this.courseService.createCourse(this.newCourse).subscribe((course) => {
+      console.log("coures created");
+      this.store.dispatch(setCourse({ course }));
+    });
   }
 
   // this function can be called from the parent component which is 'course-creator.component.ts'
-  createCourse() : void{
-    console.log(this.formGroup)
-    if (this.formGroup.valid) {
-      this.courseService.createCourse(this.newCourse).subscribe((course) =>
-        this.store.dispatch(setCourse({ course })));
+  updateCourseIfFormValid(): void {
+    if (!this.formGroup.valid) {
+      console.log("form is not valid")
     }
+
+    this.course$.subscribe((course) => {
+      if (course == null) {
+        console.log('course null')
+        return
+      }
+      this.updateCourse(course.id);
+
+    });
   }
 }

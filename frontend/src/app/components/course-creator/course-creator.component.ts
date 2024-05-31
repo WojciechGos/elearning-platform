@@ -103,7 +103,7 @@ export class CourseCreatorComponent {
   nextStep(type: string): void {
     if (type === 'course') {
       if (this.courseFormGroup.valid) {
-        this.courseCreatorCourseInfoComponent.createCourse();
+        this.courseCreatorCourseInfoComponent.updateCourseIfFormValid();
         this.stepper.next();
       }
     }

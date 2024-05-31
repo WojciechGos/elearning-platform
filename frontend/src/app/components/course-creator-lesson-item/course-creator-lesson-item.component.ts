@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, isDevMode } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { create } from 'domain';
@@ -14,7 +14,7 @@ import { UploadState } from 'src/app/enums/upload.state';
   templateUrl: './course-creator-lesson-item.component.html',
   styleUrls: ['./course-creator-lesson-item.component.css']
 })
-export class CourseCreatorLessonItemComponent {
+export class CourseCreatorLessonItemComponent implements OnInit {
 
   @Input() formGroup !: FormGroup;
   lessonId: number = -1;
@@ -27,6 +27,15 @@ export class CourseCreatorLessonItemComponent {
     private lessonService: LessonService) {
   }
 
+  ngOnInit(): void {
+    this.course$.subscribe((course) => {
+      if (course == null)
+        return;
+
+      this.lessonService.createLesson(course.id, this.formGroup.value).subscribe((lesson) => {
+      });
+    });
+  }
 
 
   createOrUpdateLesson(): void {
@@ -58,6 +67,11 @@ export class CourseCreatorLessonItemComponent {
 
 
   onFileChange(event: any): void {
+    if(isDevMode() == true){
+      this.uploadState = UploadState.ERROR;
+      return;
+    }
+
     const file = event.target.files[0];
     this.uploadState = UploadState.UPLOADING;
 
