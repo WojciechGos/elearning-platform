@@ -7,6 +7,8 @@ import lombok.*;
 import project.backend.courses.category.model.Category;
 import project.backend.courses.language.model.Language;
 import project.backend.courses.lesson.model.Lesson;
+
+import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.List;
@@ -49,7 +51,7 @@ public class Course {
     @ManyToOne
     @JoinColumn(
             name="language_id",
-            nullable=false
+            nullable=true
     )
     private Language language;
 

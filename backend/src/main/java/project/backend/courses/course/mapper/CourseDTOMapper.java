@@ -22,12 +22,21 @@ public class CourseDTOMapper {
             duration = course.getTotalDuration().toMinutes();
         }
 
-        List<LessonDTO> lessonList;
-
-        if(course.getLessons() != null) {
+        List<LessonDTO> lessonList = List.of();
+        if (course.getLessons() != null) {
             lessonList = course.getLessons().stream().map(lessonDTOMapper::toDTO).collect(Collectors.toList());
         } else {
-            lessonList = List.of();
+
+        }
+
+        List<String> categories = List.of();
+        if (course.getCategories() != null) {
+            categories = course.getCategories().stream().map(Category::getName).toList();
+        }
+
+        String language = "";
+        if(course.getLanguage() != null) {
+            language = course.getLanguage().getName();
         }
 
         return new CourseDTO(
@@ -36,8 +45,8 @@ public class CourseDTOMapper {
                 course.getDescription(),
                 course.getPrice(),
                 course.getDiscountPrice(),
-                course.getCategories().stream().map(Category::getName).toList(),
-                course.getLanguage().getName(),
+                categories,
+                language,
                 duration,
                 course.getRating(),
                 course.getImageUrl(),

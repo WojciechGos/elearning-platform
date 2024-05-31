@@ -46,7 +46,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course getCourseById(Long courseId) {
-        return courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] " .formatted(courseId)));
+        return courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
     }
 
     @Override
@@ -103,31 +103,48 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDTO updateCourse(Long id, CourseDTO course, Principal principal) {
-        Course updatedCourse = courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] " .formatted(id)));
+    public CourseDTO updateCourse(Long courseId, CourseDTO course, Principal principal) {
+        Course updatedCourse = getCourseById(courseId);
         User user = userService.getUserByEmail(principal.getName());
 
-        System.out.println(user);
+
+//        if(user.getAuthorities() == null){
+//            throw new ForbiddenException("You need to be logged in to save course data.");
+//        }
+
+        // if role is user allow only author of the course to update it
+//        if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
+//            if (!updatedCourse.getAuthor().getEmail().equals(user.getEmail())) {
+//                throw new ForbiddenException("Insufficient role: You can only update your own courses.");
+//            }
+//        }
+
+
         if (course.title() != null) updatedCourse.setTitle(course.title());
         if (course.description() != null) updatedCourse.setDescription(course.description());
         if (course.price() != null) updatedCourse.setPrice(course.price());
         if (course.language() != null) {
-            Language language = languageService.getLanguageByName(course.language());
-            updatedCourse.setLanguage(language);
+            if (!course.language().isEmpty() || !course.language().isBlank()) {
+                Language language = languageService.getLanguageByName(course.language());
+                updatedCourse.setLanguage(language);
+            }
+        }
+
+
+        if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
+            if (course.courseState() != null) {
+                if (course.courseState() == CourseState.READY_TO_ACCEPT || course.courseState() == CourseState.HIDDEN || course.courseState() == CourseState.CREATING) {
+                    updatedCourse.setCourseState(course.courseState());
+                } else {
+                    throw new ForbiddenException("Insufficient role: You can only change course state to READY_TO_ACCEPT or HIDDEN.");
+                }
+            }
         }
 
         if (user.getAuthorities() != null) {
             if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
                 if (course.courseState() != null) {
                     updatedCourse.setCourseState(course.courseState());
-                }
-            } else if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-                if (course.courseState() != null) {
-                    if (course.courseState() == CourseState.READY_TO_ACCEPT || course.courseState() == CourseState.HIDDEN) {
-                        updatedCourse.setCourseState(course.courseState());
-                    } else {
-                        throw new ForbiddenException("Insufficient role: You can only change course state to READY_TO_ACCEPT or HIDDEN.");
-                    }
                 }
             }
         }
@@ -141,7 +158,7 @@ public class CourseServiceImpl implements CourseService {
             because some users may have already bought it.
             However, for sake of simplicity we will just hide it
          */
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] " .formatted(courseId)));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
         course.setCourseState(CourseState.HIDDEN);
         courseRepository.save(course);
     }
