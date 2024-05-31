@@ -58,8 +58,8 @@ public class CourseControllerImpl implements CourseController {
 
     @Override
     @PostMapping
-    public ResponseEntity<CourseDTO> createCourse(@RequestBody CourseDTO course) {
-        CourseDTO newCourse = courseService.createCourse(course);
+    public ResponseEntity<CourseDTO> createCourse(@RequestBody CourseDTO course, Principal principal) {
+        CourseDTO newCourse = courseService.createCourse(course, principal);
         return new ResponseEntity<>(newCourse, HttpStatus.CREATED);
     }
 

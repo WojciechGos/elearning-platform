@@ -30,7 +30,7 @@ public interface CourseController {
 
     ResponseEntity<CourseDTO> getCourse(@PathVariable("courseId") Long courseId);
 
-    ResponseEntity<CourseDTO> createCourse(@RequestBody CourseDTO course);
+    ResponseEntity<CourseDTO> createCourse(@RequestBody CourseDTO course, Principal principal);
 
     ResponseEntity<CourseDTO> updateCourse(
             Principal principal,

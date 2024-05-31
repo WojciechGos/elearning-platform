@@ -7,6 +7,7 @@ import lombok.*;
 import project.backend.courses.category.model.Category;
 import project.backend.courses.language.model.Language;
 import project.backend.courses.lesson.model.Lesson;
+import project.backend.user.User;
 
 import javax.annotation.Nullable;
 import java.math.BigDecimal;
@@ -75,5 +76,7 @@ public class Course {
 
     private TargetAudience targetAudience;
 
+    @ManyToOne
+    private User author;
 
 }

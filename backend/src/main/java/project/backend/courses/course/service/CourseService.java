@@ -26,7 +26,7 @@ public interface CourseService {
             List<String> fields
     );
 
-    CourseDTO createCourse(CourseDTO course);
+    CourseDTO createCourse(CourseDTO course, Principal principal);
 
     CourseDTO updateCourse(Long id, CourseDTO course, Principal principal);
 
@@ -35,5 +35,5 @@ public interface CourseService {
     String getSignedUrlForImageUpload(Long courseId);
 
     void deleteCourseImage(Long courseId);
-
+    boolean isAuthor(Long courseId, Principal principal);
 }

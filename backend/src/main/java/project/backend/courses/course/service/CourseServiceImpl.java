@@ -4,10 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import project.backend.courses.category.model.Category;
-import project.backend.courses.category.service.CategoryService;
 import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.mapper.CourseDTOMapper;
 import project.backend.courses.course.model.Course;
@@ -18,7 +17,6 @@ import project.backend.courses.course.repository.CourseSpecification;
 import project.backend.courses.language.model.Language;
 import project.backend.courses.language.service.LanguageService;
 import project.backend.courses.utils.file.service.FileService;
-import project.backend.exception.types.BadRequestException;
 import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
 
@@ -51,6 +49,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDTO getCourseDTOById(Long courseId) {
+
+        // if user nie ma uprawnien to throw ForbiddenException
+
         return courseDTOMapper.toDTO(getCourseById(courseId));
     }
 
@@ -83,7 +84,10 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDTO createCourse(@Validated CourseDTO course) {
+    public CourseDTO createCourse(@Validated CourseDTO course, Principal principal) {
+
+        if(principal.getName() == null)
+            throw new ForbiddenException("You need to be logged in to create a course.");
 
         Course newCourse = Course.builder()
                 .title(course.title())
@@ -97,27 +101,29 @@ public class CourseServiceImpl implements CourseService {
                 .targetAudience(course.targetAudience())
                 .courseState(CourseState.CREATING)
                 .enrollmentCount(0)
+                .author(userService.getUserByEmail(principal.getName()))
                 .build();
 
         return courseDTOMapper.toDTO(courseRepository.save(newCourse));
     }
 
     @Override
+    @PreAuthorize("@courseServiceImpl.isAuthor(#courseId, #principal)")
     public CourseDTO updateCourse(Long courseId, CourseDTO course, Principal principal) {
         Course updatedCourse = getCourseById(courseId);
         User user = userService.getUserByEmail(principal.getName());
 
 
-//        if(user.getAuthorities() == null){
-//            throw new ForbiddenException("You need to be logged in to save course data.");
-//        }
+        if(user.getAuthorities() == null){
+            throw new ForbiddenException("You need to be logged in to save course data.");
+        }
 
         // if role is user allow only author of the course to update it
-//        if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
-//            if (!updatedCourse.getAuthor().getEmail().equals(user.getEmail())) {
-//                throw new ForbiddenException("Insufficient role: You can only update your own courses.");
-//            }
-//        }
+        if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
+            if (!updatedCourse.getAuthor().getEmail().equals(user.getEmail())) {
+                throw new ForbiddenException("Insufficient role: You can only update your own courses.");
+            }
+        }
 
 
         if (course.title() != null) updatedCourse.setTitle(course.title());
@@ -181,6 +187,12 @@ public class CourseServiceImpl implements CourseService {
         fileService.deleteFile(course.getImageUrl());
         course.setImageUrl(null);
         courseRepository.save(course);
+    }
+
+    @Override
+    public boolean isAuthor(Long courseId, Principal principal) {
+        Course course = getCourseById(courseId);
+        return course.getAuthor().getEmail().equals(principal.getName());
     }
 
 
