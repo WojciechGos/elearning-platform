@@ -7,6 +7,7 @@ import project.backend.courses.course.model.Course;
 import project.backend.courses.category.model.Category;
 import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.lesson.mapper.LessonDTOMapper;
+import project.backend.user.UserMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CourseDTOMapper {
     private final LessonDTOMapper lessonDTOMapper;
-
+    private final UserMapper userMapper;
     public CourseDTO toDTO(Course course) {
         Long duration = 0L;
         if (course.getTotalDuration() != null) {
@@ -53,7 +54,8 @@ public class CourseDTOMapper {
                 lessonList,
                 course.getEnrollmentCount(),
                 course.getCourseState(),
-                course.getTargetAudience()
+                course.getTargetAudience(),
+                userMapper.mapToDTO(course.getAuthor())
         );
     }
 }

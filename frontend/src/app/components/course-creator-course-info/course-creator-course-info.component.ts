@@ -3,7 +3,6 @@ import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/interfaces/appState.interface';
 import { Course } from 'src/app/interfaces/course.interface';
-import { setCourse } from 'src/app/store/course/course.actions';
 import { CourseService } from 'src/app/services/course/course.service';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { Category } from 'src/app/interfaces/category.interface';
@@ -63,13 +62,12 @@ export class CourseCreatorCourseInfoComponent implements OnInit, AfterViewInit {
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;
     });
-    this.createCourse();
+
   }
 
   ngAfterViewInit() {
 
     this.selectionList.selectedOptions.changed.subscribe((event) => {
-
 
       if (event.added.length > 0) {
         const category = event.added[0].value as string;
@@ -82,6 +80,8 @@ export class CourseCreatorCourseInfoComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+
 
   addCategoryToCourse(category: Category): void {
     this.course$.subscribe((course) => {
@@ -114,8 +114,6 @@ export class CourseCreatorCourseInfoComponent implements OnInit, AfterViewInit {
     this.course$.subscribe((course) => {
 
       if (course == null) return;
-
-
       // this.courseService.createCourse(this.formGroup.value).subscribe((lesson) => {
       //   this.lessonId = lesson.id;
       //   this.uploadVideo(file);
@@ -147,18 +145,11 @@ export class CourseCreatorCourseInfoComponent implements OnInit, AfterViewInit {
 
     this.courseService.updateCourse(courseId, this.newCourse).subscribe((course) =>
       console.log("course updated")
-      );
+    );
 
   }
 
 
-
-  createCourse(): void {
-    this.courseService.createCourse(this.newCourse).subscribe((course) => {
-      console.log("coures created");
-      this.store.dispatch(setCourse({ course }));
-    });
-  }
 
   // this function can be called from the parent component which is 'course-creator.component.ts'
   updateCourseIfFormValid(): void {

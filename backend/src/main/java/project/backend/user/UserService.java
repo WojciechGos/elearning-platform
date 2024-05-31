@@ -37,11 +37,15 @@ public class UserService {
     repository.save(user);
   }
 
-  public List<UserDTO> getAllUsers() {
+  public List<UserDTO> getAllUsersDTO() {
     List<User> users = repository.findAll();
     return users.stream()
             .map(userMapper::mapToDTO)
             .collect(Collectors.toList());
+  }
+
+  public List<User> getAllUsers() {
+    return repository.findAll();
   }
 
   public User getUserByEmail(String email) {

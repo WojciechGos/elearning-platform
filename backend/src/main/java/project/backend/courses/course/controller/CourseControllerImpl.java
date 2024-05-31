@@ -83,6 +83,12 @@ public class CourseControllerImpl implements CourseController {
     }
 
     @Override
+    @GetMapping("/users")
+    public ResponseEntity<List<CourseDTO>> getUsersCourses(@RequestParam(required = false) String courseState, Principal principal) {
+        return new ResponseEntity<>(courseService.getUsersCourse(courseState, principal), HttpStatus.OK);
+    }
+
+    @Override
     @GetMapping("/{courseId}/image")
     public ResponseEntity<FileResponse> getSignedUrlForImageUpload(@PathVariable("courseId") Long courseId) {
         FileResponse response = new FileResponse(courseService.getSignedUrlForImageUpload(courseId));

@@ -15,7 +15,7 @@
     </div>
   </mat-step>
 
-  <mat-step label="Provide lessons" [stepControl]="lessonsFormArray">
+  <mat-step label="Provide lessons" [stepControl]="courseFormGroup.controls.lessons">
     <app-course-creator-lesson
       [formArray]="lessonsFormArray"
     ></app-course-creator-lesson>

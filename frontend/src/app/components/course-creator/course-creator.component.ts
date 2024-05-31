@@ -1,9 +1,16 @@
-import { Component, ViewChild, forwardRef } from '@angular/core';
+import { Component, OnInit, ViewChild, forwardRef } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormArray, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { CourseCreatorCourseInfoComponent } from '../course-creator-course-info/course-creator-course-info.component';
 import { getNewLessonFormGroup } from 'src/app/utils/lesson.form';
 import { CourseState } from 'src/app/enums/course.state';
+import { CourseService } from 'src/app/services/course/course.service';
+import { Observable } from 'rxjs';
+import { Course } from 'src/app/interfaces/course.interface';
+import { Store, select } from '@ngrx/store';
+import { AppStateInterface } from 'src/app/interfaces/appState.interface';
+import { courseSelector } from 'src/app/store/course/course.selectors';
+import { setCourse } from 'src/app/store/course/course.actions';
 
 @Component({
   selector: 'app-course-creator',
@@ -17,7 +24,7 @@ import { CourseState } from 'src/app/enums/course.state';
     }
   ]
 })
-export class CourseCreatorComponent {
+export class CourseCreatorComponent implements OnInit {
 
   courseFormGroup = new FormGroup({
     title: new FormControl('', {
@@ -36,7 +43,7 @@ export class CourseCreatorComponent {
       nonNullable: false,
     }),
 
-    price: new FormControl('', {
+    price: new FormControl(100, {
       validators: [
         Validators.required,
         // Validators.pattern("^[0-9]*$"),
@@ -65,12 +72,13 @@ export class CourseCreatorComponent {
       nonNullable: true,
     }),
 
-    categories: new FormControl([], {
+    categories: new FormControl( [] as string[], {
       validators: [
         Validators.required,
       ],
       nonNullable: true,
     }),
+    lessons: new FormArray([getNewLessonFormGroup()]),
   });
 
 
@@ -84,13 +92,76 @@ export class CourseCreatorComponent {
     }),
   });
 
+  newCourse: Course = {
+    id: 0, // it will be ignored by the backend
+    title: '',
+    description: '',
+    targetAudience: '',
+    language: '', // it will be ignored by the backend
+    price: 1,
+    categories: [], // it will be ignored by the backend
+    rating: 0, // it will be ignored by the backend
+    imageUrl: "",
+    discountPrice: 0, // it will be ignored by the backend
+    enrollmentCount: 0, // it will be ignored by the backend
+    lessons: [], // it will be ignored by the backend
+  };
+
 
   lessonsFormArray = new FormArray([getNewLessonFormGroup()]);
 
   @ViewChild(MatStepper) stepper !: MatStepper;
   @ViewChild(CourseCreatorCourseInfoComponent) courseCreatorCourseInfoComponent !: CourseCreatorCourseInfoComponent;
+  course$: Observable<Course | null> = this.store.pipe(select(courseSelector));
 
-  constructor() { }
+  constructor(
+    private courseService: CourseService,
+    private store: Store<AppStateInterface>,
+  ) { }
+
+  ngOnInit(): void {
+    this.getOrCreateCourse();
+  }
+
+  getOrCreateCourse(): void {
+    this.course$.subscribe((course) => {
+      if (course != null) return;
+
+      this.courseService.getUsersCourses('CREATING').subscribe((courses) => {
+        if (courses.length > 0) {
+          console.log(courses[0]);
+          this.store.dispatch(setCourse({ course: courses[0] }));
+          this.courseFormGroup.controls.title.setValue(courses[0].title);
+          this.courseFormGroup.controls.description.setValue(courses[0].description);
+          this.courseFormGroup.controls.price.setValue(courses[0].price);
+          this.courseFormGroup.controls.image.setValue(courses[0].imageUrl);
+          this.courseFormGroup.controls.language.setValue(courses[0].language as string);
+          this.courseFormGroup.controls.targetAudience.setValue(courses[0].targetAudience as string);
+          this.courseFormGroup.controls.categories.setValue(courses[0].categories as string[]);
+
+          courses[0].lessons.forEach((lesson) => {
+            const lessonForm: FormGroup = getNewLessonFormGroup();
+            lessonForm.controls['title'].setValue(lesson.title);
+            lessonForm.controls['description'].setValue(lesson.description);
+            lessonForm.controls['videoUrl'].setValue(lesson.videoUrl);
+            this.lessonsFormArray.push(lessonForm);
+          });
+          this.lessonsFormArray.controls
+        }
+        else {
+          this.createCourse();
+        }
+      });
+    });
+  }
+
+
+  createCourse(): void {
+    this.courseService.createCourse(this.newCourse).subscribe((course) => {
+      console.log("coures created");
+      this.store.dispatch(setCourse({ course }));
+    });
+  }
 
   onStepChange(event: any): void {
     console.log('Step changed: ', event);

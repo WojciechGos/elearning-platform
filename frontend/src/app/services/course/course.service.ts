@@ -55,5 +55,11 @@ export class CourseService {
     return this.http.get<{  }>(`${environment.apiUrl}/api/v1/courses/${courseId}/image`);
   }
 
+  getUsersCourses(courseState: string): Observable<Course[]> {
+    if(courseState === '') 
+      return this.http.get<Course[]>(`${environment.apiUrl}/api/v1/courses/users`);
+    else
+      return this.http.get<Course[]>(`${environment.apiUrl}/api/v1/courses/users?courseState=${courseState}`);
+  }
 
 }

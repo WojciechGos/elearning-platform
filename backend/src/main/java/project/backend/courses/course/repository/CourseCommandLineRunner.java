@@ -16,6 +16,8 @@ import project.backend.courses.language.service.LanguageServiceImpl;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.repository.LessonCommandLineRunner;
 import project.backend.courses.lesson.service.LessonService;
+import project.backend.user.User;
+import project.backend.user.UserService;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -30,14 +32,17 @@ public class CourseCommandLineRunner implements CommandLineRunner {
     private final LanguageService languageService;
     private final CategoryService categoryService;
     private final LessonService lessonService;
+    private final UserService userService;
 
     @Value("${aws.s3.url}")
     private String awsS3Url;
+
     @Override
     public void run(String... args) throws Exception {
 
         List<Language> languages = languageService.getLanguages();
         List<Category> categories = categoryService.getCategories();
+        List<User> users = userService.getAllUsers();
         Course course;
 
         course = courseRepository.save(Course.builder()
@@ -48,10 +53,11 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .language(languages.get(0))
                 .totalDuration(Duration.ZERO)
                 .rating(4.5)
-                .imageUrl(awsS3Url+"/public/courses/0/production-image.png")
+                .imageUrl(awsS3Url + "/public/courses/0/production-image.png")
                 .lessons(LessonCommandLineRunner.getLessonsPack(0))
                 .enrollmentCount(1001)
                 .courseState(CourseState.PUBLISHED)
+                .author(users.get(0))
                 .build());
         attachCourseToLesson(course);
 
@@ -64,10 +70,11 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .language(languages.get(0))
                 .totalDuration(Duration.ZERO)
                 .rating(4.5)
-                .imageUrl(awsS3Url+"/public/courses/0/production-image.png")
+                .imageUrl(awsS3Url + "/public/courses/0/production-image.png")
                 .lessons(LessonCommandLineRunner.getLessonsPack(1))
                 .enrollmentCount(200)
                 .courseState(CourseState.PUBLISHED)
+                .author(users.get(3))
                 .build());
 
         attachCourseToLesson(course);
@@ -80,10 +87,11 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .language(languages.get(0))
                 .totalDuration(Duration.ZERO)
                 .rating(4.5)
-                .imageUrl(awsS3Url+"/public/courses/0/production-image.png")
+                .imageUrl(awsS3Url + "/public/courses/0/production-image.png")
                 .lessons(LessonCommandLineRunner.getLessonsPack(2))
                 .enrollmentCount(200)
                 .courseState(CourseState.PUBLISHED)
+                .author(users.get(0))
                 .build());
 
         attachCourseToLesson(course);
@@ -96,10 +104,11 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .language(languages.get(0))
                 .totalDuration(Duration.ZERO)
                 .rating(4.5)
-                .imageUrl(awsS3Url+"/public/courses/0/production-image.png")
+                .imageUrl(awsS3Url + "/public/courses/0/production-image.png")
                 .lessons(LessonCommandLineRunner.getLessonsPack(3))
                 .enrollmentCount(300)
                 .courseState(CourseState.PUBLISHED)
+                .author(users.get(3))
                 .build());
 
         attachCourseToLesson(course);
@@ -112,10 +121,11 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .language(languages.get(0))
                 .totalDuration(Duration.ZERO)
                 .rating(4.5)
-                .imageUrl(awsS3Url+"/public/courses/0/production-image.png")
+                .imageUrl(awsS3Url + "/public/courses/0/production-image.png")
                 .lessons(LessonCommandLineRunner.getLessonsPack(4))
                 .enrollmentCount(400)
                 .courseState(CourseState.HIDDEN)
+                .author(users.get(3))
                 .build());
 
         attachCourseToLesson(course);
@@ -128,10 +138,11 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .language(languages.get(2))
                 .totalDuration(Duration.ZERO)
                 .rating(4.5)
-                .imageUrl(awsS3Url+"/public/courses/0/production-image.png")
+                .imageUrl(awsS3Url + "/public/courses/0/production-image.png")
                 .lessons(LessonCommandLineRunner.getLessonsPack(5))
                 .enrollmentCount(40)
                 .courseState(CourseState.PUBLISHED)
+                .author(users.get(3))
                 .build());
 
         attachCourseToLesson(course);
@@ -144,10 +155,11 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .language(languages.get(0))
                 .totalDuration(Duration.ZERO)
                 .rating(4.5)
-                .imageUrl(awsS3Url+"/public/courses/0/production-image.png")
+                .imageUrl(awsS3Url + "/public/courses/0/production-image.png")
                 .lessons(LessonCommandLineRunner.getLessonsPack(6))
                 .enrollmentCount(70)
                 .courseState(CourseState.PUBLISHED)
+                .author(users.get(3))
                 .build());
 
         attachCourseToLesson(course);
@@ -160,10 +172,11 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .language(languages.get(0))
                 .totalDuration(Duration.ZERO)
                 .rating(4.5)
-                .imageUrl(awsS3Url+"/public/courses/0/production-image.png")
+                .imageUrl(awsS3Url + "/public/courses/0/production-image.png")
                 .lessons(LessonCommandLineRunner.getLessonsPack(7))
                 .enrollmentCount(90)
                 .courseState(CourseState.PUBLISHED)
+                .author(users.get(3))
                 .build());
 
         attachCourseToLesson(course);
@@ -176,10 +189,11 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .language(languages.get(0))
                 .totalDuration(Duration.ZERO)
                 .rating(4.5)
-                .imageUrl(awsS3Url+"/public/courses/0/production-image.png")
+                .imageUrl(awsS3Url + "/public/courses/0/production-image.png")
                 .lessons(LessonCommandLineRunner.getLessonsPack(8))
                 .enrollmentCount(60)
                 .courseState(CourseState.PUBLISHED)
+                .author(users.get(3))
                 .build());
 
         attachCourseToLesson(course);
@@ -192,10 +206,11 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .language(languages.get(1))
                 .totalDuration(Duration.ZERO)
                 .rating(4.5)
-                .imageUrl(awsS3Url+"/public/courses/0/production-image.png")
+                .imageUrl(awsS3Url + "/public/courses/0/production-image.png")
                 .lessons(LessonCommandLineRunner.getLessonsPack(9))
                 .enrollmentCount(231)
                 .courseState(CourseState.PUBLISHED)
+                .author(users.get(3))
                 .build());
 
         attachCourseToLesson(course);
@@ -208,10 +223,11 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .language(languages.get(1))
                 .totalDuration(Duration.ZERO)
                 .rating(4.5)
-                .imageUrl(awsS3Url+"/public/courses/0/production-image.png")
+                .imageUrl(awsS3Url + "/public/courses/0/production-image.png")
                 .lessons(LessonCommandLineRunner.getLessonsPack(10))
                 .enrollmentCount(3)
-                .courseState(CourseState.PUBLISHED)
+                .courseState(CourseState.CREATING)
+                .author(users.get(0))
                 .build());
 
         attachCourseToLesson(course);
@@ -224,10 +240,11 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .language(languages.get(0))
                 .totalDuration(Duration.ZERO)
                 .rating(4.5)
-                .imageUrl(awsS3Url+"/public/courses/0/production-image.png")
+                .imageUrl(awsS3Url + "/public/courses/0/production-image.png")
                 .lessons(LessonCommandLineRunner.getLessonsPack(11))
                 .enrollmentCount(983)
                 .courseState(CourseState.PUBLISHED)
+                .author(users.get(3))
                 .build());
         attachCourseToLesson(course);
 

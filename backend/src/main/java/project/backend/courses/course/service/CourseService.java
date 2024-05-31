@@ -32,6 +32,8 @@ public interface CourseService {
 
     void deleteCourse(Long courseId);
 
+    List<CourseDTO> getUsersCourse (String courseState, Principal principal);
+
     String getSignedUrlForImageUpload(Long courseId);
 
     void deleteCourseImage(Long courseId);

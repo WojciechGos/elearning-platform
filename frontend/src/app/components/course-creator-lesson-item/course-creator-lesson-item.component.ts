@@ -17,6 +17,7 @@ import { UploadState } from 'src/app/enums/upload.state';
 export class CourseCreatorLessonItemComponent implements OnInit {
 
   @Input() formGroup !: FormGroup;
+  @Input()
   lessonId: number = -1;
   course$: Observable<Course | null> = this.store.pipe(select(courseSelector));
   uploadState: UploadState = UploadState.NOT_STARTED;
@@ -32,8 +33,8 @@ export class CourseCreatorLessonItemComponent implements OnInit {
       if (course == null)
         return;
 
-      this.lessonService.createLesson(course.id, this.formGroup.value).subscribe((lesson) => {
-      });
+      // this.lessonService.createLesson(course.id, this.formGroup.value).subscribe((lesson) => {
+      // });
     });
   }
 
@@ -43,14 +44,6 @@ export class CourseCreatorLessonItemComponent implements OnInit {
 
       if (course == null)
         return;
-
-      if (this.lessonId === -1) {
-        this.createLesson(course.id);
-      }
-      else {
-        this.updateLesson(this.lessonId);
-      }
-
     });
   }
   updateLesson(lessonId: number): void {

@@ -16,6 +16,9 @@ import project.backend.courses.course.model.CourseState;
 import project.backend.courses.course.repository.CourseSpecification;
 import project.backend.courses.language.model.Language;
 import project.backend.courses.language.service.LanguageService;
+import project.backend.courses.lesson.mapper.LessonDTOMapper;
+import project.backend.courses.lesson.model.Lesson;
+import project.backend.courses.lesson.service.LessonService;
 import project.backend.courses.utils.file.service.FileService;
 import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
@@ -39,6 +42,8 @@ public class CourseServiceImpl implements CourseService {
     private final CourseDTOMapper courseDTOMapper;
     private final UserService userService;
     private final FileService fileService;
+    private final LessonService lessonService;
+    private final LessonDTOMapper lessonDTOMapper;
     @Value("${aws.s3.url}")
     private String awsS3Url;
 
@@ -89,6 +94,13 @@ public class CourseServiceImpl implements CourseService {
         if(principal.getName() == null)
             throw new ForbiddenException("You need to be logged in to create a course.");
 
+        Lesson lesson = Lesson.builder()
+                .title("")
+                .description("")
+                .videoUrl("")
+                .build();
+        Lesson newLesson = lessonService.createLesson(lessonDTOMapper.toDTO(lesson));
+
         Course newCourse = Course.builder()
                 .title(course.title())
                 .description(course.description())
@@ -101,6 +113,7 @@ public class CourseServiceImpl implements CourseService {
                 .targetAudience(course.targetAudience())
                 .courseState(CourseState.CREATING)
                 .enrollmentCount(0)
+                .lessons(List.of(newLesson))
                 .author(userService.getUserByEmail(principal.getName()))
                 .build();
 
@@ -169,6 +182,15 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.save(course);
     }
 
+    @Override
+    public List<CourseDTO> getUsersCourse(String courseState, Principal principal) {
+        List<Course> filteredCourses = courseRepository.findCoursesByAuthorEmail(principal.getName());
+        if(courseState != null && !courseState.isEmpty() && !courseState.isBlank()){
+            filteredCourses = filteredCourses.stream().filter(course -> course.getCourseState().toString().equals(courseState)).toList();
+        }
+
+        return filteredCourses.stream().map(courseDTOMapper::toDTO).toList();
+    }
 
     @Override
     public String getSignedUrlForImageUpload(Long courseId) {

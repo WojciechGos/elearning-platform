@@ -5,6 +5,4 @@ export interface Lesson {
     content: string
     lessonNumber: number
     videoUrl: string
-    duration: number
-    course: number
 }
