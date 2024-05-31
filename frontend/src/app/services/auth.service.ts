@@ -1,15 +1,14 @@
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { CartService } from './cart.service';
 
 interface User {
-  id: number;
-  currentUser: string;
-  accessToken: string;
-  refreshToken: string;
+  email: string;
+  firstName: string;
+  lastName: string;
 }
 
 @Injectable({
@@ -51,9 +50,9 @@ export class AuthService {
     password: string,
     firstName: string,
     lastName: string
-  ): Observable<User> {
+  ): Observable<any> {
     return this.http
-      .post<User>(`http://localhost:8080/api/v1/auth/register`, {
+      .post<any>(`http://localhost:8080/api/v1/auth/register`, {
         email,
         password,
         firstName,
@@ -68,10 +67,11 @@ export class AuthService {
   }
 
   private storeUserCredentials(response: any) {
-    localStorage.setItem('currentUser', JSON.stringify(response.currentUser));
+    const user = response.user;
+    localStorage.setItem('currentUser', JSON.stringify(user));
     localStorage.setItem('accessToken', response.accessToken);
     localStorage.setItem('refreshToken', response.refreshToken);
-    this.currentUserSubject.next(response.currentUser);
+    this.currentUserSubject.next(user);
     this.router.navigate(['/main-page']);
     this.cartService.handleLoggedInUser();
   }
@@ -105,14 +105,21 @@ export class AuthService {
 
   public refreshToken(): Observable<any> {
     const refreshToken = this.getRefreshToken();
+    console.log('Attempting to refresh token:', refreshToken);
+
     return this.http
       .post<any>(`http://localhost:8080/api/v1/auth/refresh-token`, {
         refreshToken,
       })
       .pipe(
         map((response) => {
+          console.log('Token refreshed:', response.accessToken);
           localStorage.setItem('accessToken', response.accessToken);
           return response;
+        }),
+        catchError((error) => {
+          console.error('Refresh token failed:', error);
+          return throwError(error);
         })
       );
   }
@@ -129,5 +136,17 @@ export class AuthService {
           return response;
         })
       );
+  }
+
+  getGoogleClientId(): Observable<string> {
+    return this.http.get<{ googleClientId: string }>(
+      `http://localhost:8080/api/v1/auth/google-client-id`
+    ).pipe(
+      map(response => response.googleClientId),
+      catchError(error => {
+        console.error('Failed to fetch Google Client ID', error);
+        return throwError(error);
+      })
+    );
   }
 }

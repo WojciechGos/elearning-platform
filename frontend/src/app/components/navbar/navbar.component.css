@@ -144,6 +144,25 @@ a {
     margin-top: 5px;
 }
 
+.user-icon-container {
+  margin-right: 110px;
+  display: flex;
+  align-items: center;
+}
+
+.user-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
 /*********************************************** responsivness **********************************************/
 
 @media only screen and (max-width: 768px) {

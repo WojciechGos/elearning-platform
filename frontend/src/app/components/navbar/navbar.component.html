@@ -37,13 +37,21 @@
         class="sign-up-button"
         routerLink="/register"
       ></app-button>
-      <app-button
+      <!-- <app-button
         *ngIf="isLoggedIn"
         [text]="'Logout'"
         [type]="'LOG_OUT'"
         (click)="logout()"
         class="logout-button"
-      ></app-button>
+      ></app-button> -->
+
+      <div
+        *ngIf="isLoggedIn"
+        class="user-icon-container"
+        (click)="navigateToUserProfile()"
+      >
+        <div class="user-icon">{{ userInitials }}</div>
+      </div>
     </div>
   </div>
 </nav>

@@ -1,0 +1,14 @@
+<app-navbar></app-navbar>
+
+<div class="user-profile">
+  <h2>Dane Użytkownika</h2>
+  <div>
+    <p><strong>First name:</strong> {{ user?.firstName }}</p>
+    <p><strong>Last name:</strong> {{ user?.lastName }}</p>
+    <p><strong>Email:</strong> {{ user?.email }}</p>
+    <button (click)="logout()">Log out</button>
+  </div>
+  <div class="user-courses">
+    <h3>My courses</h3>
+  </div>
+</div>

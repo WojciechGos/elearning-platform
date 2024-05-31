@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const token = localStorage.getItem('jwtToken');
+    const token = localStorage.getItem('accessToken');
     console.log('TEST! Token:', token);
     if (!token) {
       this.router.navigate(['/login']);
