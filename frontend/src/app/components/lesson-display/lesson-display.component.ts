@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 
 @Component({
@@ -6,9 +6,19 @@ import { Input } from '@angular/core';
   templateUrl: './lesson-display.component.html',
   styleUrls: ['./lesson-display.component.css']
 })
-export class LessonDisplayComponent {
+export class LessonDisplayComponent implements OnInit {
   @Input() title!: string;
   @Input() description!: string;
   @Input() videoUrl!: string;
-  @Input() content!: string;
+
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  ngOnInit(): void {
+    console.log('lesson ngOnInit');
+  }
+
+  reRenderComponent() {
+    console.log('re-rendering component');
+    this.cdr.detectChanges();
+  }
 }

@@ -1,12 +1,11 @@
 package project.backend.courses.lesson.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.lessonResource.model.LessonResource;
 
@@ -17,6 +16,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
+@AllArgsConstructor
+@Builder
 public class Lesson {
 
     @SequenceGenerator(
@@ -45,7 +46,9 @@ public class Lesson {
     private String videoUrl;
     private Duration duration;
 
+    @JsonBackReference
     @ManyToOne
+//            (fetch = FetchType.LAZY)
     private Course course;
 
     @OneToMany

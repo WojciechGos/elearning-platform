@@ -1,0 +1,13 @@
+.course-creator-form{
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+mat-button-toggle-group {
+  margin-left: 12px;
+}

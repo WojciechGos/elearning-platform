@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, isDevMode } from '@angular/core';
 
 @Component({
   selector: 'app-course-search-item',
@@ -15,6 +15,9 @@ export class CourseSearchItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    if(isDevMode() == true) {
+      this.image="./assets/images/course-image.png"
+    }
   }
 
 }

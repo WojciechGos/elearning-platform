@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import project.backend.exception.ResourceNotFoundException;
+import project.backend.exception.types.ResourceNotFoundException;
 
 import java.security.Principal;
 import java.util.List;
@@ -37,11 +37,15 @@ public class UserService {
     repository.save(user);
   }
 
-  public List<UserDTO> getAllUsers() {
+  public List<UserDTO> getAllUsersDTO() {
     List<User> users = repository.findAll();
     return users.stream()
             .map(userMapper::mapToDTO)
             .collect(Collectors.toList());
+  }
+
+  public List<User> getAllUsers() {
+    return repository.findAll();
   }
 
   public User getUserByEmail(String email) {

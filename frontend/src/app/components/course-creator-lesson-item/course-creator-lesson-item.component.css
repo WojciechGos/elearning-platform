@@ -1,0 +1,27 @@
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-item {
+  margin-top: 10px;
+}
+
+.uploaded-icon{
+  color: green;
+  font-size: 120px;
+  height: 120px;
+  width: 120px;
+}
+
+.error-icon{
+  color: red;
+  font-size: 120px;
+  height: 120px;
+  width: 120px;
+}
+
+.progress-bar{
+  display: flex;
+  justify-content: center;
+}

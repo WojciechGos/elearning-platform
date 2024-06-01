@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { CartService } from 'src/app/services/cart.service';
+import { CartService } from 'src/app/services/cart/cart.service';
 import { DatePipe } from '@angular/common';
 
 export interface Cart {

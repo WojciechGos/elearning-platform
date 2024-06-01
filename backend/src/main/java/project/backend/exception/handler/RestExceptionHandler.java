@@ -1,4 +1,4 @@
-package project.backend.exception;
+package project.backend.exception.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+import project.backend.exception.response.ExceptionResponse;
+import project.backend.exception.types.BadRequestException;
+import project.backend.exception.types.ForbiddenException;
+import project.backend.exception.types.ResourceNotFoundException;
 
 import java.sql.Timestamp;
 
@@ -22,9 +26,20 @@ public class RestExceptionHandler {
     public ResponseEntity<ExceptionResponse> handleNoHandlerFoundException(NoResourceFoundException ex) {
         return new ResponseEntity<>(new ExceptionResponse(404, "Not Found", ex.getMessage(), new Timestamp(System.currentTimeMillis())), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ExceptionResponse> handleBadRequestException(BadRequestException ex) {
+        return new ResponseEntity<>(new ExceptionResponse(400, "Bad Request", ex.getMessage(), new Timestamp(System.currentTimeMillis())), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ExceptionResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         return new ResponseEntity<>(new ExceptionResponse(400, "Bad Request", ex.getMessage(), new Timestamp(System.currentTimeMillis())), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ExceptionResponse> handleForbiddenException(ForbiddenException ex) {
+        return new ResponseEntity<>(new ExceptionResponse(403, "Forbidden", ex.getMessage(), new Timestamp(System.currentTimeMillis())), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(Exception.class)

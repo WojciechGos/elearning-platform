@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryService } from 'src/app/services/category.service';
+import { CategoryService } from 'src/app/services/category/category.service';
 import { Category } from 'src/app/interfaces/category.interface';
 import { PageEvent } from '@angular/material/paginator';
 import { Course } from 'src/app/interfaces/course.interface';
-import { CourseService } from 'src/app/services/course.service';
+import { CourseService } from 'src/app/services/course/course.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -47,6 +47,7 @@ export class CourseSearchComponent implements OnInit {
       categories: selectedCategories != null ? selectedCategories: '',
       keyword : selectedKeyword != null ? selectedKeyword : ''
     }
+    // TODO move it to the redux, because it doesnt refresh in the course search component
     // get all courses to display it in the course list
     this.courseService.getCoursesByFilter(params).subscribe((courseFilter) => {
       this.length = courseFilter.count;

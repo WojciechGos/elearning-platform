@@ -12,7 +12,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   intercept(
     req: HttpRequest<any>,
@@ -23,11 +23,18 @@ export class AuthInterceptor implements HttpInterceptor {
 
     let authReq = req;
     if (accessToken && !req.url.includes('refresh-token')) {
-      authReq = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      if (req.headers.has('Skip-Auth')) {
+        req = req.clone({
+          headers: req.headers.delete('Skip-Auth'),
+        });
+      }
+      else {
+        authReq = req.clone({
+          setHeaders: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+      }
     }
 
     return next.handle(authReq).pipe(

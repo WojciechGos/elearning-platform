@@ -1,0 +1,13 @@
+<p>Make sure you filled all inputs!</p>
+
+<form [formGroup]="formGroup" class="form-group" (ngSubmit)="changeStatus()">
+  <mat-form-field>
+    <mat-label>Select</mat-label>
+    <mat-select  formControlName="courseState">
+      <mat-option value="READY_TO_ACCEPT">Ask for publish</mat-option>
+      <mat-option value="HIDDEN">Hide</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Update status</button>
+</form>
