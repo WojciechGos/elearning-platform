@@ -6,7 +6,7 @@ public record LessonDTO(
         String title,
         String description,
         String content,
-        int lessonNumber,
+        Integer lessonNumber,
         String videoUrl
 ) {
 }

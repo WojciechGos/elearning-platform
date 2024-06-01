@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, forwardRef } from '@angular/core';
+import { Component, OnInit, ViewChild, forwardRef, AfterViewInit } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormArray, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { CourseCreatorCourseInfoComponent } from '../course-creator-course-info/course-creator-course-info.component';
@@ -24,7 +24,7 @@ import { setCourse } from 'src/app/store/course/course.actions';
     }
   ]
 })
-export class CourseCreatorComponent implements OnInit {
+export class CourseCreatorComponent implements AfterViewInit {
 
   courseFormGroup = new FormGroup({
     title: new FormControl('', {
@@ -72,13 +72,12 @@ export class CourseCreatorComponent implements OnInit {
       nonNullable: true,
     }),
 
-    categories: new FormControl( [] as string[], {
+    categories: new FormControl([] as string[], {
       validators: [
         Validators.required,
       ],
       nonNullable: true,
     }),
-    lessons: new FormArray([getNewLessonFormGroup()]),
   });
 
 
@@ -108,7 +107,7 @@ export class CourseCreatorComponent implements OnInit {
   };
 
 
-  lessonsFormArray = new FormArray([getNewLessonFormGroup()]);
+  lessonsFormArray = new FormArray([] as FormGroup[]);
 
   @ViewChild(MatStepper) stepper !: MatStepper;
   @ViewChild(CourseCreatorCourseInfoComponent) courseCreatorCourseInfoComponent !: CourseCreatorCourseInfoComponent;
@@ -119,14 +118,13 @@ export class CourseCreatorComponent implements OnInit {
     private store: Store<AppStateInterface>,
   ) { }
 
-  ngOnInit(): void {
-    this.getOrCreateCourse();
-  }
+
 
   getOrCreateCourse(): void {
     this.course$.subscribe((course) => {
       if (course != null) return;
 
+      // if user have existing course in state CREATING then load it, else  create it
       this.courseService.getUsersCourses('CREATING').subscribe((courses) => {
         if (courses.length > 0) {
           console.log(courses[0]);
@@ -141,27 +139,32 @@ export class CourseCreatorComponent implements OnInit {
 
           courses[0].lessons.forEach((lesson) => {
             const lessonForm: FormGroup = getNewLessonFormGroup();
+            lessonForm.controls['id'].setValue(lesson.id);
             lessonForm.controls['title'].setValue(lesson.title);
             lessonForm.controls['description'].setValue(lesson.description);
             lessonForm.controls['videoUrl'].setValue(lesson.videoUrl);
             this.lessonsFormArray.push(lessonForm);
           });
-          this.lessonsFormArray.controls
         }
         else {
-          this.createCourse();
+          this.courseService.createCourse(this.newCourse).subscribe((course) => {
+            console.log("coures created");
+            this.store.dispatch(setCourse({ course }));
+            course.lessons.forEach((lesson) => {
+              const lessonForm: FormGroup = getNewLessonFormGroup();
+              lessonForm.controls['id'].setValue(lesson.id);
+              lessonForm.controls['title'].setValue(lesson.title);
+              lessonForm.controls['description'].setValue(lesson.description);
+              lessonForm.controls['videoUrl'].setValue(lesson.videoUrl);
+              this.lessonsFormArray.push(lessonForm);
+            });
+          });
         }
       });
     });
   }
 
 
-  createCourse(): void {
-    this.courseService.createCourse(this.newCourse).subscribe((course) => {
-      console.log("coures created");
-      this.store.dispatch(setCourse({ course }));
-    });
-  }
 
   onStepChange(event: any): void {
     console.log('Step changed: ', event);
@@ -173,6 +176,7 @@ export class CourseCreatorComponent implements OnInit {
 
   nextStep(type: string): void {
     if (type === 'course') {
+      console.log(this.courseFormGroup)
       if (this.courseFormGroup.valid) {
         this.courseCreatorCourseInfoComponent.updateCourseIfFormValid();
         this.stepper.next();
@@ -190,6 +194,7 @@ export class CourseCreatorComponent implements OnInit {
 
   ngAfterViewInit() {
     this.stepper.selectedIndex = 0;
+    this.getOrCreateCourse();
   }
 
 }

@@ -7,13 +7,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import project.backend.courses.category.model.Category;
 import project.backend.courses.category.service.CategoryService;
-import project.backend.courses.category.service.CategoryServiceImpl;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.model.CourseState;
 import project.backend.courses.language.model.Language;
 import project.backend.courses.language.service.LanguageService;
-import project.backend.courses.language.service.LanguageServiceImpl;
-import project.backend.courses.lesson.model.Lesson;
+import project.backend.courses.lesson.mapper.LessonDTOMapper;
 import project.backend.courses.lesson.repository.LessonCommandLineRunner;
 import project.backend.courses.lesson.service.LessonService;
 import project.backend.user.User;
@@ -33,6 +31,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
     private final CategoryService categoryService;
     private final LessonService lessonService;
     private final UserService userService;
+    private final LessonDTOMapper lessonDTOMapper;
 
     @Value("${aws.s3.url}")
     private String awsS3Url;
@@ -253,7 +252,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
     public void attachCourseToLesson(Course course) {
         course.getLessons().forEach(lesson -> {
             lesson.setCourse(course);
-            lessonService.updateLesson(lesson);
+            lessonService.updateLesson(lesson.getId(), lessonDTOMapper.toDTO(lesson));
         });
     }
 }

@@ -36,13 +36,18 @@ export class CourseCreatorLessonComponent implements OnInit {
   
   }
   ngOnInit(): void {
+    console.log(this.formArray)
     this.store.dispatch(getCourse());
   }
 
   addLesson(): void {
-    this.formArray.push(getNewLessonFormGroup(this.lessonCounter));
+    const newLesson : FormGroup = getNewLessonFormGroup();
+    newLesson.controls['lessonNumber'].setValue(this.lessonCounter);
+
+    this.formArray.push(newLesson);
     this.lessonCounter++;
   }
 
-
+  deleteLesson(index: number): void {
+  }
 }

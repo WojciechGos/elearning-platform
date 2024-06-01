@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.backend.courses.course.model.Course;
-import project.backend.courses.utils.file.request.FileRequest;
+import project.backend.courses.lesson.mapper.LessonDTOMapper;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.lesson.repository.LessonRepository;
@@ -24,6 +24,7 @@ public class LessonServiceImpl implements LessonService {
     private final LessonRepository lessonRepository;
     private final LessonResourceService lessonResourceService;
     private final FileService fileService;
+    private final LessonDTOMapper lessonDTOMapper;
 
     @Override
     public List<Lesson> getLessons() {
@@ -47,8 +48,19 @@ public class LessonServiceImpl implements LessonService {
         ));
     }
 
-    public Lesson updateLesson(Lesson lesson) {
-        return lessonRepository.save(lesson);
+    public LessonDTO updateLesson(Long lessonId, LessonDTO lesson) {
+        Lesson lessonToUpdate = getLesson(lessonId);
+        if (lesson.title() != null)
+            lessonToUpdate.setTitle(lesson.title());
+        if (lesson.description() != null)
+            lessonToUpdate.setDescription(lesson.description());
+        if (lesson.content() != null)
+            lessonToUpdate.setContent(lesson.content());
+        if (lesson.lessonNumber() != null)
+            lessonToUpdate.setLessonNumber(lesson.lessonNumber());
+        if (lesson.videoUrl() != null)
+            lessonToUpdate.setVideoUrl(lesson.videoUrl());
+        return lessonDTOMapper.toDTO(lessonRepository.save(lessonToUpdate));
     }
 
     public void deleteLesson(Long lessonId) {

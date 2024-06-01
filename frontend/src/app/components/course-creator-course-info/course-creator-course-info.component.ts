@@ -67,6 +67,7 @@ export class CourseCreatorCourseInfoComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
 
+    // TODO prevent it to add options that are added in ngOnInit (existing categories are multiplied) 
     this.selectionList.selectedOptions.changed.subscribe((event) => {
 
       if (event.added.length > 0) {

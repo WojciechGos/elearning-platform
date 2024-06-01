@@ -1,6 +1,5 @@
 package project.backend.courses.lesson.service;
 
-import project.backend.courses.utils.file.request.FileRequest;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.utils.file.response.FileResponse;
@@ -14,7 +13,7 @@ public interface LessonService {
 
     Lesson createLesson(LessonDTO lesson);
 
-    Lesson updateLesson(Lesson lesson);
+    LessonDTO updateLesson(Long lessonId, LessonDTO lesson);
 
     void deleteLesson(Long lessonId);
 

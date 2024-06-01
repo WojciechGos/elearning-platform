@@ -51,8 +51,8 @@ public class SecurityConfiguration {
                         req.requestMatchers("/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/google-login")
                                 .permitAll()
                                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                                .anyRequest()
-                                .authenticated()
+                                .anyRequest().permitAll()
+
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)

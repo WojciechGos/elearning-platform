@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import project.backend.courses.utils.file.request.FileRequest;
+import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.lesson.service.LessonServiceImpl;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lessonResource.model.LessonResource;
@@ -34,8 +34,8 @@ public class LessonControllerImpl implements LessonController {
 
     @Override
     @PutMapping("/{lessonId}")
-    public ResponseEntity<Lesson> updateLesson(Lesson lesson, @PathVariable("lessonId") Long lessonId) {
-        return new ResponseEntity<>(lessonService.updateLesson(lesson), HttpStatus.OK);
+    public ResponseEntity<LessonDTO> updateLesson(@RequestBody LessonDTO lesson, @PathVariable("lessonId") Long lessonId) {
+        return new ResponseEntity<>(lessonService.updateLesson(lessonId, lesson), HttpStatus.OK);
     }
 
     @Override

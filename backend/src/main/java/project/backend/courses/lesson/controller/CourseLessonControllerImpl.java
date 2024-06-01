@@ -24,6 +24,7 @@ public class CourseLessonControllerImpl implements CourseLessonController {
             Principal principal,
             @PathVariable("courseId") Long courseId,
             @RequestBody LessonDTO lesson) {
+
         LessonDTO createdLesson = courseLessonService.addLessonToCourse(courseId, lesson, principal);
         return new ResponseEntity<>(createdLesson, HttpStatus.CREATED);
     }

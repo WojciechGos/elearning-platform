@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import project.backend.courses.course.dto.CourseDTO;
@@ -102,15 +101,15 @@ public class CourseServiceImpl implements CourseService {
         Lesson newLesson = lessonService.createLesson(lessonDTOMapper.toDTO(lesson));
 
         Course newCourse = Course.builder()
-                .title(course.title())
-                .description(course.description())
-                .price(course.price())
+                .title("")
+                .description("")
+                .price(new BigDecimal(0))
                 .discountPrice(new BigDecimal(0))
                 .language(null)
                 .categories(null)
                 .rating(0)
-                .imageUrl(course.imageUrl())
-                .targetAudience(course.targetAudience())
+                .imageUrl("")
+                .targetAudience(null)
                 .courseState(CourseState.CREATING)
                 .enrollmentCount(0)
                 .lessons(List.of(newLesson))
@@ -121,7 +120,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @PreAuthorize("@courseServiceImpl.isAuthor(#courseId, #principal)")
+//    @PreAuthorize("@courseServiceImpl.isAuthor(#courseId, #principal)")
     public CourseDTO updateCourse(Long courseId, CourseDTO course, Principal principal) {
         Course updatedCourse = getCourseById(courseId);
         User user = userService.getUserByEmail(principal.getName());
