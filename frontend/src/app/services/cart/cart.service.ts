@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin, of, catchError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CartItem } from '../../interfaces/cartItem.interface';
+import { Course } from 'src/app/interfaces/course.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +45,10 @@ export class CartService {
 
   getCartsByUser(email: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/carts/user/${email}`);
+  }
+
+  getUsersCartByStatus(status: string): Observable<Course[]> {
+    return this.http.get<Course[]>(`${this.apiUrl}/carts/status/${status}/me`);
   }
 
   getCartByCartID(id: number): Observable<any> {
