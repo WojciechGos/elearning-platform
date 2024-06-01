@@ -55,7 +55,7 @@
           id="file"
         />
 
-        <img *ngIf="imageUrl" [src]="imageUrl" />
+        <img *ngIf="imageUrl" [src]="this.formGroup.controls['imageUrl']" />
       </div>
 
       <h2>Language</h2>

@@ -6,7 +6,7 @@
     >
   </mat-expansion-panel-header>
 
-  <form [formGroup]="formGroup" (ngSubmit)="createOrUpdateLesson()">
+  <form [formGroup]="formGroup" (ngSubmit)="updateLesson()">
     <mat-form-field class="form-group">
       <mat-label>Lesson title</mat-label>
       <input
@@ -62,7 +62,7 @@
 
     <div class="form-group">
       <button mat-raised-button color="primary" type="submit">
-        Create Lesson
+        Save Lesson
       </button>
     </div>
   </form>
