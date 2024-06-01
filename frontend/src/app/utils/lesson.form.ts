@@ -2,6 +2,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 export const getNewLessonFormGroup = (lessonNumber:number = 1): FormGroup =>{
     return new FormGroup({
+      id: new FormControl(-1, {
+
+      }),
       title: new FormControl('', {
         validators: [
           Validators.required,

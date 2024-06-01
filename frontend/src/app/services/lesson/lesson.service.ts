@@ -18,10 +18,18 @@ export class LessonService {
     return this.http.post<Lesson>(`${environment.apiUrl}/api/v1/courses/${courseId}/lessons`, lesson);
   }
 
+  createEmptyLesson(courseId : number): Observable<Lesson>{
+    return this.http.post<Lesson>(`${environment.apiUrl}/api/v1/courses/${courseId}/lessons`, {});
+  }
+
+  createLessonWithLessonNumber(courseId: number, lessonNumber: number){
+    return this.http.post<Lesson>(`${environment.apiUrl}/api/v1/courses/${courseId}/lessons`, {lessonNumber: lessonNumber});
+  }
+
   updateLesson(lessonId:number, lesson: Lesson): Observable<Lesson> {
     return this.http.put<Lesson>(`${environment.apiUrl}/api/v1/lessons/${lessonId}`, lesson);
   }
-  
+
   getLessonById(courseId:number, lessonId:number): Observable<Lesson> {
     return this.http.get<Lesson>(`${environment.apiUrl}/api/v1/lessons/${lessonId}`);
   }
