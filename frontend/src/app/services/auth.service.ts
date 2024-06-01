@@ -124,29 +124,21 @@ export class AuthService {
       );
   }
 
-  loginWithGoogle(token: string): Observable<any> {
-    return this.http
-      .post<any>(`http://localhost:8080/api/v1/auth/google-login`, { token })
-      .pipe(
-        map((response) => {
-          this.storeUserCredentials(response);
-          this.ngZone.run(() => {
-            this.router.navigate(['/main-page']);
-          });
-          return response;
-        })
-      );
+  loginWithGoogle() {
+    window.location.href = 'http://localhost:8080/api/v1/auth/google-login';
   }
 
   getGoogleClientId(): Observable<string> {
-    return this.http.get<{ googleClientId: string }>(
-      `http://localhost:8080/api/v1/auth/google-client-id`
-    ).pipe(
-      map(response => response.googleClientId),
-      catchError(error => {
-        console.error('Failed to fetch Google Client ID', error);
-        return throwError(error);
-      })
-    );
+    return this.http
+      .get<{ googleClientId: string }>(
+        `http://localhost:8080/api/v1/auth/google-client-id`
+      )
+      .pipe(
+        map((response) => response.googleClientId),
+        catchError((error) => {
+          console.error('Failed to fetch Google Client ID', error);
+          return throwError(error);
+        })
+      );
   }
 }

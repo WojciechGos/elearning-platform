@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 
@@ -9,10 +9,9 @@ declare const google: any;
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements AfterViewInit {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   serverError: string | null = null;
-  googleClientId: string | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,37 +24,22 @@ export class LoginComponent implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {
-    this.authService.getGoogleClientId().subscribe({
-      next: (clientId) => {
-        this.googleClientId = clientId;
-        google.accounts.id.initialize({
-          client_id: this.googleClientId,
-          callback: (response: any) => {
-            this.authService.loginWithGoogle(response.credential).subscribe({
-              next: (user) => {
-                console.log('Login successful', user);
-                this.serverError = null;
-              },
-              error: (error) => {
-                console.error('Login failed', error);
-                this.serverError = 'Google login failed';
-              },
-            });
-          },
-        });
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+      rememberMe: [false],
+    });
+  }
 
-        google.accounts.id.renderButton(document.getElementById('googleBtn'), {
-          type: 'standard',
-          theme: 'filled_blue',
-          size: 'large',
-          shape: 'rectangle',
-          width: 400,
-        });
-      },
-      error: (error) => {
-        console.error('Failed to fetch Google Client ID', error);
-      },
+  ngAfterViewInit(): void {
+    console.log('google init');
+    google.accounts.id.renderButton(document.getElementById('googleBtn'), {
+      type: 'standard',
+      theme: 'filled_blue',
+      size: 'large',
+      shape: 'rectangle',
+      width: 400,
     });
   }
 

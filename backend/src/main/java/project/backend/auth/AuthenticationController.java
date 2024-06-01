@@ -7,6 +7,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import org.springframework.http.HttpStatus;
@@ -15,8 +17,12 @@ import project.backend.config.JwtService;
 import project.backend.user.UserDTO;
 import project.backend.user.UserMapper;
 
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
+
+import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.REDIRECT_URI;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -30,9 +36,8 @@ public class AuthenticationController {
     @Value("${google.client-id}")
     private String googleClientId;
 
-    private final GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance())
-            .setAudience(Collections.singletonList(googleClientId))
-            .build();
+    @Value("${google.client-secret}")
+    private String googleClientSecret;
 
     @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody RegisterRequest request) {
@@ -40,27 +45,49 @@ public class AuthenticationController {
         return response;
     }
 
-
     @PostMapping("/login")
     public ResponseEntity<Object> authenticate(@RequestBody AuthenticationRequest request) {
         ResponseEntity<Object> response = service.authenticate(request);
         return response;
     }
 
+    @GetMapping("/google-login")
+    public void googleLogin(HttpServletResponse response) throws IOException {
+        String redirectUri = "http://localhost:8080/api/v1/auth/google/callback";
+        String clientId = googleClientId;
+        String scope = "openid profile email";
+        String responseType = "code";
 
-    @PostMapping("/google-login")
-    public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> tokenMap) {
-        String token = tokenMap.get("token");
-        if (token == null || token.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token is missing");
-        }
+        String url = String.format(
+                "https://accounts.google.com/o/oauth2/v2/auth?client_id=%s&redirect_uri=%s&scope=%s&response_type=%s",
+                clientId, redirectUri, scope, responseType);
 
+        response.sendRedirect(url);
+    }
+
+    @GetMapping("/google/callback")
+    public ResponseEntity<?> googleCallback(@RequestParam("code") String code) {
         try {
-            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance())
+            NetHttpTransport transport = new NetHttpTransport();
+            JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+
+            GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(
+                    transport,
+                    jsonFactory,
+                    "https://oauth2.googleapis.com/token",
+                    googleClientId,
+                    googleClientSecret,
+                    code,
+                    "http://localhost:8080/api/v1/auth/google/callback")
+                    .execute();
+
+            String idTokenString = tokenResponse.getIdToken();
+
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
                     .setAudience(Collections.singletonList(googleClientId))
                     .build();
 
-            GoogleIdToken idToken = verifier.verify(token);
+            GoogleIdToken idToken = verifier.verify(idTokenString);
             if (idToken != null) {
                 GoogleIdToken.Payload payload = idToken.getPayload();
 
@@ -73,7 +100,6 @@ public class AuthenticationController {
                 String refreshToken = jwtService.generateRefreshToken(user);
                 return ResponseEntity.ok(new AuthenticationResponse(jwtAccessToken, refreshToken, userMapper.mapToDTO(user)));
             } else {
-                System.out.println("Invalid ID Token");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Google ID token");
             }
         } catch (Exception e) {
