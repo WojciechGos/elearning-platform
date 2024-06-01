@@ -1,5 +1,6 @@
 package project.backend.token;
 
+import jakarta.persistence.*;
 import lombok.*;
 import project.backend.user.User;
 import jakarta.persistence.Column;
@@ -31,7 +32,7 @@ public class Token {
     private String refreshToken;
 
     @Enumerated(EnumType.STRING)
-    private TokenType tokenType = TokenType.BEARER;
+    private TokenType tokenType;
 
     private boolean revoked;
 

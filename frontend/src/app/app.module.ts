@@ -33,12 +33,15 @@ import { UsersComponent } from './components/admin/users/users.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CartDetailsComponent} from './components/admin/cart-details/cart-details.component';
+import { CartDetailsComponent } from './components/admin/cart-details/cart-details.component';
 import { CourseSearchComponent } from './components/course-search/course-search.component';
 import { CartItemsListComponent } from './components/cart-items-list/cart-items-list.component';
 import { UserCartsComponent } from './components/admin/user-carts/user-carts.component';
 import { LessonListComponent } from './components/lesson-list/lesson-list.component';
 import { CourseSearchItemComponent } from './components/course-search-item/course-search-item.component';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './guards/auth.guard';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { CourseDisplayComponent } from './components/course-display/course-display.component';
 import { LessonDisplayComponent } from './components/lesson-display/lesson-display.component';
 import { CourseCreatorComponent } from './components/course-creator/course-creator.component';
@@ -90,7 +93,8 @@ import { MatSelectModule } from '@angular/material/select';
     CourseCreatorLessonItemComponent,
     CourseCreatorPublishComponent,
     CourseDisplayComponent,
-    LessonDisplayComponent
+    LessonDisplayComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -122,7 +126,10 @@ import { MatSelectModule } from '@angular/material/select';
     MatProgressSpinnerModule,
     MatSelectModule
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
-  bootstrap: [AppComponent],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthService,
+    AuthGuard,
+  ], bootstrap: [AppComponent],
 })
 export class AppModule { }

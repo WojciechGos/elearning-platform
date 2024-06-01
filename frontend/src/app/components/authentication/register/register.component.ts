@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 
 declare const google: any;
@@ -9,15 +9,15 @@ declare const google: any;
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent {
-  @ViewChild('googleBtn') googleBtn: ElementRef | undefined;
+export class RegisterComponent implements AfterViewInit {
+  @ViewChild('googleBtn', { static: true }) googleBtn: ElementRef | undefined;
 
-  registerForm: UntypedFormGroup;
+  registerForm: FormGroup;
   serverError: string | null = null;
-  auth2: any;
+  googleClientId: string | null = null;
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private authService: AuthService
   ) {
     this.registerForm = this.formBuilder.group(
@@ -33,28 +33,36 @@ export class RegisterComponent {
   }
 
   ngAfterViewInit(): void {
-    google.accounts.id.initialize({
-      client_id:
-        '659439241514-h8n75fq8ospqergqnuf67na0b27fec5k.apps.googleusercontent.com',
-      callback: (response: any) => {
-        console.log('Google sign-in response:', response);
-        this.authService
-          .loginWithGoogle(response.credential)
-          .subscribe((user) => {
-            console.log('Login successful', user);
-            this.serverError = null;
-          });
+    this.authService.getGoogleClientId().subscribe({
+      next: (clientId) => {
+        this.googleClientId = clientId;
+        google.accounts.id.initialize({
+          client_id: this.googleClientId,
+          callback: (response: any) => {
+            this.authService.loginWithGoogle(response.credential).subscribe({
+              next: (user) => {
+                console.log('Login successful', user);
+                this.serverError = null;
+              },
+              error: (error) => {
+                console.error('Login failed', error);
+                this.serverError = 'Google login failed';
+              },
+            });
+          },
+        });
+
+        google.accounts.id.renderButton(document.getElementById('googleBtn'), {
+          type: 'standard',
+          theme: 'filled_blue',
+          size: 'large',
+          shape: 'rectangle',
+          width: 400,
+        });
       },
-    });
-
-    console.log(document.getElementById('googleBtn'));
-
-    google.accounts.id.renderButton(document.getElementById('googleBtn'), {
-      type: 'standard',
-      theme: 'filled_blue',
-      size: 'large',
-      shape: 'rectangle',
-      width: 400,
+      error: (error) => {
+        console.error('Failed to fetch Google Client ID', error);
+      },
     });
   }
 
@@ -82,7 +90,7 @@ export class RegisterComponent {
     }
   }
 
-  private matchPassword(group: UntypedFormGroup): { [key: string]: any } | null {
+  private matchPassword(group: FormGroup): { [key: string]: any } | null {
     let pass = group.get('password')?.value;
     let confirmPass = group.get('confirmPassword')?.value;
     return pass === confirmPass ? null : { passwordMismatch: true };
