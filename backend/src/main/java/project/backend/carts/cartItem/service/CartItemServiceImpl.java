@@ -11,7 +11,7 @@ import project.backend.carts.cartItem.dto.CartItemDTO;
 import project.backend.carts.cartItem.repository.CartItemRepository;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.service.CourseService;
-import project.backend.exception.ResourceNotFoundException;
+import project.backend.exception.types.ResourceNotFoundException;
 import project.backend.user.User;
 import project.backend.user.UserService;
 

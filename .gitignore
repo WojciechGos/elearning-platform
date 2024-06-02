@@ -4,7 +4,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 application-dev.properties
-
+application-prod.properties
+secrets.properties
 ### STS ###
 .apt_generated
 .classpath

@@ -44,6 +44,23 @@ import { AuthGuard } from './guards/auth.guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { CourseDisplayComponent } from './components/course-display/course-display.component';
 import { LessonDisplayComponent } from './components/lesson-display/lesson-display.component';
+import { CourseCreatorComponent } from './components/course-creator/course-creator.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { CourseCreatorCourseInfoComponent } from './components/course-creator-course-info/course-creator-course-info.component';
+import { CourseCreatorLessonComponent } from './components/course-creator-lesson/course-creator-lesson.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatRadioModule } from '@angular/material/radio';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { CourseModule } from './store/course/course.module';
+import { CourseCreatorLessonItemComponent } from './components/course-creator-lesson-item/course-creator-lesson-item.component';
+import { CourseCreatorPublishComponent } from './components/course-creator-publish/course-creator-publish.component';
+import { MatIconModule } from '@angular/material/icon'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -70,6 +87,11 @@ import { LessonDisplayComponent } from './components/lesson-display/lesson-displ
     UserCartsComponent,
     LessonListComponent,
     CourseSearchItemComponent,
+    CourseCreatorComponent,
+    CourseCreatorCourseInfoComponent,
+    CourseCreatorLessonComponent,
+    CourseCreatorLessonItemComponent,
+    CourseCreatorPublishComponent,
     CourseDisplayComponent,
     LessonDisplayComponent,
     UserProfileComponent,
@@ -92,12 +114,22 @@ import { LessonDisplayComponent } from './components/lesson-display/lesson-displ
     MatExpansionModule,
     MatSliderModule,
     FormsModule,
+    MatTabsModule,
+    MatStepperModule,
+    MatButtonToggleModule,
+    MatRadioModule,
+    StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    CourseModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatSelectModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthService,
     AuthGuard,
-  ],
-  bootstrap: [AppComponent],
+  ], bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

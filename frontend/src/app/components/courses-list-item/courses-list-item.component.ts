@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, isDevMode } from '@angular/core';
 
 @Component({
   selector: 'app-courses-list-item',
@@ -12,9 +12,11 @@ export class CoursesListItemComponent implements OnInit {
   @Input() price!: number;
   @Input() discountPrice!: number;
   @Input() rating!: number;
-  constructor() { }
 
   ngOnInit(): void {
+    if(isDevMode() == true) {
+      this.image="./assets/images/course-image.png"
+    }
   }
 
 }

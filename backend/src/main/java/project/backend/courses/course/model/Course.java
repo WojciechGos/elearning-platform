@@ -7,6 +7,9 @@ import lombok.*;
 import project.backend.courses.category.model.Category;
 import project.backend.courses.language.model.Language;
 import project.backend.courses.lesson.model.Lesson;
+import project.backend.user.User;
+
+import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.List;
@@ -17,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString
 public class Course {
     @SequenceGenerator(
             name = "course_sequence",
@@ -38,6 +42,7 @@ public class Course {
 
     @Min(value = 1, message = "Price must be greater than 0")
     private BigDecimal price;
+    @Min(value = 1, message = "Price must be greater than 0")
     private BigDecimal discountPrice;
 
 
@@ -47,7 +52,7 @@ public class Course {
     @ManyToOne
     @JoinColumn(
             name="language_id",
-            nullable=false
+            nullable=true
     )
     private Language language;
 
@@ -59,17 +64,19 @@ public class Course {
 
     @NotNull(message = "Image URL cannot be null.")
     @NotBlank(message = "Image URL cannot be blank")
-    private String imageURL;
+    private String imageUrl;
 
     @OneToMany
     private List<Lesson> lessons;
 
     @Min(value = 0, message = "Enrollment count must be greater than 0")
-    private int enrollmentCount;
+    private Integer enrollmentCount;
 
     private CourseState courseState = CourseState.CREATING;
 
     private TargetAudience targetAudience;
 
+    @ManyToOne
+    private User author;
 
 }

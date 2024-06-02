@@ -1,0 +1,18 @@
+
+
+.navigation-container{
+    margin-top: 30px;
+    display: flex;
+}
+
+.navigation-double{
+    justify-content: space-between;
+}
+
+.navigation-back{
+    justify-content: flex-start;
+}
+
+.navigation-next{
+    justify-content: flex-end;
+}

@@ -9,4 +9,6 @@ public interface LanguageService {
 
     Language getLanguage(Long languageId);
 
+    Language getLanguageByName(String name);
+
 }

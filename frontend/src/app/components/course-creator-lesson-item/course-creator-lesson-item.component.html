@@ -1,0 +1,69 @@
+<mat-expansion-panel hideToggle>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ formGroup.value.lessonNumber }}.
+      {{ formGroup.value.title }}</mat-panel-title
+    >
+  </mat-expansion-panel-header>
+
+  <form [formGroup]="formGroup" (ngSubmit)="updateLesson()">
+    <mat-form-field class="form-group">
+      <mat-label>Lesson title</mat-label>
+      <input
+        matInput
+        type="text"
+        id="lesson-title"
+        formControlName="title"
+        placeholder="Enter lesson title"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field class="form-group">
+      <mat-label>Lesson description</mat-label>
+      <textarea
+        matInput
+        id="lesson-description"
+        formControlName="description"
+        placeholder="Enter lesson description"
+        required
+      ></textarea>
+    </mat-form-field>
+
+    <div class="form-group">
+      <mat-label for="course-video">Course video</mat-label>
+      <button type="button" mat-raised-button (click)="fileInput.click()">
+        Choose File
+      </button>
+      <input
+        hidden
+        id="course-video"
+        formControlName="videoUrl"
+        (change)="onFileChange($event)"
+        accept="video/mp4"
+        #fileInput
+        type="file"
+        id="file"
+      />
+      <div class="progress-bar">
+        <div *ngIf="uploadState == UploadState.UPLOADING">
+          <h3>Uploading</h3>
+          <mat-spinner></mat-spinner>
+        </div>
+        <div *ngIf="uploadState == UploadState.UPLOADED">
+          <h3>Uploaded</h3>
+          <mat-icon class="uploaded-icon"> check </mat-icon>
+        </div>
+        <div *ngIf="uploadState == UploadState.ERROR">
+          <h3>Error</h3>
+          <mat-icon class="error-icon"> error </mat-icon>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button mat-raised-button color="primary" type="submit">
+        Save Lesson
+      </button>
+    </div>
+  </form>
+</mat-expansion-panel>

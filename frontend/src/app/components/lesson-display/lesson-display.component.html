@@ -1,13 +1,11 @@
 <div class="content-wrapper">
-    <div class="video-wrapper">
-        <video style="width: 100%;" controls>
-            <source [src]="videoUrl" type="video/mp4">
+    <div class="video-wrapper" *ngIf="videoUrl">
+        <video style="width: 70vw; height: 60vh"  [src]="videoUrl" type="video/mp4" controls>
             Your browser does not support the video tag.
         </video>
     </div>
     <div class="details-wrapper">
-        <h2> {{ this.title }} </h2>
-        <p> {{ this.description }} </p>
-        <p> {{ this.content }} </p>
+        <h2> {{ title }} </h2>
+        <p> {{ description }} </p>
     </div>
 </div>

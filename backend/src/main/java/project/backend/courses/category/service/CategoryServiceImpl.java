@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.backend.courses.category.repository.CategoryRepository;
 import project.backend.courses.category.model.Category;
-import project.backend.exception.ResourceNotFoundException;
+import project.backend.exception.types.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -24,6 +24,12 @@ public class CategoryServiceImpl implements CategoryService {
     public Category getCategory(Long categoryId) {
         return categoryRepository.findById(categoryId).orElseThrow(() ->
                 new ResourceNotFoundException("Category not found with id [%s] ".formatted(categoryId)));
+    }
+
+    @Override
+    public Category getCategoryByName(String name) {
+        return categoryRepository.findByName(name).orElseThrow(() ->
+                new ResourceNotFoundException("Category not found with name [%s] ".formatted(name)));
     }
 
 

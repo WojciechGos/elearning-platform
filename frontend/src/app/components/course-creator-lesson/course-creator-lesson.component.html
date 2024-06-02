@@ -1,0 +1,22 @@
+<mat-card class="lesson-creator-wrapper">
+  <mat-card-header class="lesson-creator-header">
+    <mat-card-title>Create a new lesson</mat-card-title>
+    <mat-card-subtitle
+      >Fill in the form below to create a new lesson</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <mat-accordion>
+      <div *ngFor="let item of getFormGroups">
+        <app-course-creator-lesson-item
+          [formGroup]="item"
+        ></app-course-creator-lesson-item>
+      </div>
+    </mat-accordion>
+    <div class="center">
+      <button mat-raised-button color="primary" (click)="addLesson()">
+        Add lesson
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

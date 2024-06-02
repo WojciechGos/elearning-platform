@@ -1,0 +1,36 @@
+<app-navbar></app-navbar>
+
+<!-- (selectionChange)="onStepChange($event)" 
+  [linear]="true" 
+  #stepper
+    TODO: after lesson forms are finished move back to the mat-stepper tag 
+-->
+<mat-stepper>
+  <mat-step [stepControl]="courseFormGroup" label="Fill out course info">
+    <app-course-creator-course-info
+      [formGroup]="courseFormGroup"
+    ></app-course-creator-course-info>
+    <div class="navigation-container navigation-next">
+      <button mat-raised-button color="primary" (click)="nextStep('course')">Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step label="Provide lessons" [stepControl]="this.lessonsFormArray">
+    <app-course-creator-lesson
+      [formArray]="lessonsFormArray"
+    ></app-course-creator-lesson>
+    <div class="navigation-container navigation-double">
+      <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" (click)="nextStep('lesson')" >Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step [stepControl]="publishFormGroup" label="Publish">
+    <app-course-creator-publish
+      [formGroup]="publishFormGroup"
+    ></app-course-creator-publish>
+    <div class="navigation-container navigation-back">
+      <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+    </div>
+  </mat-step>
+</mat-stepper>

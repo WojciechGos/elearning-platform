@@ -1,4 +1,4 @@
-package project.backend.exception;
+package project.backend.exception.response;
 
 import java.sql.Timestamp;
 

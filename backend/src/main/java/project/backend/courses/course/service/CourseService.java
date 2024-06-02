@@ -1,13 +1,17 @@
 package project.backend.courses.course.service;
 
+import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.model.Course;
-import project.backend.courses.course.model.FilterCourseDTO;
+import project.backend.courses.course.dto.FilterCourseDTO;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface CourseService {
 
     Course getCourseById(Long courseId);
+
+    CourseDTO getCourseDTOById(Long courseId);
 
     FilterCourseDTO getCourses(
             String keyword,
@@ -22,11 +26,16 @@ public interface CourseService {
             List<String> fields
     );
 
-    Course createCourse(Course course);
+    CourseDTO createCourse(CourseDTO course, Principal principal);
 
-    Course updateCourse(Long id, Course course);
+    CourseDTO updateCourse(Long id, CourseDTO course, Principal principal);
 
     void deleteCourse(Long courseId);
 
+    List<CourseDTO> getUsersCourse (String courseState, Principal principal);
 
+    String getSignedUrlForImageUpload(Long courseId);
+
+    void deleteCourseImage(Long courseId);
+    boolean isAuthor(Long courseId, Principal principal);
 }

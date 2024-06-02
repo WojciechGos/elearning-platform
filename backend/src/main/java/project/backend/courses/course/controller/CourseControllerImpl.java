@@ -1,13 +1,17 @@
 package project.backend.courses.course.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.model.Course;
-import project.backend.courses.course.model.FilterCourseDTO;
+import project.backend.courses.course.dto.FilterCourseDTO;
 import project.backend.courses.course.service.CourseService;
+import project.backend.courses.utils.file.response.FileResponse;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -47,24 +51,27 @@ public class CourseControllerImpl implements CourseController {
 
     @Override
     @GetMapping("/{courseId}")
-    public ResponseEntity<Course> getCourse(@PathVariable("courseId") Long courseId) {
-        Course course = courseService.getCourseById(courseId);
+    public ResponseEntity<CourseDTO> getCourse(@PathVariable("courseId") Long courseId) {
+        CourseDTO course = courseService.getCourseDTOById(courseId);
         return new ResponseEntity<>(course, HttpStatus.OK);
     }
 
     @Override
     @PostMapping
-    public ResponseEntity<Course> createCourse(@RequestBody Course course) {
-        Course newCourse = courseService.createCourse(course);
+    public ResponseEntity<CourseDTO> createCourse(@RequestBody CourseDTO course, Principal principal) {
+        CourseDTO newCourse = courseService.createCourse(course, principal);
         return new ResponseEntity<>(newCourse, HttpStatus.CREATED);
     }
 
     @Override
-    @PatchMapping("/{courseId}")
-    public ResponseEntity<Course> updateCourse(
+    @PutMapping("/{courseId}")
+    public ResponseEntity<CourseDTO> updateCourse(
+            Principal principal,
             @PathVariable("courseId") Long courseId,
-            @RequestBody Course course) {
-        Course updatedCourse = courseService.updateCourse(courseId, course);
+            @RequestBody CourseDTO course
+    ) {
+
+        CourseDTO updatedCourse = courseService.updateCourse(courseId, course, principal);
         return new ResponseEntity<>(updatedCourse, HttpStatus.OK);
     }
 
@@ -72,6 +79,26 @@ public class CourseControllerImpl implements CourseController {
     @DeleteMapping("/{courseId}")
     public ResponseEntity<Void> deleteCourse(@PathVariable("courseId") Long courseId) {
         courseService.deleteCourse(courseId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @Override
+    @GetMapping("/users")
+    public ResponseEntity<List<CourseDTO>> getUsersCourses(@RequestParam(required = false) String courseState, Principal principal) {
+        return new ResponseEntity<>(courseService.getUsersCourse(courseState, principal), HttpStatus.OK);
+    }
+
+    @Override
+    @GetMapping("/{courseId}/image")
+    public ResponseEntity<FileResponse> getSignedUrlForImageUpload(@PathVariable("courseId") Long courseId) {
+        FileResponse response = new FileResponse(courseService.getSignedUrlForImageUpload(courseId));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    @DeleteMapping("/{courseId}/image")
+    public ResponseEntity<Void> deleteCourseImage(@PathVariable("courseId") Long courseId) {
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
