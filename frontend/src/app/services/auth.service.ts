@@ -68,12 +68,36 @@ export class AuthService {
 
   private storeUserCredentials(response: any) {
     const user = response.user;
+    console.log(user)
     localStorage.setItem('currentUser', JSON.stringify(user));
     localStorage.setItem('accessToken', response.accessToken);
     localStorage.setItem('refreshToken', response.refreshToken);
     this.currentUserSubject.next(user);
     this.router.navigate(['/main-page']);
     this.cartService.handleLoggedInUser();
+  }
+
+  
+
+  public handleAuthCallback(): void {
+    const urlParams = new URLSearchParams(window.location.search);
+    const jwtAccessToken = urlParams.get('jwtAccessToken');
+    const refreshToken = urlParams.get('refreshToken');
+    const user = urlParams.get('user');
+
+    if(jwtAccessToken === undefined || jwtAccessToken === null)
+      return;
+
+    console.log(urlParams);
+    console.log(user);
+    const objUser: User = JSON.parse(user as string);
+    console.log(objUser);
+
+    this.storeUserCredentials({user: objUser, accessToken: jwtAccessToken, refreshToken: refreshToken})
+
+    // if (authCode) {
+    //   this.exchangeAuthCode(authCode);
+    // }
   }
 
   logout(): Observable<any> {
@@ -124,14 +148,7 @@ export class AuthService {
       );
   }
 
-  public handleAuthCallback(): void {
-    const urlParams = new URLSearchParams(window.location.search);
-    const authCode = urlParams.get('authCode');
 
-    if (authCode) {
-      this.exchangeAuthCode(authCode);
-    }
-  }
 
   private exchangeAuthCode(authCode: string): void {
     this.http

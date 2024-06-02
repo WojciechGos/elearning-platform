@@ -65,67 +65,63 @@ public class AuthenticationController {
 
     @GetMapping("/google/callback")
     public void googleCallback(@RequestParam("code") String code, HttpServletResponse response) {
+
         try {
             String authCode = code;
-            
-            String redirectUrl = String.format("http://localhost:4200?authCode=%s", authCode);
-            response.sendRedirect(redirectUrl);
-        } catch (Exception e) {
-            e.printStackTrace();
+            if (authCode == null || authCode.isEmpty()) {
+                String redirectUrl = String.format("http://localhost:4200");
+                response.sendRedirect(redirectUrl);
+
+            }
+
             try {
-                response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error during Google token verification: " + e.getMessage());
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        }
-    }
+                NetHttpTransport transport = new NetHttpTransport();
+                JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
-    @PostMapping("/exchange-code")
-    public ResponseEntity<?> exchangeCode(@RequestBody Map<String, String> authCodeMap) {
-        String authCode = authCodeMap.get("code");
-        if (authCode == null || authCode.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Auth code is missing");
-        }
+                GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(
+                        transport,
+                        jsonFactory,
+                        "https://oauth2.googleapis.com/token",
+                        googleClientId,
+                        googleClientSecret,
+                        authCode,
+                        "http://localhost:8080/api/v1/auth/google/callback")
+                        .execute();
 
-        try {
-            NetHttpTransport transport = new NetHttpTransport();
-            JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+                String idTokenString = tokenResponse.getIdToken();
 
-            GoogleTokenResponse tokenResponse = new GoogleAuthorizationCodeTokenRequest(
-                    transport,
-                    jsonFactory,
-                    "https://oauth2.googleapis.com/token",
-                    googleClientId,
-                    googleClientSecret,
-                    authCode,
-                    "http://localhost:8080/api/v1/auth/google/callback")
-                    .execute();
+                GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
+                        .setAudience(Collections.singletonList(googleClientId))
+                        .build();
 
-            String idTokenString = tokenResponse.getIdToken();
+                GoogleIdToken idToken = verifier.verify(idTokenString);
+                if (idToken != null) {
+                    GoogleIdToken.Payload payload = idToken.getPayload();
 
-            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-                    .setAudience(Collections.singletonList(googleClientId))
-                    .build();
+                    User user = service.findUserByEmail(payload.getEmail());
+                    if (user == null) {
+                        user = service.createUserFromGooglePayload(payload);
+                    }
 
-            GoogleIdToken idToken = verifier.verify(idTokenString);
-            if (idToken != null) {
-                GoogleIdToken.Payload payload = idToken.getPayload();
+                    String jwtAccessToken = jwtService.generateAccessToken(user);
+                    String refreshToken = jwtService.generateRefreshToken(user);
 
-                User user = service.findUserByEmail(payload.getEmail());
-                if (user == null) {
-                    user = service.createUserFromGooglePayload(payload);
+                    String strigifiedUser = String.format("{\"id\":%d,\"email\":\"%s\",\"firstName\":\"%s\",\"lastName\":\"%s\"}",
+                            user.getId(), user.getEmail(), user.getFirstName(), user.getLastName());
+                    String redirectUrl = "http://localhost:4200/login?jwtAccessToken=" + jwtAccessToken + "&refreshToken="+ refreshToken +"&user=" +strigifiedUser;
+
+                    System.out.println(redirectUrl);
+                    response.sendRedirect(redirectUrl);
+                } else {
+//                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Google ID token");
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
 
-                String jwtAccessToken = jwtService.generateAccessToken(user);
-                String refreshToken = jwtService.generateRefreshToken(user);
-
-                return ResponseEntity.ok(new AuthenticationResponse(jwtAccessToken, refreshToken, userMapper.mapToDTO(user)));
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Google ID token");
             }
-        } catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during Google token verification: " + e.getMessage());
+
         }
     }
 

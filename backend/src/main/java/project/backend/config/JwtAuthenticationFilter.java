@@ -6,7 +6,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -40,29 +42,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         jwt = authHeader.substring(7);
-        try {
-            userEmail = jwtService.extractUsername(jwt);
-        } catch (ExpiredJwtException e) {
-            // Token wygasł, ustawiany odpowiedni status odpowiedzi
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Token expired");
+        if(jwt.equals("undefined")){
+            filterChain.doFilter(request, response);
             return;
         }
-
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        userEmail = jwtService.extractUsername(jwt);
+        Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(currentAuthentication);
+        if (userEmail != null && (currentAuthentication == null ||  currentAuthentication instanceof AnonymousAuthenticationToken)) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             if (jwtService.isTokenValid(jwt, userDetails)) {
-                if (tokenRepository.findByToken(jwt).map(t -> !t.isRevoked() && !t.isExpired()).orElse(false)) {
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            null,
-                            userDetails.getAuthorities()
-                    );
-                    authToken.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(request)
-                    );
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
-                }
+                System.out.println("JWT is valid");
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                );
+                authToken.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request)
+                );
+                SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
         filterChain.doFilter(request, response);
