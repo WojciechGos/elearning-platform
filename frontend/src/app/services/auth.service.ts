@@ -126,18 +126,27 @@ export class AuthService {
 
   public handleAuthCallback(): void {
     const urlParams = new URLSearchParams(window.location.search);
-    const accessToken = urlParams.get('accessToken');
-    const refreshToken = urlParams.get('refreshToken');
-    const currentUserG = urlParams.get('currentUser');
+    const authCode = urlParams.get('authCode');
 
-    if (accessToken && refreshToken && currentUserG) {
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
-      localStorage.setItem('currentUser', currentUserG);
-      this.currentUserSubject.next(JSON.parse(currentUserG));
-      this.router.navigate(['/main-page']);
-      this.cartService.handleLoggedInUser();
+    if (authCode) {
+      this.exchangeAuthCode(authCode);
     }
+  }
+
+  private exchangeAuthCode(authCode: string): void {
+    this.http
+      .post<any>('http://localhost:8080/api/v1/auth/exchange-code', {
+        code: authCode,
+      })
+      .subscribe({
+        next: (response) => {
+          this.storeUserCredentials(response);
+          this.router.navigate(['/main-page']);
+        },
+        error: (error) => {
+          console.error('Exchange auth code failed', error);
+        },
+      });
   }
 
   getGoogleClientId(): Observable<string> {
@@ -153,18 +162,4 @@ export class AuthService {
         })
       );
   }
-
-  // loginWithGoogle(token: string): Observable<any> {
-  //   return this.http
-  //     .post<any>(`http://localhost:8080/api/v1/auth/google-login`, { token })
-  //     .pipe(
-  //       map((response) => {
-  //         this.storeUserCredentials(response);
-  //         this.ngZone.run(() => {
-  //           this.router.navigate(['/main-page']);
-  //         });
-  //         return response;
-  //       })
-  //     );
-  // }
 }

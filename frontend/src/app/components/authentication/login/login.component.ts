@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.authService.handleAuthCallback(); // Handle the Google OAuth callback
+    this.authService.handleAuthCallback();
   }
 
   ngAfterViewInit(): void {
