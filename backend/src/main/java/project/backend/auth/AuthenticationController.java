@@ -66,7 +66,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/google/callback")
-    public ResponseEntity<?> googleCallback(@RequestParam("code") String code) {
+    public void googleCallback(@RequestParam("code") String code, HttpServletResponse response) {
         try {
             NetHttpTransport transport = new NetHttpTransport();
             JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -98,15 +98,29 @@ public class AuthenticationController {
 
                 String jwtAccessToken = jwtService.generateAccessToken(user);
                 String refreshToken = jwtService.generateRefreshToken(user);
-                return ResponseEntity.ok(new AuthenticationResponse(jwtAccessToken, refreshToken, userMapper.mapToDTO(user)));
+
+                // Przekierowanie do strony głównej z tokenami i informacjami o userze jako parametry URL
+                String redirectUrl = String.format("http://localhost:4200?accessToken=%s&refreshToken=%s&currentUser={\"id\":%d,\"email\":\"%s\",\"firstName\":\"%s\",\"lastName\":\"%s\"}",
+                        jwtAccessToken, refreshToken, user.getId(), user.getEmail(), user.getFirstName(), user.getLastName());
+
+
+//                String redirectUrl = String.format("http://localhost:4200?accessToken=%s&refreshToken=%s",
+//                        jwtAccessToken, refreshToken);
+
+                response.sendRedirect(redirectUrl);
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Google ID token");
+                response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid Google ID token");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during Google token verification: " + e.getMessage());
+            try {
+                response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error during Google token verification: " + e.getMessage());
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
     }
+
 
 
     @PostMapping("/refresh-token")

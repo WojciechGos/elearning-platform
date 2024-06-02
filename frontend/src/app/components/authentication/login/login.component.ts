@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
-
-declare const google: any;
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
   loginForm: FormGroup;
   serverError: string | null = null;
 
@@ -25,22 +23,11 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-      rememberMe: [false],
-    });
+    this.authService.handleAuthCallback(); // Handle the Google OAuth callback
   }
 
   ngAfterViewInit(): void {
-    console.log('google init');
-    google.accounts.id.renderButton(document.getElementById('googleBtn'), {
-      type: 'standard',
-      theme: 'filled_blue',
-      size: 'large',
-      shape: 'rectangle',
-      width: 400,
-    });
+    console.log('Google button initialized');
   }
 
   onLogin(): void {

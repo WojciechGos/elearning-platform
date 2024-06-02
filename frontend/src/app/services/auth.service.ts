@@ -124,8 +124,20 @@ export class AuthService {
       );
   }
 
-  loginWithGoogle() {
-    window.location.href = 'http://localhost:8080/api/v1/auth/google-login';
+  public handleAuthCallback(): void {
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get('accessToken');
+    const refreshToken = urlParams.get('refreshToken');
+    const currentUserG = urlParams.get('currentUser');
+
+    if (accessToken && refreshToken && currentUserG) {
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('currentUser', currentUserG);
+      this.currentUserSubject.next(JSON.parse(currentUserG));
+      this.router.navigate(['/main-page']);
+      this.cartService.handleLoggedInUser();
+    }
   }
 
   getGoogleClientId(): Observable<string> {
@@ -141,4 +153,18 @@ export class AuthService {
         })
       );
   }
+
+  // loginWithGoogle(token: string): Observable<any> {
+  //   return this.http
+  //     .post<any>(`http://localhost:8080/api/v1/auth/google-login`, { token })
+  //     .pipe(
+  //       map((response) => {
+  //         this.storeUserCredentials(response);
+  //         this.ngZone.run(() => {
+  //           this.router.navigate(['/main-page']);
+  //         });
+  //         return response;
+  //       })
+  //     );
+  // }
 }
