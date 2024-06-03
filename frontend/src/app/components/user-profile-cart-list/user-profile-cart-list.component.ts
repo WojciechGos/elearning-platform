@@ -9,14 +9,14 @@ import { CartService } from 'src/app/services/cart/cart.service';
 })
 export class UserProfileCartListComponent implements OnInit {
 
-  course!: Course[];
+  carts!: any[];
 
   constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
 
-    this.cartService.getUsersCartByStatus("COMPLETED").subscribe((courses) => {
-      this.course = courses;
+    this.cartService.getUsersCartByStatus("COMPLETED").subscribe((carts) => {
+      this.carts = carts;
     });
   } 
 }

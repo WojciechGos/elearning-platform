@@ -47,8 +47,8 @@ export class CartService {
     return this.http.get<any>(`${this.apiUrl}/carts/user/${email}`);
   }
 
-  getUsersCartByStatus(status: string): Observable<Course[]> {
-    return this.http.get<Course[]>(`${this.apiUrl}/carts/status/${status}/me`);
+  getUsersCartByStatus(status: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/carts/status/${status}/me`);
   }
 
   getCartByCartID(id: number): Observable<any> {
