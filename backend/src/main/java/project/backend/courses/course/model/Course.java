@@ -1,6 +1,7 @@
 package project.backend.courses.course.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -20,7 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString
 public class Course {
     @SequenceGenerator(
             name = "course_sequence",
@@ -77,6 +77,7 @@ public class Course {
     private TargetAudience targetAudience;
 
     @ManyToOne
+    @JsonBackReference
     private User author;
 
 }

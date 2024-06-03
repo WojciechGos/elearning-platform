@@ -61,6 +61,9 @@ import { CourseCreatorPublishComponent } from './components/course-creator-publi
 import { MatIconModule } from '@angular/material/icon'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { UserProfileCartListComponent } from './components/user-profile-cart-list/user-profile-cart-list.component';
+import { UserProfileCoursesListComponent } from './components/user-profile-courses-list/user-profile-courses-list.component';
+import { CourseMiniatureComponent } from './components/course-miniature/course-miniature.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +98,9 @@ import { MatSelectModule } from '@angular/material/select';
     CourseDisplayComponent,
     LessonDisplayComponent,
     UserProfileComponent,
+    UserProfileCartListComponent,
+    UserProfileCoursesListComponent,
+    CourseMiniatureComponent,
   ],
   imports: [
     BrowserModule,

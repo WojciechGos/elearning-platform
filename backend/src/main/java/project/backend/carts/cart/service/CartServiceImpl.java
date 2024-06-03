@@ -10,6 +10,7 @@ import project.backend.exception.types.ResourceNotFoundException;
 import project.backend.user.User;
 import project.backend.user.UserService;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,6 +98,11 @@ public class CartServiceImpl implements CartService {
     @Override
     public List<Cart> getAllPendingCartsByUser(String email) {
         return cartRepository.findByUserEmailAndCartStatus(email, CartStatus.PENDING);
+    }
+
+    @Override
+    public List<Cart> getUsersCartsByStatus(CartStatus cartStatus, Principal principal) {
+        return cartRepository.findByUserEmailAndCartStatus(principal.getName(), cartStatus);
     }
 
 }

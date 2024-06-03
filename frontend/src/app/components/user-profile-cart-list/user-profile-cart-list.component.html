@@ -1,0 +1,14 @@
+<p>user-profile-cart-list works!</p>
+
+<div *ngFor="let cart of this.carts">
+  <div *ngFor="let item of cart.items" class="miniature">
+    <a [routerLink]="['/course-display', item.course.id]" class="decoration-none ">
+      <app-courses-list-item
+        [title]="item.course.title"
+        [rating]="item.course.rating"
+        [image]="item.course.imageUrl"
+      >
+      </app-courses-list-item>
+    </a>
+  </div>
+</div>
