@@ -90,3 +90,23 @@ p {
   font-size: 12px;
   margin-top: 4px;
 }
+
+.btn-google {
+  display: inline-block;
+  width: 380px;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #5e17eb;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-google:hover {
+  background-color: rgb(73, 18, 183);
+}

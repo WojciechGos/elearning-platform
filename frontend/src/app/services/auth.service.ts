@@ -68,12 +68,36 @@ export class AuthService {
 
   private storeUserCredentials(response: any) {
     const user = response.user;
+    console.log(user)
     localStorage.setItem('currentUser', JSON.stringify(user));
     localStorage.setItem('accessToken', response.accessToken);
     localStorage.setItem('refreshToken', response.refreshToken);
     this.currentUserSubject.next(user);
     this.router.navigate(['/main-page']);
     this.cartService.handleLoggedInUser();
+  }
+
+  
+
+  public handleAuthCallback(): void {
+    const urlParams = new URLSearchParams(window.location.search);
+    const jwtAccessToken = urlParams.get('jwtAccessToken');
+    const refreshToken = urlParams.get('refreshToken');
+    const user = urlParams.get('user');
+
+    if(jwtAccessToken === undefined || jwtAccessToken === null)
+      return;
+
+    console.log(urlParams);
+    console.log(user);
+    const objUser: User = JSON.parse(user as string);
+    console.log(objUser);
+
+    this.storeUserCredentials({user: objUser, accessToken: jwtAccessToken, refreshToken: refreshToken})
+
+    // if (authCode) {
+    //   this.exchangeAuthCode(authCode);
+    // }
   }
 
   logout(): Observable<any> {
@@ -124,29 +148,35 @@ export class AuthService {
       );
   }
 
-  loginWithGoogle(token: string): Observable<any> {
-    return this.http
-      .post<any>(`http://localhost:8080/api/v1/auth/google-login`, { token })
-      .pipe(
-        map((response) => {
+
+
+  private exchangeAuthCode(authCode: string): void {
+    this.http
+      .post<any>('http://localhost:8080/api/v1/auth/exchange-code', {
+        code: authCode,
+      })
+      .subscribe({
+        next: (response) => {
           this.storeUserCredentials(response);
-          this.ngZone.run(() => {
-            this.router.navigate(['/main-page']);
-          });
-          return response;
-        })
-      );
+          this.router.navigate(['/main-page']);
+        },
+        error: (error) => {
+          console.error('Exchange auth code failed', error);
+        },
+      });
   }
 
   getGoogleClientId(): Observable<string> {
-    return this.http.get<{ googleClientId: string }>(
-      `http://localhost:8080/api/v1/auth/google-client-id`
-    ).pipe(
-      map(response => response.googleClientId),
-      catchError(error => {
-        console.error('Failed to fetch Google Client ID', error);
-        return throwError(error);
-      })
-    );
+    return this.http
+      .get<{ googleClientId: string }>(
+        `http://localhost:8080/api/v1/auth/google-client-id`
+      )
+      .pipe(
+        map((response) => response.googleClientId),
+        catchError((error) => {
+          console.error('Failed to fetch Google Client ID', error);
+          return throwError(error);
+        })
+      );
   }
 }
