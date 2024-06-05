@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.backend.carts.cart.model.Cart;
+import project.backend.carts.cart.model.CartStatus;
 import project.backend.carts.cart.service.CartService;
 
 import java.security.Principal;
@@ -49,6 +50,12 @@ public class CartControllerImpl implements CartController {
     public ResponseEntity<List<Cart>> getAllPendingCartsByUser(@PathVariable("email") String email) {
         List<Cart> carts = cartService.getAllPendingCartsByUser(email);
         return ResponseEntity.ok(carts);
+    }
+
+    @Override
+    @GetMapping("status/{cartStatus}/me")
+    public ResponseEntity<List<Cart>> getUsersCartsByStatus(@PathVariable("cartStatus") CartStatus cartStatus, Principal principal) {
+        return ResponseEntity.ok(cartService.getUsersCartsByStatus(cartStatus, principal));
     }
 
     @Override
