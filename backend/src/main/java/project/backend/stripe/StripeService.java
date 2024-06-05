@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Service
 public class StripeService {
-    @Value("${stripeSecretKey}")
+    @Value("${stripe.secret.key}")
     private String stripeSecretKey;
     private static final Gson gson = new Gson();
     public String pay(CheckoutPayment payment) throws StripeException {

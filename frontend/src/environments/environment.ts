@@ -2,13 +2,9 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { url } from 'inspector';
-
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080',
-  stripe:
-    'pk_test_51P9trUP5ITi9Xqx4Hv8qs4rUvBJJ4x7TxZMw9yRBYOVHDJgk8OF7r2bGLPhAWY1jkWKf1nPWEnsxdLgUJcBEkKNS00mMwokXfo',
 };
 
 /*
