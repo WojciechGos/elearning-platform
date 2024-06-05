@@ -1,0 +1,8 @@
+.decoration-none {
+    text-decoration: none;
+    color: inherit;
+}
+
+.miniature{
+    width: 200px;
+}

@@ -182,13 +182,17 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDTO> getUsersCourse(String courseState, Principal principal) {
-        List<Course> filteredCourses = courseRepository.findCoursesByAuthorEmail(principal.getName());
-        if(courseState != null && !courseState.isEmpty() && !courseState.isBlank()){
-            filteredCourses = filteredCourses.stream().filter(course -> course.getCourseState().toString().equals(courseState)).toList();
+    public List<CourseDTO> getUsersCourse(CourseState courseState, Principal principal) {
+
+        List<Course> courses;
+        if(courseState != null){
+            courses = courseRepository.findCoursesByAuthorEmailAndCourseState(principal.getName(), courseState);
+        }
+        else{
+            courses = courseRepository.findCoursesByAuthorEmail(principal.getName());
         }
 
-        return filteredCourses.stream().map(courseDTOMapper::toDTO).toList();
+        return courses.stream().map(courseDTOMapper::toDTO).toList();
     }
 
     @Override

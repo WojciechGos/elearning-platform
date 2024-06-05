@@ -3,6 +3,7 @@ package project.backend.courses.course.service;
 import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.dto.FilterCourseDTO;
+import project.backend.courses.course.model.CourseState;
 
 import java.security.Principal;
 import java.util.List;
@@ -32,7 +33,7 @@ public interface CourseService {
 
     void deleteCourse(Long courseId);
 
-    List<CourseDTO> getUsersCourse (String courseState, Principal principal);
+    List<CourseDTO> getUsersCourse (CourseState courseState, Principal principal);
 
     String getSignedUrlForImageUpload(Long courseId);
 

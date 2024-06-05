@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Course } from 'src/app/interfaces/course.interface';
 import { CartService } from 'src/app/services/cart/cart.service';
 
 @Component({
@@ -9,7 +8,7 @@ import { CartService } from 'src/app/services/cart/cart.service';
 })
 export class UserProfileCartListComponent implements OnInit {
 
-  carts!: any[];
+  carts: any[] = [];
 
   constructor(private cartService: CartService) { }
 
@@ -17,6 +16,7 @@ export class UserProfileCartListComponent implements OnInit {
 
     this.cartService.getUsersCartByStatus("COMPLETED").subscribe((carts) => {
       this.carts = carts;
+      console.log(this.carts);
     });
   } 
 }

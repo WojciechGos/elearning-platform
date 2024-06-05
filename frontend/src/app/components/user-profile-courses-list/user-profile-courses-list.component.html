@@ -1,1 +1,10 @@
-<p>user-profile-courses-list works!</p>
+<div *ngFor="let course of this.courses" class="miniature">
+  <a [routerLink]="['/course-creator', course.id]" class="decoration-none">
+    <app-courses-list-item
+      [title]="course.title"
+      [rating]="course.rating"
+      [image]="course.imageUrl"
+    >
+    </app-courses-list-item>
+  </a>
+</div>

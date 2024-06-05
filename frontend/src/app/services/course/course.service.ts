@@ -57,9 +57,9 @@ export class CourseService {
 
   getUsersCourses(courseState: string): Observable<Course[]> {
     if(courseState === '') 
-      return this.http.get<Course[]>(`${environment.apiUrl}/api/v1/courses/users`);
+      return this.http.get<Course[]>(`${environment.apiUrl}/api/v1/courses/me`);
     else
-      return this.http.get<Course[]>(`${environment.apiUrl}/api/v1/courses/users?courseState=${courseState}`);
+      return this.http.get<Course[]>(`${environment.apiUrl}/api/v1/courses/me?courseState=${courseState}`);
   }
 
 }
