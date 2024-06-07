@@ -13,7 +13,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/interceptors/auth.interceptor';
-import { LoggedInPageComponent } from './logged-in-page/logged-in-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CourseDetailsComponent } from './components/course-details/course-details.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
@@ -70,7 +69,6 @@ import { CourseMiniatureComponent } from './components/course-miniature/course-m
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    LoggedInPageComponent,
     NavbarComponent,
     CourseDetailsComponent,
     ButtonComponent,

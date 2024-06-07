@@ -1,10 +1,11 @@
 <div *ngFor="let course of this.courses" class="miniature">
-  <a [routerLink]="['/course-creator', course.id]" class="decoration-none">
+  <div (click)="this.editCourse(course)">
     <app-courses-list-item
-      [title]="course.title"
-      [rating]="course.rating"
-      [image]="course.imageUrl"
+    [title]="course.title"
+    [rating]="course.rating"
+    [image]="course.imageUrl"
     >
-    </app-courses-list-item>
-  </a>
+  </app-courses-list-item>
+</div>
+  
 </div>

@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from './components/authentication/login/login.component';
 import {RegisterComponent} from './components/authentication/register/register.component';
-import {LoggedInPageComponent} from './logged-in-page/logged-in-page.component';
 import {AuthGuard} from './guards/auth.guard';
 import {CourseDetailsComponent} from './components/course-details/course-details.component';
 import {MainPageComponent} from './components/main-page/main-page.component';

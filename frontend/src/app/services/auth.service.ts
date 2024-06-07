@@ -68,7 +68,7 @@ export class AuthService {
 
   private storeUserCredentials(response: any) {
     const user = response.user;
-    console.log(user)
+
     localStorage.setItem('currentUser', JSON.stringify(user));
     localStorage.setItem('accessToken', response.accessToken);
     localStorage.setItem('refreshToken', response.refreshToken);

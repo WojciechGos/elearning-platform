@@ -16,7 +16,6 @@ export class UserProfileCartListComponent implements OnInit {
 
     this.cartService.getUsersCartByStatus("COMPLETED").subscribe((carts) => {
       this.carts = carts;
-      console.log(this.carts);
     });
   } 
 }

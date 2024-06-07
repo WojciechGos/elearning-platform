@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, forwardRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, forwardRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormArray, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { CourseCreatorCourseInfoComponent } from '../course-creator-course-info/course-creator-course-info.component';
@@ -10,7 +10,9 @@ import { Course } from 'src/app/interfaces/course.interface';
 import { Store, select } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/interfaces/appState.interface';
 import { courseSelector } from 'src/app/store/course/course.selectors';
+import { Router } from '@angular/router';
 import { setCourse } from 'src/app/store/course/course.actions';
+
 
 @Component({
   selector: 'app-course-creator',
@@ -24,7 +26,7 @@ import { setCourse } from 'src/app/store/course/course.actions';
     }
   ]
 })
-export class CourseCreatorComponent implements AfterViewInit {
+export class CourseCreatorComponent implements OnInit, OnDestroy {
 
   courseFormGroup = new FormGroup({
     title: new FormControl('', {
@@ -116,50 +118,47 @@ export class CourseCreatorComponent implements AfterViewInit {
   constructor(
     private courseService: CourseService,
     private store: Store<AppStateInterface>,
+    private router: Router
   ) { }
 
-
-
-  getOrCreateCourse(): void {
+  ngOnInit(): void {
     this.course$.subscribe((course) => {
-      if (course != null) return;
+      if (course === null)
+        this.router.navigateByUrl('/user-profile');
+      else
+        this.getCourse();
 
-      // if user have existing course in state CREATING then load it, else  create it
-      this.courseService.getUsersCourses('CREATING').subscribe((courses) => {
-        if (courses.length > 0) {
-          console.log(courses[0]);
-          this.store.dispatch(setCourse({ course: courses[0] }));
-          this.courseFormGroup.controls.title.setValue(courses[0].title);
-          this.courseFormGroup.controls.description.setValue(courses[0].description);
-          this.courseFormGroup.controls.price.setValue(courses[0].price);
-          this.courseFormGroup.controls.image.setValue(courses[0].imageUrl);
-          this.courseFormGroup.controls.language.setValue(courses[0].language as string);
-          this.courseFormGroup.controls.targetAudience.setValue(courses[0].targetAudience as string);
-          this.courseFormGroup.controls.categories.setValue(courses[0].categories as string[]);
+    });
+  }
 
-          courses[0].lessons.forEach((lesson) => {
-            const lessonForm: FormGroup = getNewLessonFormGroup();
-            lessonForm.controls['id'].setValue(lesson.id);
-            lessonForm.controls['title'].setValue(lesson.title);
-            lessonForm.controls['description'].setValue(lesson.description);
-            lessonForm.controls['videoUrl'].setValue(lesson.videoUrl);
-            this.lessonsFormArray.push(lessonForm);
-          });
-        }
-        else {
-          this.courseService.createCourse(this.newCourse).subscribe((course) => {
-            console.log("coures created");
-            this.store.dispatch(setCourse({ course }));
-            course.lessons.forEach((lesson) => {
-              const lessonForm: FormGroup = getNewLessonFormGroup();
-              lessonForm.controls['id'].setValue(lesson.id);
-              lessonForm.controls['title'].setValue(lesson.title);
-              lessonForm.controls['description'].setValue(lesson.description);
-              lessonForm.controls['videoUrl'].setValue(lesson.videoUrl);
-              this.lessonsFormArray.push(lessonForm);
-            });
-          });
-        }
+  getCourse(): void {
+    this.course$.subscribe((course) => {
+
+
+      // TODO: add some sophisticated information for the user  
+      if (course === null){
+        console.log("Course is null");
+        return;
+      }
+
+      this.courseService.getCourseById(course.id as number).subscribe((course) => {
+
+        this.courseFormGroup.controls.title.setValue(course.title);
+        this.courseFormGroup.controls.description.setValue(course.description);
+        this.courseFormGroup.controls.price.setValue(course.price);
+        this.courseFormGroup.controls.image.setValue(course.imageUrl);
+        this.courseFormGroup.controls.language.setValue(course.language as string);
+        this.courseFormGroup.controls.targetAudience.setValue(course.targetAudience as string);
+        this.courseFormGroup.controls.categories.setValue(course.categories as string[]);
+
+        course.lessons.forEach((lesson) => {
+          const lessonForm: FormGroup = getNewLessonFormGroup();
+          lessonForm.controls['id'].setValue(lesson.id);
+          lessonForm.controls['title'].setValue(lesson.title);
+          lessonForm.controls['description'].setValue(lesson.description);
+          lessonForm.controls['videoUrl'].setValue(lesson.videoUrl);
+          this.lessonsFormArray.push(lessonForm);
+        });
       });
     });
   }
@@ -192,9 +191,12 @@ export class CourseCreatorComponent implements AfterViewInit {
   }
 
 
-  ngAfterViewInit() {
-    this.stepper.selectedIndex = 0;
-    this.getOrCreateCourse();
+  // TODO unsubscibe services that connect with API
+  ngOnDestroy(): void {
+    console.log("Destroying course creator");
+    this.courseFormGroup.reset();
+    this.lessonsFormArray.clear();
+    this.publishFormGroup.reset();
+    this.store.dispatch(setCourse({course : null}));
   }
-
 }

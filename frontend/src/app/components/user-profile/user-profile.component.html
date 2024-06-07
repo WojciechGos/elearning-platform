@@ -6,12 +6,17 @@
     <p><strong>First name:</strong> {{ user?.firstName }}</p>
     <p><strong>Last name:</strong> {{ user?.lastName }}</p>
     <p><strong>Email:</strong> {{ user?.email }}</p>
-    <button (click)="logout()">Log out</button>
+    <button mat-raised-button color="primary" (click)="logout()">
+      Log out
+    </button>
   </div>
   <div class="user-courses">
     <h2>My bought courses</h2>
     <app-user-profile-cart-list></app-user-profile-cart-list>
     <h2>My created courses</h2>
+
+      <button mat-raised-button color="primary" (click)="this.createCourse()">Create new course</button>
+
     <app-user-profile-courses-list></app-user-profile-courses-list>
   </div>
 </div>

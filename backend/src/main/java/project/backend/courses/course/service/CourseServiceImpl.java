@@ -90,7 +90,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDTO createCourse(@Validated CourseDTO course, Principal principal) {
 
-        if(principal.getName() == null)
+        if (principal.getName() == null)
             throw new ForbiddenException("You need to be logged in to create a course.");
 
         Lesson lesson = Lesson.builder()
@@ -126,7 +126,7 @@ public class CourseServiceImpl implements CourseService {
         User user = userService.getUserByEmail(principal.getName());
 
 
-        if(user.getAuthorities() == null){
+        if (user.getAuthorities() == null) {
             throw new ForbiddenException("You need to be logged in to save course data.");
         }
 
@@ -141,6 +141,7 @@ public class CourseServiceImpl implements CourseService {
         if (course.title() != null) updatedCourse.setTitle(course.title());
         if (course.description() != null) updatedCourse.setDescription(course.description());
         if (course.price() != null) updatedCourse.setPrice(course.price());
+        if (course.targetAudience() != null) updatedCourse.setTargetAudience(course.targetAudience());
         if (course.language() != null) {
             if (!course.language().isEmpty() || !course.language().isBlank()) {
                 Language language = languageService.getLanguageByName(course.language());
@@ -185,10 +186,9 @@ public class CourseServiceImpl implements CourseService {
     public List<CourseDTO> getUsersCourse(CourseState courseState, Principal principal) {
 
         List<Course> courses;
-        if(courseState != null){
+        if (courseState != null) {
             courses = courseRepository.findCoursesByAuthorEmailAndCourseState(principal.getName(), courseState);
-        }
-        else{
+        } else {
             courses = courseRepository.findCoursesByAuthorEmail(principal.getName());
         }
 
