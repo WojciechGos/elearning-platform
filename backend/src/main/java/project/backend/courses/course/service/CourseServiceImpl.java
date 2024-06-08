@@ -19,6 +19,7 @@ import project.backend.courses.lesson.mapper.LessonDTOMapper;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.service.LessonService;
 import project.backend.courses.utils.file.service.FileService;
+import project.backend.courses.permission.service.PermissionService;
 import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
 
@@ -43,6 +44,7 @@ public class CourseServiceImpl implements CourseService {
     private final FileService fileService;
     private final LessonService lessonService;
     private final LessonDTOMapper lessonDTOMapper;
+    private final PermissionService courseSecurityUtils;
     @Value("${aws.s3.url}")
     private String awsS3Url;
 
@@ -120,21 +122,12 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-//    @PreAuthorize("@courseServiceImpl.isAuthor(#courseId, #principal)")
     public CourseDTO updateCourse(Long courseId, CourseDTO course, Principal principal) {
         Course updatedCourse = getCourseById(courseId);
         User user = userService.getUserByEmail(principal.getName());
 
-
-        if (user.getAuthorities() == null) {
-            throw new ForbiddenException("You need to be logged in to save course data.");
-        }
-
-        // if role is user allow only author of the course to update it
-        if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
-            if (!updatedCourse.getAuthor().getEmail().equals(user.getEmail())) {
-                throw new ForbiddenException("Insufficient role: You can only update your own courses.");
-            }
+        if (courseSecurityUtils.isAuthor(updatedCourse, principal)) {
+            throw new ForbiddenException("Insufficient role: You can only update your own courses.");
         }
 
 
@@ -150,21 +143,16 @@ public class CourseServiceImpl implements CourseService {
         }
 
 
-        if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
-            if (course.courseState() != null) {
+        // user has constraints on changing courseState, only admin can change courseState to "PUBLISH"
+        if (course.courseState() != null) {
+            if (courseSecurityUtils.hasRole(principal, "ROLE_USER")) {
                 if (course.courseState() == CourseState.READY_TO_ACCEPT || course.courseState() == CourseState.HIDDEN || course.courseState() == CourseState.CREATING) {
                     updatedCourse.setCourseState(course.courseState());
                 } else {
                     throw new ForbiddenException("Insufficient role: You can only change course state to READY_TO_ACCEPT or HIDDEN.");
                 }
-            }
-        }
-
-        if (user.getAuthorities() != null) {
-            if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-                if (course.courseState() != null) {
-                    updatedCourse.setCourseState(course.courseState());
-                }
+            }else if(courseSecurityUtils.hasRole(principal, "ROLE_ADMIN")){
+                updatedCourse.setCourseState(course.courseState());
             }
         }
         return courseDTOMapper.toDTO(courseRepository.save(updatedCourse));
@@ -213,12 +201,4 @@ public class CourseServiceImpl implements CourseService {
         course.setImageUrl(null);
         courseRepository.save(course);
     }
-
-    @Override
-    public boolean isAuthor(Long courseId, Principal principal) {
-        Course course = getCourseById(courseId);
-        return course.getAuthor().getEmail().equals(principal.getName());
-    }
-
-
 }

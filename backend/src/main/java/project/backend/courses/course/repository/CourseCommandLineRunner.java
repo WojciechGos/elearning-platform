@@ -56,7 +56,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .lessons(LessonCommandLineRunner.getLessonsPack(0))
                 .enrollmentCount(1001)
                 .courseState(CourseState.PUBLISHED)
-                .author(users.get(0))
+                .author(users.get(1))
                 .build());
         attachCourseToLesson(course);
 

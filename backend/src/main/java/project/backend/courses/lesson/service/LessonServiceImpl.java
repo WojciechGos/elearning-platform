@@ -8,8 +8,6 @@ import project.backend.courses.lesson.mapper.LessonDTOMapper;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.lesson.repository.LessonRepository;
-import project.backend.courses.lessonResource.model.LessonResource;
-import project.backend.courses.lessonResource.service.LessonResourceService;
 import project.backend.courses.utils.file.response.FileResponse;
 import project.backend.courses.utils.file.service.FileService;
 import project.backend.exception.types.ResourceNotFoundException;
@@ -22,7 +20,6 @@ import java.util.UUID;
 public class LessonServiceImpl implements LessonService {
 
     private final LessonRepository lessonRepository;
-    private final LessonResourceService lessonResourceService;
     private final FileService fileService;
     private final LessonDTOMapper lessonDTOMapper;
 
@@ -70,16 +67,6 @@ public class LessonServiceImpl implements LessonService {
         }
         lessonRepository.deleteById(lessonId);
     }
-
-    @Transactional
-    public LessonResource addLessonResourceToLesson(final Long lessonId, final LessonResource lessonResource) {
-        LessonResource createdLessonResource = lessonResourceService.createLessonResource(lessonResource);
-        Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(() -> new ResourceNotFoundException("Lesson not found with id [%s] ".formatted(lessonId)));
-        lesson.getLessonResources().add(createdLessonResource);
-        lessonRepository.save(lesson);
-        return createdLessonResource;
-    }
-
 
     @Override
     public String getSignedUrlForDownloadLessonVideo(Long lessonId) {

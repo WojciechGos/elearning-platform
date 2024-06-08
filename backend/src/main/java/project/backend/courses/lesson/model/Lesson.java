@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import project.backend.courses.course.model.Course;
-import project.backend.courses.lessonResource.model.LessonResource;
 
 import java.time.Duration;
 import java.util.List;
@@ -51,8 +50,7 @@ public class Lesson {
 //            (fetch = FetchType.LAZY)
     private Course course;
 
-    @OneToMany
-    private List<LessonResource> lessonResources;
+
 
     public Lesson(String title, String description, String content, int lessonNumber, String videoUrl) {
         this.title = title;

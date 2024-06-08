@@ -17,6 +17,7 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
     private final CourseService courseService;
     private final CourseDTOMapper courseDTOMapper;
 
+    // TODO prevent adding same category to course more than once
     @Override
     public void addCategoryToCourse(Long courseId, Long categoryId, Principal principal) {
         Course course = courseService.getCourseById(courseId);

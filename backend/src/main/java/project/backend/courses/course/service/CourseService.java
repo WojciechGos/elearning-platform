@@ -38,5 +38,4 @@ public interface CourseService {
     String getSignedUrlForImageUpload(Long courseId);
 
     void deleteCourseImage(Long courseId);
-    boolean isAuthor(Long courseId, Principal principal);
 }
