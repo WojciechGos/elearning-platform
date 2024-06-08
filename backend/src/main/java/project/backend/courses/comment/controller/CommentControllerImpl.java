@@ -17,18 +17,21 @@ import java.util.List;
 public class CommentControllerImpl implements CommentController {
     private final CommentService commentService;
 
+    @Override
     @PostMapping
     public ResponseEntity<CommentDTO> addComment(Principal principal, @RequestBody CommentRequest commentRequest) {
         CommentDTO savedComment = commentService.addComment(principal, commentRequest);
         return new ResponseEntity<>(savedComment, HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<List<CommentDTO>> getAllCommentsForCourse(@PathVariable Long courseId) {
-        List<CommentDTO> comments = commentService.getAllCommentsForCourse(courseId);
-        return new ResponseEntity<>(comments, HttpStatus.OK);
+    @Override
+    @GetMapping("/course/{courseId}")
+    public ResponseEntity<List<CommentDTO>> getCommentsByCourseId(@PathVariable Long courseId) {
+        List<CommentDTO> comments = commentService.getCommentsByCourseId(courseId);
+        return ResponseEntity.ok(comments);
     }
 
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         commentService.deleteComment(id);

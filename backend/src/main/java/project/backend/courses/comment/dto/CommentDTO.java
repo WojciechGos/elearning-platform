@@ -1,9 +1,13 @@
 package project.backend.courses.comment.dto;
 
+import java.time.LocalDateTime;
+
 public record CommentDTO(
         Long id,
         String content,
-        Long courseId,
-        Long authorId
+        String authorFirstName,
+        String authorLastName,
+        LocalDateTime createdDate,
+        boolean isCourseAuthor
 ) {
 }

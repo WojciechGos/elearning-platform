@@ -11,6 +11,6 @@ import java.util.List;
 
 public interface CommentController {
     ResponseEntity<CommentDTO> addComment(Principal principal, @RequestBody CommentRequest commentRequest);
-    ResponseEntity<List<CommentDTO>> getAllCommentsForCourse(@PathVariable Long courseId);
+    ResponseEntity<List<CommentDTO>> getCommentsByCourseId(@PathVariable Long courseId);
     ResponseEntity<Void> deleteComment(@PathVariable Long id);
 }

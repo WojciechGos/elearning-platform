@@ -64,6 +64,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { UserProfileCartListComponent } from './components/user-profile-cart-list/user-profile-cart-list.component';
 import { UserProfileCoursesListComponent } from './components/user-profile-courses-list/user-profile-courses-list.component';
 import { CourseMiniatureComponent } from './components/course-miniature/course-miniature.component';
+import { CommentComponent } from './components/comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { CourseMiniatureComponent } from './components/course-miniature/course-m
     UserProfileCartListComponent,
     UserProfileCoursesListComponent,
     CourseMiniatureComponent,
+    CommentComponent,
   ],
   imports: [
     BrowserModule,

@@ -22,6 +22,7 @@ public class CommentServiceImpl implements CommentService {
     private final CourseService courseService;
     private final CommentMapper commentMapper;
 
+    @Override
     public CommentDTO addComment(Principal principal, CommentRequest commentRequest) {
         User author = userService.getUserByEmail(principal.getName());
         Course course = courseService.getCourseById(commentRequest.courseId());
@@ -35,10 +36,13 @@ public class CommentServiceImpl implements CommentService {
         return commentMapper.mapToDTO(commentRepository.save(comment));
     }
 
-    public List<CommentDTO> getAllCommentsForCourse(Long courseId) {
-        return commentRepository.findByCourseId(courseId);
+    @Override
+    public List<CommentDTO> getCommentsByCourseId(Long courseId) {
+        List<Comment> comments = commentRepository.findByCourseId(courseId);
+        return comments.stream().map(commentMapper::mapToDTO).toList();
     }
 
+    @Override
     public void deleteComment(Long commentId) {
         commentRepository.deleteById(commentId);
     }
