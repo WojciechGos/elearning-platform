@@ -27,6 +27,6 @@ public interface CartService {
 
     List<Cart> getAllPendingCartsByUser(String email);
 
-    List<Cart> getUsersCartsByStatus(CartStatus cartStatus, Principal principal);
+    List<Cart> getUserCartsByStatus(CartStatus cartStatus, Principal principal);
 }
 

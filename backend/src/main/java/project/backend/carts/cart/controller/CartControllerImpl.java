@@ -55,7 +55,7 @@ public class CartControllerImpl implements CartController {
     @Override
     @GetMapping("status/{cartStatus}/me")
     public ResponseEntity<List<Cart>> getUsersCartsByStatus(@PathVariable("cartStatus") CartStatus cartStatus, Principal principal) {
-        return ResponseEntity.ok(cartService.getUsersCartsByStatus(cartStatus, principal));
+        return ResponseEntity.ok(cartService.getUserCartsByStatus(cartStatus, principal));
     }
 
     @Override
