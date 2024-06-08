@@ -5,7 +5,7 @@ import { CourseCreatorCourseInfoComponent } from '../course-creator-course-info/
 import { getNewLessonFormGroup } from 'src/app/utils/lesson.form';
 import { CourseState } from 'src/app/enums/course.state';
 import { CourseService } from 'src/app/services/course/course.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
 import { Course } from 'src/app/interfaces/course.interface';
 import { Store, select } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/interfaces/appState.interface';
@@ -27,6 +27,8 @@ import { setCourse } from 'src/app/store/course/course.actions';
   ]
 })
 export class CourseCreatorComponent implements OnInit, OnDestroy {
+
+  private courseSubscription?: Subscription; 
 
   courseFormGroup = new FormGroup({
     title: new FormControl('', {
@@ -114,6 +116,7 @@ export class CourseCreatorComponent implements OnInit, OnDestroy {
   @ViewChild(MatStepper) stepper !: MatStepper;
   @ViewChild(CourseCreatorCourseInfoComponent) courseCreatorCourseInfoComponent !: CourseCreatorCourseInfoComponent;
   course$: Observable<Course | null> = this.store.pipe(select(courseSelector));
+  private destroy$ = new Subject<void>();
 
   constructor(
     private courseService: CourseService,
@@ -122,12 +125,11 @@ export class CourseCreatorComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.course$.subscribe((course) => {
+    this.course$.pipe(takeUntil(this.destroy$)).subscribe((course) => {
       if (course === null)
         this.router.navigateByUrl('/user-profile');
       else
         this.getCourse();
-
     });
   }
 
@@ -141,7 +143,7 @@ export class CourseCreatorComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.courseService.getCourseById(course.id as number).subscribe((course) => {
+      this.courseSubscription = this.courseService.getCourseById(course.id as number).subscribe((course) => {
 
         this.courseFormGroup.controls.title.setValue(course.title);
         this.courseFormGroup.controls.description.setValue(course.description);
@@ -150,7 +152,7 @@ export class CourseCreatorComponent implements OnInit, OnDestroy {
         this.courseFormGroup.controls.language.setValue(course.language as string);
         this.courseFormGroup.controls.targetAudience.setValue(course.targetAudience as string);
         this.courseFormGroup.controls.categories.setValue(course.categories as string[]);
-
+        this.courseCreatorCourseInfoComponent.subscribeSelectedOptionsChange();
         course.lessons.forEach((lesson) => {
           const lessonForm: FormGroup = getNewLessonFormGroup();
           lessonForm.controls['id'].setValue(lesson.id);
@@ -173,22 +175,6 @@ export class CourseCreatorComponent implements OnInit, OnDestroy {
     }
   }
 
-  nextStep(type: string): void {
-    if (type === 'course') {
-      console.log(this.courseFormGroup)
-      if (this.courseFormGroup.valid) {
-        this.courseCreatorCourseInfoComponent.updateCourseIfFormValid();
-        this.stepper.next();
-      }
-    }
-    else if (type === 'lesson') {
-      console.log(this.lessonsFormArray)
-      if (this.lessonsFormArray.valid) {
-        this.stepper.next();
-      }
-    }
-
-  }
 
 
   // TODO unsubscibe services that connect with API
@@ -198,5 +184,8 @@ export class CourseCreatorComponent implements OnInit, OnDestroy {
     this.lessonsFormArray.clear();
     this.publishFormGroup.reset();
     this.store.dispatch(setCourse({course : null}));
+    this.courseSubscription?.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
