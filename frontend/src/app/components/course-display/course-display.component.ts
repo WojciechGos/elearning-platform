@@ -76,12 +76,9 @@ export class CourseDisplayComponent implements OnInit {
   }
 
   addComment(): void {
-    const newComment: Comment = {
+    const newComment = {
         content: this.newCommentContent,
-        authorFirstName: '', 
-        authorLastName: '', 
-        createdDate: new Date().toISOString(),
-        isCourseAuthor: false 
+        courseId: this.course.id
     };
 
     this.commentService.addComment(newComment).subscribe((comment) => {

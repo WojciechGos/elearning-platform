@@ -15,7 +15,7 @@ export class CommentService {
     return this.http.get<Comment[]>(`${environment.apiUrl}/api/v1/comments/course/${courseId}`);
   }
 
-  addComment(comment: Comment): Observable<Comment> {
+  addComment(comment: { content: string; courseId: number; }): Observable<Comment> {
     return this.http.post<Comment>(`${environment.apiUrl}/api/v1/comments`, comment);
   }
 

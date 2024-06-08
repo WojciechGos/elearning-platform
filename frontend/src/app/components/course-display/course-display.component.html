@@ -17,13 +17,13 @@
         There are no comments.
       </div>
       <div class="new-comment-form">
-        <form (ngSubmit)="addComment()">
+        <form>
             <textarea [(ngModel)]="newCommentContent" name="commentContent" placeholder="Add a comment" required></textarea>
             <div class="submit-button">
-              <app-button text="Submit" type="SUBMIT"></app-button>
+              <app-button text="Submit" type="SUBMIT" (click)="addComment()"></app-button>
             </div>
         </form>
-    </div>
+      </div>
     </div>
   </div>
   <div *ngIf="course" class="course-content">
