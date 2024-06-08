@@ -1,14 +1,31 @@
 <app-navbar></app-navbar>
 <div class="content-wrapper">
-  
+  <div class="details-comments-wrapper">
     <div *ngIf="this.showVideo">
-
         <app-lesson-display
         [title]="lessonTitle"
         [description]="lessonDescription"
         [videoUrl]="videoUrl"
         ></app-lesson-display>
     </div>
+    <div class="comments-wrapper" *ngIf="course">
+      <div class="comments-header">All comments</div>
+      <div *ngIf="comments && comments.length > 0">
+        <app-comment *ngFor="let comment of comments" [comment]="comment"></app-comment>
+      </div>
+      <div *ngIf="!comments || comments.length === 0">
+        There are no comments.
+      </div>
+      <div class="new-comment-form">
+        <form>
+            <textarea [(ngModel)]="newCommentContent" name="commentContent" placeholder="Add a comment" required></textarea>
+            <div class="submit-button">
+              <app-button text="Submit" type="SUBMIT" (click)="addComment()"></app-button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
   <div *ngIf="course" class="course-content">
     <h2>COURSE CONTENT</h2>
     <div

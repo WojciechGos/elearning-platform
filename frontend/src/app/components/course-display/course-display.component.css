@@ -10,7 +10,6 @@
 }
 
 app-lesson-display {
-    width: 60%;
     margin-right: 0;
 }
 
@@ -31,4 +30,34 @@ h2 {
 a {
     text-decoration: none;
     color: #000;
+}
+
+.details-comments-wrapper {
+    width: 60%;
+}
+
+.comments-wrapper {
+    width: 70%;
+}
+
+.comments-header {
+    font-size: 1.5em;
+    padding: 10px 0;
+    font-weight: 500;
+}
+
+.new-comment-form {
+    margin-top: 25px;
+}
+
+.new-comment-form textarea {
+    width: 95.5%;
+    padding: 2.1%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical; 
+}
+
+.submit-button {
+    width: 11%;
 }

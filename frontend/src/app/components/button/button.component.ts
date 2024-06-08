@@ -32,6 +32,9 @@ export class ButtonComponent implements OnInit {
     else if (this.type === Type.SIGN_UP) {
       classType='sign-up-button'
     }
+    else if (this.type === Type.SUBMIT) {
+      classType='submit-button'
+    }
     return classType;
   }
 
