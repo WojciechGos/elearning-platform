@@ -1,4 +1,4 @@
-package project.backend.courses.permission.service;
+package project.backend.permission.service;
 
 import project.backend.courses.course.model.Course;
 
@@ -10,4 +10,6 @@ public interface PermissionService {
     boolean hasRole(Principal principal, String role);
 
     boolean canWatchCourse(Course course, Principal principal);
+
+    boolean hasPermissionToEditCourse(Course course, Principal principal);
 }

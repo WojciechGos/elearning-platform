@@ -1,0 +1,26 @@
+<div>
+    <div>
+        <button mat-button color="primary" [routerLink]="['/admin/courses']">Back to Courses</button>
+    </div>
+    <div *ngIf="this.course">
+
+        <h1>{{this.course.title}}</h1>
+        <p *ngIf="this.course.author">Author: {{this.course.author.firstName}} {{this.course.author.lastName}}</p>
+        <p *ngIf="this.course.author">Email: {{this.course.author.email}}</p>
+
+        <button mat-raised-button color="primary" (click)="this.editCourse(this.course)">Edit Course</button>
+
+    </div>
+    <form [formGroup]="formGroup" class="form-group" (ngSubmit)="this.changeStatus()">
+        <mat-form-field>
+          <mat-label>Select</mat-label>
+          <mat-select  formControlName="courseState">
+            <mat-option value="READY_TO_ACCEPT">Ask for publish</mat-option>
+            <mat-option value="HIDDEN">Hide</mat-option>
+            <mat-option value="PUBLISHED">Publish</mat-option>
+          </mat-select>
+        </mat-form-field>
+      
+        <button mat-raised-button color="primary" type="submit">Save</button>
+    </form>
+</div>

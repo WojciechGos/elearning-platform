@@ -1,4 +1,4 @@
-package project.backend.courses.permission.service;
+package project.backend.permission.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,5 +28,14 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public boolean canWatchCourse(Course course, Principal principal) {
         return false;
+    }
+
+    @Override
+    public boolean hasPermissionToEditCourse(Course course, Principal principal) {
+
+        if(isAuthor(course, principal)){
+            return true;
+        }
+        return hasRole(principal, "ROLE_ADMIN");
     }
 }

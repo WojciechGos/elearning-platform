@@ -1,0 +1,25 @@
+div {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  color: #333;
+  font-size: 24px;
+}
+
+p {
+  color: #666;
+  font-size: 16px;
+}
+
+a {
+  display: block;
+  margin-top: 10px;
+  color: #0066cc;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #004d99;
+}

@@ -19,12 +19,11 @@ import project.backend.courses.lesson.mapper.LessonDTOMapper;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.service.LessonService;
 import project.backend.courses.utils.file.service.FileService;
-import project.backend.courses.permission.service.PermissionService;
+import project.backend.permission.service.PermissionService;
 import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
 
 import org.springframework.data.domain.Pageable;
-import project.backend.user.User;
 import project.backend.user.UserService;
 
 import java.math.BigDecimal;
@@ -44,7 +43,7 @@ public class CourseServiceImpl implements CourseService {
     private final FileService fileService;
     private final LessonService lessonService;
     private final LessonDTOMapper lessonDTOMapper;
-    private final PermissionService courseSecurityUtils;
+    private final PermissionService permissionService;
     @Value("${aws.s3.url}")
     private String awsS3Url;
 
@@ -124,9 +123,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDTO updateCourse(Long courseId, CourseDTO course, Principal principal) {
         Course updatedCourse = getCourseById(courseId);
-        User user = userService.getUserByEmail(principal.getName());
 
-        if (courseSecurityUtils.isAuthor(updatedCourse, principal)) {
+        if (!permissionService.hasPermissionToEditCourse(updatedCourse, principal)) {
             throw new ForbiddenException("Insufficient role: You can only update your own courses.");
         }
 
@@ -143,15 +141,15 @@ public class CourseServiceImpl implements CourseService {
         }
 
 
-        // user has constraints on changing courseState, only admin can change courseState to "PUBLISH"
+        // user has constraints to change courseState to "HIDDEN" or "READY_TO_ACCEPT", only admin can change courseState to "PUBLISH"
         if (course.courseState() != null) {
-            if (courseSecurityUtils.hasRole(principal, "ROLE_USER")) {
+            if (permissionService.hasRole(principal, "ROLE_USER")) {
                 if (course.courseState() == CourseState.READY_TO_ACCEPT || course.courseState() == CourseState.HIDDEN || course.courseState() == CourseState.CREATING) {
                     updatedCourse.setCourseState(course.courseState());
                 } else {
                     throw new ForbiddenException("Insufficient role: You can only change course state to READY_TO_ACCEPT or HIDDEN.");
                 }
-            }else if(courseSecurityUtils.hasRole(principal, "ROLE_ADMIN")){
+            }else if(permissionService.hasRole(principal, "ROLE_ADMIN")){
                 updatedCourse.setCourseState(course.courseState());
             }
         }
