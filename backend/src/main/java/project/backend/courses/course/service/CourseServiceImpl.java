@@ -29,6 +29,7 @@ import project.backend.user.UserService;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -49,13 +50,11 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course getCourseById(Long courseId) {
-        return courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
+        return courseRepository.findCourseWithSortedLessonsByIdOrderByLessonsLessonNumber(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
     }
 
     @Override
     public CourseDTO getCourseDTOById(Long courseId) {
-
-        // if user nie ma uprawnien to throw ForbiddenException
 
         return courseDTOMapper.toDTO(getCourseById(courseId));
     }
@@ -95,6 +94,7 @@ public class CourseServiceImpl implements CourseService {
             throw new ForbiddenException("You need to be logged in to create a course.");
 
         Lesson lesson = Lesson.builder()
+                .lessonNumber(1)
                 .title("")
                 .description("")
                 .videoUrl("")
@@ -149,7 +149,7 @@ public class CourseServiceImpl implements CourseService {
                 } else {
                     throw new ForbiddenException("Insufficient role: You can only change course state to READY_TO_ACCEPT or HIDDEN.");
                 }
-            }else if(permissionService.hasRole(principal, "ROLE_ADMIN")){
+            } else if (permissionService.hasRole(principal, "ROLE_ADMIN")) {
                 updatedCourse.setCourseState(course.courseState());
             }
         }

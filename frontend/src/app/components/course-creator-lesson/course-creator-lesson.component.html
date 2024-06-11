@@ -10,6 +10,7 @@
       <div *ngFor="let item of getFormGroups; let i = index">
         <app-course-creator-lesson-item
           [formGroup]="item"
+          [index]="i"
           (deleteLessonEvent)="handleDeleteLessonEvent(i)"
         ></app-course-creator-lesson-item>
       </div>

@@ -18,6 +18,7 @@ import { Lesson } from 'src/app/interfaces/lesson.interface';
 export class CourseCreatorLessonItemComponent implements OnInit {
 
   @Input() formGroup !: FormGroup;
+  @Input() index !: number;
   @Output() deleteLessonEvent = new EventEmitter<void>();
   lessonId: number = -1;
   course$: Observable<Course | null> = this.store.pipe(select(courseSelector));
@@ -33,7 +34,8 @@ export class CourseCreatorLessonItemComponent implements OnInit {
     this.course$.subscribe(course => {
       if (course == null) return;
       if (this.formGroup.controls['id'].value === -1) {
-        this.lessonService.createLessonWithLessonNumber(course.id, this.formGroup.controls['lessonNumber'].value).subscribe((lesson) => {
+        console.log(this.index)
+        this.lessonService.createLessonWithLessonNumber(course.id, this.index).subscribe((lesson) => {
           this.lessonId = lesson.id;
           this.formGroup.controls['id'].setValue(lesson.id);
         });
@@ -51,7 +53,7 @@ export class CourseCreatorLessonItemComponent implements OnInit {
       id: this.formGroup.controls['id'].value,
       title: this.formGroup.controls['title'].value,
       description: this.formGroup.controls['description'].value,
-      lessonNumber: this.formGroup.controls['lessonNumber'].value
+      lessonNumber: this.index
     }
     console.log(updatedLesson);
     this.lessonService.updateLesson(this.lessonId, updatedLesson).subscribe((lesson) => {
@@ -61,7 +63,7 @@ export class CourseCreatorLessonItemComponent implements OnInit {
 
   createLesson(courseId: number): void {
     console.log(this.formGroup.controls['lessonNumber'].value)
-    this.lessonService.createLessonWithLessonNumber(courseId, this.formGroup.controls['lessonNumber'].value).subscribe((lesson) => {
+    this.lessonService.createLessonWithLessonNumber(courseId, this.index).subscribe((lesson) => {
       this.lessonId = lesson.id;
     });
   }

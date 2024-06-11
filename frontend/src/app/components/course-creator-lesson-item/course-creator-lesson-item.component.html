@@ -1,7 +1,7 @@
 <mat-expansion-panel hideToggle>
   <mat-expansion-panel-header>
     <mat-panel-title style="display: flex; justify-content: space-between; align-items: center;">
-      <span>{{ formGroup.value.lessonNumber }}. {{ formGroup.value.title }}</span>
+      <span>{{ this.index+1 }}. {{ formGroup.value.title }}</span>
       <button mat-icon-button (click)="this.deleteLesson()" >
         <mat-icon>close</mat-icon>
       </button>

@@ -39,7 +39,7 @@ public class Lesson {
     @Column(columnDefinition = "TEXT")
     private String content;
     @Min(value = 0, message = "Lesson number must be greater than 0")
-    private int lessonNumber;
+    private int lessonNumber; // this variable exist only for keeping the order of lessons after update not for storing real lessonNumber
     @NotNull(message = "Video URL cannot be null.")
     @NotBlank(message = "Video URL cannot be blank")
     private String videoUrl;
