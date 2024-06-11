@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, isDevMode } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, isDevMode } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { create } from 'domain';
@@ -18,6 +18,7 @@ import { Lesson } from 'src/app/interfaces/lesson.interface';
 export class CourseCreatorLessonItemComponent implements OnInit {
 
   @Input() formGroup !: FormGroup;
+  @Output() deleteLessonEvent = new EventEmitter<void>();
   lessonId: number = -1;
   course$: Observable<Course | null> = this.store.pipe(select(courseSelector));
   uploadState: UploadState = UploadState.NOT_STARTED;
@@ -106,7 +107,11 @@ export class CourseCreatorLessonItemComponent implements OnInit {
     });
   }
 
-
+  deleteLesson():void{
+    this.lessonService.deleteLesson(this.lessonId).subscribe((response)=>{
+      this.deleteLessonEvent.emit();
+    });
+  }
 
 }
 

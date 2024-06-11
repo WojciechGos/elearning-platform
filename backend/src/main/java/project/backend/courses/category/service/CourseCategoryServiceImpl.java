@@ -26,7 +26,7 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
 
         Course course = courseService.getCourseById(courseId);
 
-        if(permissionService.hasPermissionToEditCourse(course, principal)) {
+        if(!permissionService.hasPermissionToEditCourse(course, principal)) {
             throw new BadRequestException("User does not have permission to edit course");
         }
 
@@ -44,7 +44,7 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
     public void removeCategoryFromCourse(Long courseId, Long categoryId, Principal principal) {
         Course course = courseService.getCourseById(courseId);
 
-        if(permissionService.hasPermissionToEditCourse(course, principal)) {
+        if(!permissionService.hasPermissionToEditCourse(course, principal)) {
             throw new BadRequestException("User does not have permission to edit course");
         }
 

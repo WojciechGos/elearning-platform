@@ -62,6 +62,7 @@ public class LessonServiceImpl implements LessonService {
 
     public void deleteLesson(Long lessonId) {
         Lesson lesson = getLesson(lessonId);
+        lesson.setCourse(null);
         if (lesson.getVideoUrl() != null) {
             fileService.deleteFile(lesson.getVideoUrl());
         }

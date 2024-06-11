@@ -66,7 +66,7 @@ public class Course {
     @NotBlank(message = "Image URL cannot be blank")
     private String imageUrl;
 
-    @OneToMany
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Lesson> lessons;
 
     @Min(value = 0, message = "Enrollment count must be greater than 0")

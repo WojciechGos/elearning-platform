@@ -47,7 +47,6 @@ public class Lesson {
 
     @JsonBackReference
     @ManyToOne
-//            (fetch = FetchType.LAZY)
     private Course course;
 
 

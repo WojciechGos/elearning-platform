@@ -48,4 +48,8 @@ export class LessonService {
     return this.http.put(signedUrl, blob, { headers, observe: 'response' });
   }
 
+  deleteLesson(lessonId:number): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}/api/v1/lessons/${lessonId}`);
+  }
+
 }
