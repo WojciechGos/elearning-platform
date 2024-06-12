@@ -65,7 +65,6 @@ import { UserProfileCoursesListComponent } from './components/user-profile-cours
 import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
 import { CoursesComponent } from './components/admin/courses/courses.component';
 import { CoursesDetailsComponent } from './components/admin/courses-details/courses-details.component';
-import { FileUploadButtonComponent } from './components/file-upload-button/file-upload-button.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +103,6 @@ import { FileUploadButtonComponent } from './components/file-upload-button/file-
     AdminDashboardComponent,
     CoursesComponent,
     CoursesDetailsComponent,
-    FileUploadButtonComponent,
   ],
   imports: [
     BrowserModule,
