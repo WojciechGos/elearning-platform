@@ -1,9 +1,13 @@
 <mat-expansion-panel hideToggle>
   <mat-expansion-panel-header>
-    <mat-panel-title>
-      {{ formGroup.value.lessonNumber }}.
-      {{ formGroup.value.title }}</mat-panel-title
+    <mat-panel-title
+      style="display: flex; justify-content: space-between; align-items: center"
     >
+      <span>{{ this.index + 1 }}. {{ formGroup.value.title }}</span>
+      <button mat-icon-button (click)="this.deleteLesson()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-panel-title>
   </mat-expansion-panel-header>
 
   <form [formGroup]="formGroup" (ngSubmit)="updateLesson()">
@@ -30,37 +34,67 @@
     </mat-form-field>
 
     <div class="form-group">
-      <mat-label for="course-video">Course video</mat-label>
-      <button type="button" mat-raised-button (click)="fileInput.click()">
-        Choose File
-      </button>
+      <div class="file-upload">
+        <button
+          class="button-file-upload margin-right-20"
+          type="button"
+          mat-raised-button
+          (click)="fileInput.click()"
+        >
+          <div class="file-upload-wrapper">
+            <div>Upload file</div>
+            <mat-icon
+              *ngIf="this.uploadState === this.UploadState.UPLOADED"
+              class="uploaded-icon mini-icon"
+            >
+              check
+            </mat-icon>
+            <mat-icon
+              *ngIf="this.uploadState === this.UploadState.ERROR"
+              class="error-icon mini-icon"
+            >
+              error
+            </mat-icon>
+
+            <div
+              *ngIf="this.uploadState === this.UploadState.UPLOADING"
+              class="mini-icon"
+            >
+              <mat-spinner [diameter]="20"></mat-spinner>
+            </div>
+            <mat-icon
+              *ngIf="this.uploadState === this.UploadState.NOT_STARTED"
+              class="mini-icon"
+            >
+              file_upload
+            </mat-icon>
+          </div>
+        </button>
+        <h3 *ngIf="this.uploadState === this.UploadState.UPLOADED">
+          Video is uploaded.
+        </h3>
+        <h3 *ngIf="this.uploadState === this.UploadState.ERROR">
+          Video cannot be uploaded. Please try again later.
+        </h3>
+        <h3 *ngIf="this.uploadState === this.UploadState.UPLOADING">
+          Video is uploading.
+        </h3>
+        <h3 *ngIf="this.uploadState === this.UploadState.NOT_STARTED">
+          Video is not uploaded yet.
+        </h3>
+      </div>
       <input
         hidden
         id="course-video"
-        formControlName="videoUrl"
         (change)="onFileChange($event)"
         accept="video/mp4"
         #fileInput
         type="file"
         id="file"
       />
-      <div class="progress-bar">
-        <div *ngIf="uploadState == UploadState.UPLOADING">
-          <h3>Uploading</h3>
-          <mat-spinner></mat-spinner>
-        </div>
-        <div *ngIf="uploadState == UploadState.UPLOADED">
-          <h3>Uploaded</h3>
-          <mat-icon class="uploaded-icon"> check </mat-icon>
-        </div>
-        <div *ngIf="uploadState == UploadState.ERROR">
-          <h3>Error</h3>
-          <mat-icon class="error-icon"> error </mat-icon>
-        </div>
-      </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group margin-top-10">
       <button mat-raised-button color="primary" type="submit">
         Save Lesson
       </button>

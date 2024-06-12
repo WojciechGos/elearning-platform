@@ -31,8 +31,6 @@ export class CourseCreatorPublishComponent {
       this.courseService.updateCourseStatus(course.id, this.formGroup.value.courseState).subscribe((course) => {
         console.log(`Course status updated ${course}`);
       });
-        
-      
     });
   }
 

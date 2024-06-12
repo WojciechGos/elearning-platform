@@ -33,6 +33,8 @@ public class CourseLessonServiceImpl implements CourseLessonService{
 
         // assign created lesson to the existing course
         course.getLessons().add(createdLesson);
+        // set course state to NULL because otherwise it will trigger insufficient permission error
+        course.setCourseState(null);
         courseService.updateCourse(courseId, courseDTOMapper.toDTO(course), principal);
 
         return lessonDTO;

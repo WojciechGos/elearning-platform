@@ -17,7 +17,6 @@ export class AuthGuard  {
     | boolean
     | UrlTree {
     const token = localStorage.getItem('accessToken');
-    console.log('TEST! Token:', token);
     if (!token) {
       this.router.navigate(['/login']);
       return false;

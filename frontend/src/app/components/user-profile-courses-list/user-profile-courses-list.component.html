@@ -1,1 +1,11 @@
-<p>user-profile-courses-list works!</p>
+<div *ngFor="let course of this.courses" class="miniature">
+  <div (click)="this.editCourse(course)">
+    <app-courses-list-item
+    [title]="course.title"
+    [rating]="course.rating"
+    [image]="course.imageUrl"
+    >
+  </app-courses-list-item>
+</div>
+  
+</div>

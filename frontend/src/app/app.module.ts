@@ -13,7 +13,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/interceptors/auth.interceptor';
-import { LoggedInPageComponent } from './logged-in-page/logged-in-page.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CourseDetailsComponent } from './components/course-details/course-details.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
@@ -63,15 +62,17 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { UserProfileCartListComponent } from './components/user-profile-cart-list/user-profile-cart-list.component';
 import { UserProfileCoursesListComponent } from './components/user-profile-courses-list/user-profile-courses-list.component';
-import { CourseMiniatureComponent } from './components/course-miniature/course-miniature.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
+import { CoursesComponent } from './components/admin/courses/courses.component';
+import { CoursesDetailsComponent } from './components/admin/courses-details/courses-details.component';
 import { CommentComponent } from './components/comment/comment.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    LoggedInPageComponent,
     NavbarComponent,
     CourseDetailsComponent,
     ButtonComponent,
@@ -101,8 +102,13 @@ import { CommentComponent } from './components/comment/comment.component';
     UserProfileComponent,
     UserProfileCartListComponent,
     UserProfileCoursesListComponent,
-    CourseMiniatureComponent,
+
+    AdminDashboardComponent,
+    CoursesComponent,
+    CoursesDetailsComponent,
+
     CommentComponent,
+
   ],
   imports: [
     BrowserModule,

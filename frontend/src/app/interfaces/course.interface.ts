@@ -1,20 +1,19 @@
-import { Category } from './category.interface';
-import { Language } from './language.interface';
 import { Lesson } from './lesson.interface';
-
+import { User } from './user.interface';
 export interface Course {
-    id : number;
+    id: number;
     title: string;
     description: string;
-    price : number;
+    price: number;
     discountPrice: number;
-    categories : string[];
-    language ?: string;
-    totalDuration ?: number;
-    rating : number;
-    imageUrl : string;
+    categories: string[];
+    language?: string;
+    totalDuration?: number;
+    rating: number;
+    imageUrl: string;
     lessons: Lesson[];
-    enrollmentCount ?: number;
-    courseState ?: string;
-    targetAudience ?: string;
+    enrollmentCount?: number;
+    courseState?: string;
+    targetAudience?: string;
+    author?: User;
 }

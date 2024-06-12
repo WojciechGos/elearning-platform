@@ -6,7 +6,7 @@
     >
   </mat-card-header>
   <mat-card-content>
-    <form [formGroup]="formGroup">
+    <form [formGroup]="formGroup" (ngSubmit)="this.updateCourseIfFormValid()">
       <mat-form-field class="form-group">
         <mat-label>Course title</mat-label>
         <input
@@ -41,23 +41,70 @@
         />
       </mat-form-field>
       <div class="form-group">
-        <h2>Course image</h2>
-        <button type="button" mat-raised-button (click)="fileInput.click()">
-          Choose File
-        </button>
+        <h3>Course image </h3>
+        <img  *ngIf="this.formGroup.controls['image'].value" [src]="this.formGroup.controls['image'].value" alt="Course image" />
+
+        <div class="file-upload">
+          <button
+            class="button-file-upload margin-right-20"
+            type="button"
+            mat-raised-button
+            (click)="fileInput.click()"
+          >
+            <div class="file-upload-wrapper">
+              <div>Upload file</div>
+              <mat-icon
+                *ngIf="this.uploadState === this.UploadState.UPLOADED"
+                class="uploaded-icon mini-icon"
+              >
+                check
+              </mat-icon>
+              <mat-icon
+                *ngIf="this.uploadState === this.UploadState.ERROR"
+                class="error-icon mini-icon"
+              >
+                error
+              </mat-icon>
+  
+              <div
+                *ngIf="this.uploadState === this.UploadState.UPLOADING"
+                class="mini-icon"
+              >
+                <mat-spinner [diameter]="20"></mat-spinner>
+              </div>
+              <mat-icon
+                *ngIf="this.uploadState === this.UploadState.NOT_STARTED"
+                class="mini-icon"
+              >
+                file_upload
+              </mat-icon>
+            </div>
+          </button>
+          <h3 *ngIf="this.uploadState === this.UploadState.UPLOADED">
+            Image is uploaded.
+          </h3>
+          <h3 *ngIf="this.uploadState === this.UploadState.ERROR">
+            Image cannot be uploaded. Please try again later.
+          </h3>
+          <h3 *ngIf="this.uploadState === this.UploadState.UPLOADING">
+            Image is uploading.
+          </h3>
+          <h3 *ngIf="this.uploadState === this.UploadState.NOT_STARTED">
+            Image is not uploaded yet.
+          </h3>
+        </div>
         <input
           hidden
-          id="course-image"
+          id="course-video"
           (change)="onFileChange($event)"
-          accept="image/png, image/jpeg"
+          accept="image/png, image/jpg, image/jpeg"
           #fileInput
           type="file"
           id="file"
         />
-
-        <img *ngIf="imageUrl" [src]="this.formGroup.controls['imageUrl']" />
       </div>
 
+      
       <h2>Language</h2>
       <mat-radio-group
         aria-labelledby="example-radio-group-label"
@@ -66,7 +113,7 @@
         required
       >
         <mat-radio-button
-          class="example-radio-button"
+          class="language-radio-button"
           *ngFor="let language of languages"
           [value]="language"
         >
@@ -77,10 +124,10 @@
 
       <h2>Target audience</h2>
       <mat-radio-group
-        aria-labelledby="example-radio-group-label"
+        aria-labelledby="target-audience-radio-button"
         class="example-radio-group"
         formControlName="targetAudience"
-        required
+        requiredł
       >
         <mat-radio-button
           class="example-radio-button"
@@ -100,6 +147,13 @@
           {{ category.name }}
         </mat-list-option>
       </mat-selection-list>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!formGroup.valid">
+        Save
+      </button>
     </form>
   </mat-card-content>
 </mat-card>
