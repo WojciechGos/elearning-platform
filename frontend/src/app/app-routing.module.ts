@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from './components/authentication/login/login.component';
 import {RegisterComponent} from './components/authentication/register/register.component';
-import {AuthGuard} from './guards/auth.guard';
+import {AuthGuard} from './guards/auth/auth.guard';
 import {CourseDetailsComponent} from './components/course-details/course-details.component';
 import {MainPageComponent} from './components/main-page/main-page.component';
 import {CancelComponent} from './components/payment/cancel/cancel.component';
@@ -33,10 +33,8 @@ const routes: Routes = [
   {path: 'cancel', component: CancelComponent},
   {path: 'success', component: SuccessComponent},
   {path: 'cart', component: CartComponent},
-  {path: 'admin/users', component: UsersComponent},
   {path: 'cart-details/:id/:email', component: CartDetailsComponent},
   {path: 'course-search', component: CourseSearchComponent},
-  {path: 'admin/user-carts/:email', component: UserCartsComponent},
   {
     path: 'user-profile',
     component: UserProfileComponent,
@@ -45,9 +43,18 @@ const routes: Routes = [
   {path: 'course-display/:id', component: CourseDisplayComponent},
   {path: 'course-display/:id/:lessonId', component: CourseDisplayComponent},
   {path: 'course-creator', component: CourseCreatorComponent},
-  {path: 'admin', component: AdminDashboardComponent},
-  {path: 'admin/courses', component: CoursesComponent},
-  {path: 'admin/course-details/:id', component: CoursesDetailsComponent},
+  {
+    path: 'admin', 
+    component: AdminDashboardComponent,
+    // canActivate: []
+    children: [
+      {path: 'admin/courses', component: CoursesComponent},
+      {path: 'admin/course-details/:id', component: CoursesDetailsComponent},
+      {path: 'admin/user-carts/:email', component: UserCartsComponent},
+      {path: 'admin/users', component: UsersComponent},
+    ]
+  },
+ 
 ];
 
 @NgModule({

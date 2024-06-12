@@ -39,7 +39,7 @@ import { UserCartsComponent } from './components/admin/user-carts/user-carts.com
 import { LessonListComponent } from './components/lesson-list/lesson-list.component';
 import { CourseSearchItemComponent } from './components/course-search-item/course-search-item.component';
 import { AuthService } from './services/auth.service';
-import { AuthGuard } from './guards/auth.guard';
+import { AuthGuard } from './guards/auth/auth.guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { CourseDisplayComponent } from './components/course-display/course-display.component';
 import { LessonDisplayComponent } from './components/lesson-display/lesson-display.component';
@@ -102,11 +102,9 @@ import { CommentComponent } from './components/comment/comment.component';
     UserProfileComponent,
     UserProfileCartListComponent,
     UserProfileCoursesListComponent,
-
     AdminDashboardComponent,
     CoursesComponent,
     CoursesDetailsComponent,
-
     CommentComponent,
 
   ],

@@ -105,4 +105,12 @@ public class CartServiceImpl implements CartService {
         return cartRepository.findByUserEmailAndCartStatus(principal.getName(), cartStatus);
     }
 
+    @Override
+    public boolean hasBoughtCourse(Long courseId, Principal principal) {
+        Cart cart = cartRepository.findByUserEmailAndCourseId(principal.getName(), courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("You have not bought this course."));
+
+        return cart.getCartStatus() == CartStatus.COMPLETED;
+    }
+
 }
