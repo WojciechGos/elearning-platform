@@ -109,7 +109,6 @@ public class CourseServiceImpl implements CourseService {
                 .language(null)
                 .categories(null)
                 .rating(0)
-                .imageUrl("")
                 .targetAudience(null)
                 .courseState(CourseState.CREATING)
                 .enrollmentCount(0)

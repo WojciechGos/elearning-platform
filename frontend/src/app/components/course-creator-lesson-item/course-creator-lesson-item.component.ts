@@ -24,7 +24,7 @@ export class CourseCreatorLessonItemComponent implements OnInit {
   course$: Observable<Course | null> = this.store.pipe(select(courseSelector));
   uploadState: UploadState = UploadState.NOT_STARTED;
   UploadState = UploadState;
-
+  
   constructor(
     private store: Store<AppStateInterface>,
     private lessonService: LessonService) {
@@ -34,7 +34,6 @@ export class CourseCreatorLessonItemComponent implements OnInit {
     this.course$.subscribe(course => {
       if (course == null) return;
       if (this.formGroup.controls['id'].value === -1) {
-        console.log(this.index)
         this.lessonService.createLessonWithLessonNumber(course.id, this.index).subscribe((lesson) => {
           this.lessonId = lesson.id;
           this.formGroup.controls['id'].setValue(lesson.id);
@@ -42,6 +41,10 @@ export class CourseCreatorLessonItemComponent implements OnInit {
       }
       else {
         this.lessonId = this.formGroup.controls['id'].value;
+
+        if(this.formGroup.controls['videoUrl'].value != null){
+          this.uploadState = UploadState.UPLOADED;
+        }
       }
     })
   }
@@ -55,14 +58,12 @@ export class CourseCreatorLessonItemComponent implements OnInit {
       description: this.formGroup.controls['description'].value,
       lessonNumber: this.index
     }
-    console.log(updatedLesson);
     this.lessonService.updateLesson(this.lessonId, updatedLesson).subscribe((lesson) => {
-      console.log(`Lesson updated ${lesson}`);
+
     });
   }
 
   createLesson(courseId: number): void {
-    console.log(this.formGroup.controls['lessonNumber'].value)
     this.lessonService.createLessonWithLessonNumber(courseId, this.index).subscribe((lesson) => {
       this.lessonId = lesson.id;
     });

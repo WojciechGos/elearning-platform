@@ -11,6 +11,7 @@ import { courseSelector } from 'src/app/store/course/course.selectors';
 import { MatSelectionList } from '@angular/material/list';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
+import { UploadState } from 'src/app/enums/upload.state';
 
 
 @Component({
@@ -30,7 +31,9 @@ export class CourseCreatorCourseInfoComponent implements OnInit, OnDestroy {
   @Input() formGroup !: FormGroup;
   @ViewChild('selectionList') selectionList !: MatSelectionList;
   course$: Observable<Course | null> = this.store.pipe(select(courseSelector));
-  categoriesLoad: boolean = false;
+  categoriesLoad: boolean = false;  
+  uploadState: UploadState = UploadState.NOT_STARTED;
+  UploadState = UploadState;
   private destroy$ = new Subject<void>();
   private addCategorySubscription?: Subscription;
   private removeCategorySubscription?: Subscription;
@@ -64,11 +67,16 @@ export class CourseCreatorCourseInfoComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    console.log("course creator course info component")
+    console.log(this.formGroup.controls['image'].value)
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;
     });
 
-
+    if(this.formGroup.controls['image'].value){
+      console.log('image not null')
+      this.uploadState = UploadState.UPLOADED;
+    }
   }
 
   subscribeSelectedOptionsChange(): void {
@@ -116,14 +124,10 @@ export class CourseCreatorCourseInfoComponent implements OnInit, OnDestroy {
 
   onFileChange(event: any) {
     const file = event.target.files[0];
-
+    this.uploadState = UploadState.UPLOADING;
     this.course$.subscribe((course) => {
 
       if (course == null) return;
-      // this.courseService.createCourse(this.formGroup.value).subscribe((lesson) => {
-      //   this.lessonId = lesson.id;
-      //   this.uploadVideo(file);
-      // });
 
       this.uploadImage(course.id, file);
     });
@@ -133,8 +137,17 @@ export class CourseCreatorCourseInfoComponent implements OnInit, OnDestroy {
 
     this.courseService.getSignedUrlForImageUpload(courseId).subscribe((response) => {
       this.courseService.uploadImageToSignedUrl(response.signedUrl, file).subscribe((s3Response) => {
+        
+        if (s3Response.status === 200) {
+          this.uploadState = UploadState.UPLOADED;
+        }
+        else {
+          this.uploadState = UploadState.ERROR;
+        }
+        
         this.courseService.getCourseById(courseId).subscribe((course) => {
-          this.imageUrl = course.imageUrl;
+          this.formGroup.controls['image'].setValue(course.imageUrl);
+
         });
       });
     });
