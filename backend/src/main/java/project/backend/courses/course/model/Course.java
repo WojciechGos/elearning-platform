@@ -1,16 +1,15 @@
 package project.backend.courses.course.model;
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import project.backend.courses.category.model.Category;
+import project.backend.courses.comment.model.Comment;
 import project.backend.courses.language.model.Language;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.user.User;
 
-import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.List;
@@ -51,8 +50,7 @@ public class Course {
 
     @ManyToOne
     @JoinColumn(
-            name="language_id",
-            nullable=true
+            name="language_id"
     )
     private Language language;
 
@@ -79,5 +77,8 @@ public class Course {
     @ManyToOne
     @JsonBackReference
     private User author;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
 }

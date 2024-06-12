@@ -1,0 +1,9 @@
+<div class="comment-wrapper">
+    <div class="comment-header">
+        <span [ngClass]="{'course-author': comment.isCourseAuthor}">
+            {{ comment.authorFirstName }} {{ comment.authorLastName }}
+        </span>
+        <small class="comment-date">{{ comment.createdDate | date: 'short' }}</small>
+    </div>
+    <p [ngClass]="{'course-author': comment.isCourseAuthor}">{{ comment.content }}</p>
+</div>

@@ -65,6 +65,8 @@ import { UserProfileCoursesListComponent } from './components/user-profile-cours
 import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
 import { CoursesComponent } from './components/admin/courses/courses.component';
 import { CoursesDetailsComponent } from './components/admin/courses-details/courses-details.component';
+import { CommentComponent } from './components/comment/comment.component';
+
 
 @NgModule({
   declarations: [
@@ -100,9 +102,13 @@ import { CoursesDetailsComponent } from './components/admin/courses-details/cour
     UserProfileComponent,
     UserProfileCartListComponent,
     UserProfileCoursesListComponent,
+
     AdminDashboardComponent,
     CoursesComponent,
     CoursesDetailsComponent,
+
+    CommentComponent,
+
   ],
   imports: [
     BrowserModule,

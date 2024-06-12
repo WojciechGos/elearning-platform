@@ -1,7 +1,8 @@
 .buy-button,
 .default-button,
 .sign-up-button,
-.log-in-button {
+.log-in-button,
+.submit-button {
     font-size: 20px;
     font-weight: bold;  
     cursor: pointer; 
@@ -9,7 +10,7 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    transition: box-shadow 0.3s ease; /* Add transition for smooth effect */
+    transition: box-shadow 0.3s ease; 
 }
 
 .default-button{
@@ -34,7 +35,7 @@
     border: 1px solid black;
 }
 
-.sign-up-button {
+.sign-up-button, .submit-button {
     background-color: black;
     color: white;
 }
@@ -42,7 +43,8 @@
 .buy-button,
 .default-button,
 .sign-up-button,
-.log-in-button{
+.log-in-button,
+.submit-button {
     font-family: system-ui;
     font-size: 15px;
 }
@@ -50,6 +52,7 @@
 .buy-button:hover,
 .default-button:hover,
 .log-in-button:hover,
-.sign-up-button:hover {
+.sign-up-button:hover,
+.submit-button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect on hover */
 }

@@ -1,0 +1,22 @@
+.comment-wrapper {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.course-author {
+    font-weight: bold;
+}
+
+.comment-date {
+    font-size: 0.9em;
+    color: #888;
+}
