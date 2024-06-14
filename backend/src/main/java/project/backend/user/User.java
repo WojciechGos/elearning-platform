@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import project.backend.carts.cart.model.Cart;
+import project.backend.notification.model.Notification;
 import project.backend.token.Token;
 
 @Data
@@ -38,6 +39,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "user-cart")
     private List <Cart> carts;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Notification> notificationList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
