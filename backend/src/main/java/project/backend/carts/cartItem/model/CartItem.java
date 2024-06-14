@@ -24,7 +24,7 @@ public class CartItem {
             generator = "cart_item_sequence"
     )
     private Long id;
-    @JsonBackReference
+    @JsonBackReference(value = "cart-items")
     @ManyToOne
     @JoinColumn(
             name="cart_id",

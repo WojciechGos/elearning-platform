@@ -32,9 +32,9 @@ public class Cart extends AuditorEntity {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonBackReference(value = "user-cart")
     private User user;
-    @JsonManagedReference
+    @JsonManagedReference(value = "cart-items")
     @OneToMany(
             mappedBy = "cart",
             cascade = CascadeType.ALL
