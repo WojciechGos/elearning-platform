@@ -111,5 +111,9 @@ export class CartService {
   getPendingCartsByUser(email: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/carts/user/${email}/pending`);
   }
+
+  hasBoughtCourse(courseId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/carts/courses/${courseId}/me`)
+  }
   
 }

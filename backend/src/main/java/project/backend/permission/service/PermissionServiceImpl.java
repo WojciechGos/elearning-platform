@@ -22,6 +22,9 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public boolean hasRole(Principal principal, String role) {
+        if(principal == null){
+            return false;
+        }
         User user = userService.getUserByEmail(principal.getName());
         return user.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals(role));
     }

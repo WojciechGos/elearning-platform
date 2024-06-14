@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CourseState } from 'src/app/enums/course.state';
 import { Lesson } from 'src/app/interfaces/lesson.interface';
 import { environment } from 'src/environments/environment';
 
@@ -30,7 +29,7 @@ export class LessonService {
     return this.http.put<Lesson>(`${environment.apiUrl}/api/v1/lessons/${lessonId}`, lesson);
   }
 
-  getLessonById(courseId:number, lessonId:number): Observable<Lesson> {
+  getLessonById(lessonId:number): Observable<Lesson> {
     return this.http.get<Lesson>(`${environment.apiUrl}/api/v1/lessons/${lessonId}`);
   }
 

@@ -66,6 +66,7 @@ import { AdminDashboardComponent } from './components/admin/admin-dashboard/admi
 import { CoursesComponent } from './components/admin/courses/courses.component';
 import { CoursesDetailsComponent } from './components/admin/courses-details/courses-details.component';
 import { CommentComponent } from './components/comment/comment.component';
+import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
 
 
 @NgModule({
@@ -106,6 +107,7 @@ import { CommentComponent } from './components/comment/comment.component';
     CoursesComponent,
     CoursesDetailsComponent,
     CommentComponent,
+    NotAuthorizedComponent,
 
   ],
   imports: [

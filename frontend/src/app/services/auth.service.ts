@@ -148,24 +148,6 @@ export class AuthService {
       );
   }
 
-
-
-  private exchangeAuthCode(authCode: string): void {
-    this.http
-      .post<any>('http://localhost:8080/api/v1/auth/exchange-code', {
-        code: authCode,
-      })
-      .subscribe({
-        next: (response) => {
-          this.storeUserCredentials(response);
-          this.router.navigate(['/main-page']);
-        },
-        error: (error) => {
-          console.error('Exchange auth code failed', error);
-        },
-      });
-  }
-
   getGoogleClientId(): Observable<string> {
     return this.http
       .get<{ googleClientId: string }>(

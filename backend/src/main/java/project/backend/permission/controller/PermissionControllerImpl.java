@@ -15,8 +15,8 @@ public class PermissionControllerImpl implements PermissionController {
     private final PermissionService permissionService;
 
     @Override
-    @GetMapping("/roles/me")
-    public ResponseEntity<Boolean> hasRole(@RequestBody String role, Principal principal) {
+    @GetMapping("/roles/{role}/me")
+    public ResponseEntity<Boolean> hasRole(@PathVariable("role") String role, Principal principal) {
         return ResponseEntity.ok(permissionService.hasRole(principal, role));
     }
 
