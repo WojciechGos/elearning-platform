@@ -75,7 +75,7 @@ public class Course {
     private TargetAudience targetAudience;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value= "user-courses")
     private User author;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)

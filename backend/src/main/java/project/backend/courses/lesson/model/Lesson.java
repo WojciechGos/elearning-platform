@@ -45,7 +45,7 @@ public class Lesson {
     private String videoUrl;
     private Duration duration;
 
-    @JsonBackReference
+    @JsonBackReference(value = "course-lessons")
     @ManyToOne
     private Course course;
 
