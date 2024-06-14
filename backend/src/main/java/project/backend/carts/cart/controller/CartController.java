@@ -38,4 +38,7 @@ public interface CartController {
 
     @DeleteMapping("{id}")
     ResponseEntity<Void> deleteCart(@PathVariable("id") Long cartId);
+
+    @GetMapping
+    ResponseEntity<Boolean> hasBoughtCourse(@PathVariable("courseId") Long courseId, Principal principal);
 }

@@ -2,6 +2,7 @@ package project.backend.permission.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import project.backend.carts.cart.service.CartService;
 import project.backend.courses.course.model.Course;
 import project.backend.user.User;
 import project.backend.user.UserService;
@@ -21,14 +22,14 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public boolean hasRole(Principal principal, String role) {
+        if(principal == null){
+            return false;
+        }
         User user = userService.getUserByEmail(principal.getName());
         return user.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals(role));
     }
 
-    @Override
-    public boolean canWatchCourse(Course course, Principal principal) {
-        return false;
-    }
+
 
     @Override
     public boolean hasPermissionToEditCourse(Course course, Principal principal) {

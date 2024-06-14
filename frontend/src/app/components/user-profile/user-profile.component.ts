@@ -7,6 +7,7 @@ import { CourseService } from 'src/app/services/course/course.service';
 import { setCourse } from 'src/app/store/course/course.actions';
 
 import { Router } from '@angular/router';
+import { PermissionService } from 'src/app/services/permission/permission.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -15,19 +16,25 @@ import { Router } from '@angular/router';
 })
 export class UserProfileComponent implements OnInit {
   user: any;
+  isAdmin: boolean = false;
 
   constructor(
     private authService: AuthService,
     private courseService: CourseService,
     private store: Store<AppStateInterface>,
-    private router: Router
+    private router: Router,
+    private permissionService: PermissionService
   ) {}
 
   ngOnInit(): void {
     this.authService.currentUser.subscribe((user) => {
       this.user = user;
     });
+    this.permissionService.checkUserPermission('ROLE_ADMIN').subscribe((isAdmin) => {
+      this.isAdmin = isAdmin;
+    });
   }
+
 
   logout(): void {
     this.authService.logout().subscribe(

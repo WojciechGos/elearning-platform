@@ -1,5 +1,6 @@
 package project.backend.courses.comment.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -29,10 +30,12 @@ public class Comment extends AuditorEntity {
     @NotBlank(message = "Content cannot be blank")
     private String content;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Course course;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User author;

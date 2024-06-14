@@ -9,7 +9,5 @@ public interface PermissionService {
 
     boolean hasRole(Principal principal, String role);
 
-    boolean canWatchCourse(Course course, Principal principal);
-
     boolean hasPermissionToEditCourse(Course course, Principal principal);
 }

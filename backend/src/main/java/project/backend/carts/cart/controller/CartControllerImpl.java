@@ -82,4 +82,10 @@ public class CartControllerImpl implements CartController {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
+    @GetMapping("courses/{courseId}/me")
+    public ResponseEntity<Boolean> hasBoughtCourse(@PathVariable("courseId") Long courseId, Principal principal) {
+        return ResponseEntity.ok(cartService.hasBoughtCourse(courseId, principal));
+    }
+
 }
