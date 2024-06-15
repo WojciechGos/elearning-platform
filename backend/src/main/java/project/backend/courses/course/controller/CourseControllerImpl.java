@@ -102,4 +102,16 @@ public class CourseControllerImpl implements CourseController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @Override
+    @PutMapping("/{courseId}/complete")
+    public ResponseEntity<CourseDTO> completeCourse(@PathVariable Long courseId, Principal principal) {
+        return new ResponseEntity<>(courseService.completeCourse(courseId, principal), HttpStatus.OK);
+    }
+
+    @GetMapping("/completed-courses")
+    public ResponseEntity<List<CourseDTO>> getUsersCompletedCourses(Principal principal) {
+        List<CourseDTO> completedCourses = courseService.getUsersCourse(CourseState.COMPLETED, principal);
+        return new ResponseEntity<>(completedCourses, HttpStatus.OK);
+    }
 }

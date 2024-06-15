@@ -4,5 +4,6 @@ public enum CourseState {
     CREATING,
     READY_TO_ACCEPT,
     PUBLISHED,
-    HIDDEN
+    HIDDEN,
+    COMPLETED
 }

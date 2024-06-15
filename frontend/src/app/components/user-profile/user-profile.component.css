@@ -36,10 +36,15 @@ a {
 .bought-courses-text{
   font-size: 30px;
 }
+
 .flex{
   display: flex;
   width: 500px;
   height: 48px;
   justify-content: space-between;
   align-items: center;
+}
+
+.courses {
+  display: flex;
 }

@@ -46,4 +46,5 @@ public interface CourseController {
     ResponseEntity<FileResponse> getSignedUrlForImageUpload(Long courseId);
 
     ResponseEntity<Void> deleteCourseImage(Long courseId);
+    ResponseEntity<CourseDTO> completeCourse(@PathVariable Long courseId, Principal principal);
 }

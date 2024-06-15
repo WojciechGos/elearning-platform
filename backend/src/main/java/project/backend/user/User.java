@@ -2,9 +2,6 @@ package project.backend.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
-import java.util.Collection;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +9,11 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import project.backend.carts.cart.model.Cart;
+import project.backend.courses.course.model.Course;
 import project.backend.token.Token;
+
+import java.util.Collection;
+import java.util.List;
 
 @Data
 @Builder
@@ -38,6 +39,14 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "user-cart")
     private List <Cart> carts;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_completed_courses",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private List<Course> completedCourses;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
