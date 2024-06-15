@@ -2,9 +2,12 @@
   <h3>You dont have any courses purchased</h3>
 </div>
 
-<div *ngFor="let cart of this.carts">
+<div *ngFor="let cart of this.carts" class="flex">
   <div *ngFor="let item of cart.items" class="miniature">
-    <a [routerLink]="['/course-display', item.course.id]" class="decoration-none ">
+    <a
+      [routerLink]="['/course-display', item.course.id]"
+      class="decoration-none"
+    >
       <app-courses-list-item
         [title]="item.course.title"
         [rating]="item.course.rating"

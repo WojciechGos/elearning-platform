@@ -6,3 +6,7 @@
 .miniature{
     width: 200px;
 }
+
+.flex{
+  display: flex;
+}
