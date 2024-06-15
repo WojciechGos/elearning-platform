@@ -46,3 +46,9 @@ a {
   width: 15%;
   min-width: 150px;
 }
+
+.buttons {
+  width: 20%;
+  display: flex;
+  justify-content: space-between;
+}

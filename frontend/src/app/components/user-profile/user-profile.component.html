@@ -6,12 +6,14 @@
     <p><strong>First name:</strong> {{ user?.firstName }}</p>
     <p><strong>Last name:</strong> {{ user?.lastName }}</p>
     <p><strong>Email:</strong> {{ user?.email }}</p>
-    <button mat-raised-button color="primary" (click)="logout()">
-      Log out
-    </button>
-    <button mat-raised-button color="primary" *ngIf="this.isAdmin" routerLink="/admin">
-      Admin panel
-    </button>
+    <div class="buttons">
+      <button mat-raised-button color="primary" (click)="logout()">
+        Log out
+      </button>
+      <button mat-raised-button color="primary" *ngIf="this.isAdmin" routerLink="/admin">
+        Admin panel
+      </button>
+    </div>
   </div>
   <div class="user-courses">
     <h2>Your bought courses</h2>

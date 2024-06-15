@@ -59,6 +59,17 @@ a {
   width: 60vw;
 }
 
+.course-content {
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.course-content-header {
+  font-size: 22px;
+}
+
 /******************************  cart   ********************************/
 
 .course-actions-wrapper {
