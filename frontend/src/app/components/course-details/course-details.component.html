@@ -46,17 +46,18 @@
       <div class="buttons-wrapper">
         <app-price *ngIf="this.course" [price]="this.course.price"></app-price>
         <div class="btn">
-          <app-button
-            [text]="isInCart ? 'Go to Cart' : 'Add to Cart'"
-            [type]="'BUY'"
-            (buttonClick)="isInCart ? goToCart() : addToCart()"
-          ></app-button>
+          <button mat-raised-button color="primary" (click)="isInCart ? goToCart() : addToCart()">
+            {{ isInCart ? 'Go to Cart' : 'Add to Cart' }}
+          </button>
         </div>
       </div>
     </div>
   </section>
   <section>
-    <app-lesson-list *ngIf="this.course" [lessons]="this.course.lessons" ></app-lesson-list>
+    <div class="course-content">
+      <div class="course-content-header">Course content</div>
+      <app-lesson-list *ngIf="this.course" [lessons]="this.course.lessons" ></app-lesson-list>
+    </div>
   </section>
   <br />
 </div>

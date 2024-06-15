@@ -15,13 +15,19 @@ h1 {
 
 .checkout {
     margin-right: 170px;
-    width: 250px;
+    width: 15%;
+}
+
+.checkout button {
+    width: 100%;
+    height: 40px;
 }
 
 .total {
     color: rgb(90, 89, 89);
     font-weight: bold;
     margin-bottom: 10px;
+    font-size: 18px;
 }
 
 .price {
