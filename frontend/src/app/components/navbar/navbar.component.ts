@@ -15,6 +15,7 @@ export class NavbarComponent implements OnInit {
   searchInput: string = '';
   isLoggedIn: boolean = false;
   userInitials: string = '';
+  isMenuVisible = false;
 
   constructor(
     private router: Router,
@@ -54,6 +55,11 @@ export class NavbarComponent implements OnInit {
     if (!firstName || !lastName) return '';
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
   }
+
+  toggleMenu() {
+    this.isMenuVisible = !this.isMenuVisible;
+  }
+
 
   navigateToUserProfile(): void {
     this.router.navigate(['/user-profile']);

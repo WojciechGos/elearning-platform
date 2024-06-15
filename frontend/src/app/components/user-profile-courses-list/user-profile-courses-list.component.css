@@ -6,3 +6,9 @@
 .miniature{
     width: 200px;
 }
+ .flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+ }
