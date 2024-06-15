@@ -1,7 +1,10 @@
-package project.backend.auth;
+package project.backend.auth.service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import project.backend.config.JwtService;
+import project.backend.auth.dto.AuthenticationRequest;
+import project.backend.auth.dto.AuthenticationResponse;
+import project.backend.auth.dto.RegisterRequest;
+import project.backend.config.service.JwtService;
 import project.backend.token.Token;
 import project.backend.token.TokenRepository;
 import project.backend.token.TokenType;

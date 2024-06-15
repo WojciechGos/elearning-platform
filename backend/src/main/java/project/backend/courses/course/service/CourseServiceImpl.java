@@ -275,7 +275,7 @@ public class CourseServiceImpl implements CourseService {
             separator.setPercentage(80);
             separator.setAlignment(Element.ALIGN_CENTER);
             document.add(separator);
-            
+
             Paragraph footer = new Paragraph("Congratulations!", subTitleFont);
             footer.setAlignment(Element.ALIGN_CENTER);
             footer.setSpacingBefore(50);

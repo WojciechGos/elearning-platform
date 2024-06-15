@@ -1,4 +1,4 @@
-package project.backend.config;
+package project.backend.config.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
