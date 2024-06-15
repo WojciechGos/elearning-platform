@@ -54,7 +54,10 @@
     </div>
   </section>
   <section>
-    <app-lesson-list *ngIf="this.course" [lessons]="this.course.lessons" ></app-lesson-list>
+    <div class="course-content">
+      <div class="course-content-header">Course content</div>
+      <app-lesson-list *ngIf="this.course" [lessons]="this.course.lessons" ></app-lesson-list>
+    </div>
   </section>
   <br />
 </div>
