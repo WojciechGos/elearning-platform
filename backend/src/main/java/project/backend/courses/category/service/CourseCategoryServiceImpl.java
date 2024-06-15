@@ -7,7 +7,7 @@ import project.backend.courses.course.mapper.CourseDTOMapper;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.service.CourseService;
 import project.backend.exception.types.BadRequestException;
-import project.backend.permission.service.PermissionService;
+import project.backend.users.permission.service.PermissionService;
 
 import java.security.Principal;
 import java.util.List;

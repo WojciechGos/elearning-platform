@@ -8,9 +8,9 @@ import project.backend.carts.cart.model.CartStatus;
 
 import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
-import project.backend.permission.service.PermissionService;
-import project.backend.user.User;
-import project.backend.user.UserService;
+import project.backend.users.permission.service.PermissionService;
+import project.backend.users.user.User;
+import project.backend.users.user.UserService;
 
 import java.security.Principal;
 import java.util.List;

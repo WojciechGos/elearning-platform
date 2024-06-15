@@ -10,8 +10,7 @@ import project.backend.carts.cartItem.model.CartItem;
 import project.backend.carts.cartItem.repository.CartItemRepository;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.repository.CourseRepository;
-import project.backend.courses.course.service.CourseService;
-import project.backend.user.UserRepository;
+import project.backend.users.user.UserRepository;
 
 import java.util.List;
 import java.util.Optional;

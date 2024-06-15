@@ -8,8 +8,8 @@ import project.backend.courses.comment.repository.CommentRepository;
 import project.backend.courses.comment.request.CommentRequest;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.service.CourseService;
-import project.backend.user.User;
-import project.backend.user.UserService;
+import project.backend.users.user.User;
+import project.backend.users.user.UserService;
 
 import java.security.Principal;
 import java.util.List;

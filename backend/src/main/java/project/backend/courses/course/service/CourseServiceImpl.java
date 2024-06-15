@@ -19,17 +19,16 @@ import project.backend.courses.lesson.mapper.LessonDTOMapper;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.service.LessonService;
 import project.backend.courses.utils.file.service.FileService;
-import project.backend.permission.service.PermissionService;
+import project.backend.users.permission.service.PermissionService;
 import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
 
 import org.springframework.data.domain.Pageable;
-import project.backend.user.UserService;
+import project.backend.users.user.UserService;
 
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 

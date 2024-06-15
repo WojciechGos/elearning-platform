@@ -2,7 +2,7 @@ package project.backend.config;
 
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import project.backend.auditing.ApplicationAuditAware;
-import project.backend.user.UserRepository;
+import project.backend.users.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

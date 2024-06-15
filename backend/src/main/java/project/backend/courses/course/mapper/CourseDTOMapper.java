@@ -7,7 +7,7 @@ import project.backend.courses.course.model.Course;
 import project.backend.courses.category.model.Category;
 import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.lesson.mapper.LessonDTOMapper;
-import project.backend.user.UserMapper;
+import project.backend.users.user.UserMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;

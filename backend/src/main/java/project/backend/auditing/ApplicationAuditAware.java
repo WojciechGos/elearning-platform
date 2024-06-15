@@ -1,6 +1,6 @@
 package project.backend.auditing;
 
-import project.backend.user.User;
+import project.backend.users.user.User;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

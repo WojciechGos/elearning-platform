@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import project.backend.auditing.AuditorEntity;
 import project.backend.carts.cartItem.model.CartItem;
-import project.backend.user.User;
+import project.backend.users.user.User;
 
 import java.math.BigDecimal;
 import java.util.List;

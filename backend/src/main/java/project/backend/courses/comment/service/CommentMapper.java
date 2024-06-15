@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import project.backend.courses.comment.dto.CommentDTO;
 import project.backend.courses.comment.model.Comment;
 import project.backend.courses.course.model.Course;
-import project.backend.user.User;
+import project.backend.users.user.User;
 
 @Component
 public class CommentMapper {

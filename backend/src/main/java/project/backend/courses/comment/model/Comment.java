@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import project.backend.auditing.AuditorEntity;
 import project.backend.courses.course.model.Course;
-import project.backend.user.User;
+import project.backend.users.user.User;
 
 @Getter
 @Setter

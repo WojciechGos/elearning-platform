@@ -3,7 +3,7 @@ package project.backend.courses.course.dto;
 import project.backend.courses.course.model.CourseState;
 import project.backend.courses.course.model.TargetAudience;
 import project.backend.courses.lesson.dto.LessonDTO;
-import project.backend.user.UserDTO;
+import project.backend.users.user.UserDTO;
 
 import java.math.BigDecimal;
 import java.util.List;

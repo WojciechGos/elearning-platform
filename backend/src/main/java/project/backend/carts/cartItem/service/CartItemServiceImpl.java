@@ -12,8 +12,8 @@ import project.backend.carts.cartItem.repository.CartItemRepository;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.service.CourseService;
 import project.backend.exception.types.ResourceNotFoundException;
-import project.backend.user.User;
-import project.backend.user.UserService;
+import project.backend.users.user.User;
+import project.backend.users.user.UserService;
 
 import java.security.Principal;
 import java.util.List;

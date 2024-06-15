@@ -11,13 +11,11 @@ import project.backend.courses.course.model.Course;
 import project.backend.courses.course.model.CourseState;
 import project.backend.courses.language.model.Language;
 import project.backend.courses.language.service.LanguageService;
-import project.backend.courses.lesson.mapper.LessonDTOMapper;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.repository.LessonCommandLineRunner;
 import project.backend.courses.lesson.repository.LessonRepository;
-import project.backend.courses.lesson.service.LessonService;
-import project.backend.user.User;
-import project.backend.user.UserService;
+import project.backend.users.user.User;
+import project.backend.users.user.UserService;
 
 import java.math.BigDecimal;
 import java.time.Duration;
