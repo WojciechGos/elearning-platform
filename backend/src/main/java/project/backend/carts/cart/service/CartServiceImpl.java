@@ -125,4 +125,9 @@ public class CartServiceImpl implements CartService {
         return cart.getCartStatus() == CartStatus.COMPLETED;
     }
 
+    @Override
+    public List<Cart> getAllCartsByCourseIdAndCartStatus(Long courseId, CartStatus cartStatus) {
+        return cartRepository.findAllCartsByCourseIdAndStatus(courseId, cartStatus);
+    }
+
 }

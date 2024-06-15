@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import project.backend.carts.cart.model.Cart;
-import project.backend.users.notification.model.Notification;
+import project.backend.courses.notification.model.Notification;
 import project.backend.users.token.Token;
 
 @Data

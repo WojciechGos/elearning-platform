@@ -1,4 +1,4 @@
-package project.backend.users.notification.model;
+package project.backend.courses.notification.model;
 
 public enum NotificationStatus {
     UNREAD,

@@ -54,4 +54,5 @@ public class UserService {
                     String.format("User with email [%s] not found.", email)
             ));
   }
+
 }

@@ -5,10 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.backend.courses.course.mapper.CourseDTOMapper;
 import project.backend.courses.course.model.Course;
+import project.backend.courses.course.model.CourseState;
 import project.backend.courses.course.service.CourseService;
 import project.backend.courses.lesson.mapper.LessonDTOMapper;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.dto.LessonDTO;
+import project.backend.courses.notification.service.NotificationService;
+
 import java.security.Principal;
 
 @Service
@@ -19,11 +22,16 @@ public class CourseLessonServiceImpl implements CourseLessonService{
     private final LessonService lessonService;
     private final CourseDTOMapper courseDTOMapper;
     private final LessonDTOMapper lessonDTOMapper;
+    private final NotificationService notificationService;
 
     @Override
     @Transactional
     public LessonDTO addLessonToCourse(Long courseId, LessonDTO lesson, Principal principal) {
         Course course = courseService.getCourseById(courseId);
+
+        if(course.getCourseState() == CourseState.PUBLISHED){
+
+        }
 
         Lesson createdLesson = lessonService.createLesson(lesson);
 
