@@ -16,52 +16,41 @@
       />
     </div>
     <div class="creator-cart-wrapper">
-
       <a [routerLink]="['/cart']" class="decoration-none">
         <button class="cart-button">
           <img src="assets/images/shopping-cart.png" alt="Cart" class="icon" />
         </button>
       </a>
     </div>
-    <div class="buttons-wrapper">
-      <app-button
-        *ngIf="!isLoggedIn"
-        [text]="'Log in'"
-        [type]="'LOG_IN'"
-        routerLink="/login"
-      ></app-button>
-      <app-button
-        *ngIf="!isLoggedIn"
-        [text]="'Sign up'"
-        [type]="'SIGN_UP'"
-        class="sign-up-button"
-        routerLink="/register"
-      ></app-button>
-      <!-- <app-button
-        *ngIf="isLoggedIn"
-        [text]="'Logout'"
-        [type]="'LOG_OUT'"
-        (click)="logout()"
-        class="logout-button"
-      ></app-button> -->
+    <div *ngIf="!isLoggedIn" class="buttons-wrapper">
+      <button mat-stroked-button color="primary" routerLink="/login">
+        SignIn
+      </button>
 
-      <div
-        *ngIf="isLoggedIn"
-        class="user-icon-container"
-        (click)="navigateToUserProfile()"
-      >
-        <div class="user-icon">{{ userInitials }}</div>
-      </div>
+      <button mat-raised-button color="primary" routerLink="/register">
+        SignUp
+      </button>
     </div>
+    
+    <div
+      *ngIf="isLoggedIn"
+      class="user-icon-container"
+      (click)="navigateToUserProfile()"
+    >
+      <div class="user-icon">{{ userInitials }}</div>
+    </div>
+
   </div>
 </nav>
 <div *ngIf="isListVisible" class="categories-wrapper" (mouseleave)="hideList()">
   <ul class="categories-list">
     <li *ngFor="let category of categories">
-      <a [routerLink]="['/course-search']" [queryParams]="{ categories: category.name }">
+      <a
+        [routerLink]="['/course-search']"
+        [queryParams]="{ categories: category.name }"
+      >
         {{ category.name }}
       </a>
     </li>
   </ul>
 </div>
- 
