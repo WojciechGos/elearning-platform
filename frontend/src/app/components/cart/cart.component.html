@@ -14,6 +14,7 @@
                 ></app-cart-items-list>
                 <ng-template #emptyCart>
                     <h3>Your cart is empty. Go find a course that fits you!</h3>
+                    <button  mat-raised-button color="primary" routerLink="/course-search">Go shopping</button>
                 </ng-template>
             </div>
             <div class="checkout" *ngIf="cartItems.length > 0">
