@@ -71,10 +71,14 @@ a {
 }
 
 .btn {
-  margin-top: 10px;
+  margin-top: 20px;
   height: 40px;
-  width: 90%;
 }
+
+.btn button {
+  width: 100%;
+}
+
 .course-image {
   width: 300px;
   height: 200px;
