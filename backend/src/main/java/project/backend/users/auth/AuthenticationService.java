@@ -5,7 +5,7 @@ import project.backend.users.jwt.JwtService;
 import project.backend.users.token.Token;
 import project.backend.users.token.TokenRepository;
 import project.backend.users.token.TokenType;
-import project.backend.user.*;
+import project.backend.users.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
