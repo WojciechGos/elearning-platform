@@ -7,6 +7,7 @@ import { LessonService } from 'src/app/services/lesson/lesson.service';
 import { LessonDisplayComponent } from '../lesson-display/lesson-display.component';
 import { CommentService } from 'src/app/services/comment/comment.service';
 import { Comment } from 'src/app/interfaces/comment.interface';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-course-display',
@@ -19,6 +20,7 @@ export class CourseDisplayComponent implements OnInit {
   lessonDescription!: string;
   videoUrl!: string;
   showVideo: boolean = true;
+  courseCompleted: boolean = false;
   @ViewChild(LessonDisplayComponent)
   lessonDisplayComponent!: LessonDisplayComponent;
   comments: Comment[] = [];
@@ -40,6 +42,7 @@ export class CourseDisplayComponent implements OnInit {
       this.courseService.getCourseById(numCourseId).subscribe((course) => {
         if (course !== undefined) {
           this.course = course;
+          this.courseCompleted = course.courseState === 'COMPLETED';
           const lessonId = params.get('lessonId');
 
           let index = 0;
@@ -98,6 +101,15 @@ export class CourseDisplayComponent implements OnInit {
   completeCourse(): void {
     this.courseService.completeCourse(this.course.id).subscribe(() => {
       console.log('Congratulations, you have completed the course');
+      this.courseCompleted = true;
     });
+  }
+
+  downloadCertificate(): void {
+    this.courseService
+      .downloadCertificate(this.course.id)
+      .subscribe((response) => {
+        saveAs(response, `${this.course.title}-certificate.pdf`);
+      });
   }
 }

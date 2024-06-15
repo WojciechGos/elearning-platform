@@ -93,4 +93,13 @@ export class CourseService {
       `${environment.apiUrl}/api/v1/courses/completed-courses`
     );
   }
+
+  downloadCertificate(courseId: number): Observable<Blob> {
+    return this.http.get(
+      `${environment.apiUrl}/api/v1/courses/${courseId}/certificate`,
+      {
+        responseType: 'blob',
+      }
+    );
+  }
 }

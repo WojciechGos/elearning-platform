@@ -2,7 +2,9 @@ package project.backend.courses.course.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.backend.courses.course.dto.CourseDTO;
@@ -114,4 +116,14 @@ public class CourseControllerImpl implements CourseController {
         List<CourseDTO> completedCourses = courseService.getUsersCourse(CourseState.COMPLETED, principal);
         return new ResponseEntity<>(completedCourses, HttpStatus.OK);
     }
+
+    @GetMapping("/{courseId}/certificate")
+    public ResponseEntity<byte[]> downloadCertificate(@PathVariable Long courseId, Principal principal) {
+        byte[] certificate = courseService.generateCertificate(courseId, principal);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "certificate.pdf");
+        return new ResponseEntity<>(certificate, headers, HttpStatus.OK);
+    }
+
 }

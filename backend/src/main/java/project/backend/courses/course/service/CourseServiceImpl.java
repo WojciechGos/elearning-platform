@@ -1,5 +1,9 @@
 package project.backend.courses.course.service;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +33,8 @@ import project.backend.user.UserService;
 import project.backend.user.User;
 
 import org.springframework.data.domain.Pageable;
+
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
@@ -220,4 +226,33 @@ public class CourseServiceImpl implements CourseService {
         logger.info("Course {} has been marked as COMPLETED for user {}", course.getId(), user.getEmail());
         return courseDTOMapper.toDTO(savedCourse);
     }
+
+    @Override
+    public byte[] generateCertificate(Long courseId, Principal principal) {
+        Course course = getCourseById(courseId);
+        User user = userService.getUserByEmail(principal.getName());
+
+        boolean hasCompleted = user.getCompletedCourses().contains(course);
+        if (!hasCompleted) {
+            throw new ForbiddenException("You have not completed this course.");
+        }
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            Document document = new Document();
+            PdfWriter.getInstance(document, out);
+            document.open();
+            document.add(new Paragraph("Certificate of Completion"));
+            document.add(new Paragraph("This is to certify that"));
+            document.add(new Paragraph(user.getFirstName() + " " + user.getLastName()));
+            document.add(new Paragraph("has successfully completed the course"));
+            document.add(new Paragraph(course.getTitle()));
+            document.close();
+        } catch (DocumentException e) {
+            throw new RuntimeException("Error generating PDF", e);
+        }
+
+        return out.toByteArray();
+    }
+
 }

@@ -40,4 +40,6 @@ public interface CourseService {
     void deleteCourseImage(Long courseId);
 
     CourseDTO completeCourse(Long courseId, Principal principal);
+    public byte[] generateCertificate(Long courseId, Principal principal);
+
 }

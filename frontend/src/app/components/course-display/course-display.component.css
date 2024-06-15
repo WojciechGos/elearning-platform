@@ -68,7 +68,6 @@ a {
   font-size: 16px;
   font-weight: bold;
   color: #fff;
-  background-color: #28a745;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -77,6 +76,7 @@ a {
   transition: background-color 0.3s ease;
 }
 
-.complete-course-button:hover {
-  background-color: #218838;
+.complete-course-button[disabled] {
+background-color: #29336d;
+color: #fff;
 }
