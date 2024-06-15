@@ -47,21 +47,25 @@
     >
       Lesson {{ i + 1 }}: {{ lesson.title }}
     </div>
-    <button
-      class="complete-course-button"
-      [disabled]="courseCompleted"
-      (click)="completeCourse()"
-      mat-raised-button
-      color="primary"
-    >
-      {{ courseCompleted ? "Course is completed" : "Complete course" }}
-    </button>
-    <button
-      class="download-certificate-button"
-      *ngIf="courseCompleted"
-      (click)="downloadCertificate()"
-    >
-      Download Certificate
-    </button>
+    <div class="button-wrapper">
+      <button
+        class="complete-course-button"
+        [disabled]="courseCompleted"
+        (click)="completeCourse()"
+        mat-raised-button
+        color="primary"
+      >
+        {{ courseCompleted ? "Course is completed" : "Complete course" }}
+      </button>
+      <button
+        class="download-certificate-button"
+        *ngIf="courseCompleted"
+        (click)="downloadCertificate()"
+        mat-raised-button
+        color="primary"
+      >
+        Download Certificate
+      </button>
+    </div>
   </div>
 </div>

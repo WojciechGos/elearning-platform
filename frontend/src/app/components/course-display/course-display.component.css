@@ -1,65 +1,72 @@
 .content-wrapper {
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
 }
 
 .course-content {
-    width: 20%;
-    margin-top: 5px;
+  width: 20%;
+  margin-top: 5px;
 }
 
 app-lesson-display {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 .lesson {
-    font-weight: bold;
-    font-size: 18px;
-    padding: 20px 20px;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 20px 20px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
 }
 
 h2 {
-    padding: 20px;
-    margin-bottom: 0;
-    border-bottom: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 0;
+  border-bottom: 1px solid #ccc;
 }
 
 a {
-    text-decoration: none;
-    color: #000;
+  text-decoration: none;
+  color: #000;
 }
 
 .details-comments-wrapper {
-    width: 60%;
+  width: 60%;
 }
 
 .comments-wrapper {
-    width: 70%;
+  width: 70%;
 }
 
 .comments-header {
-    font-size: 1.5em;
-    padding: 10px 0;
-    font-weight: 500;
+  font-size: 1.5em;
+  padding: 10px 0;
+  font-weight: 500;
 }
 
 .new-comment-form {
-    margin-top: 25px;
+  margin-top: 25px;
 }
 
 .new-comment-form textarea {
-    width: 95.5%;
-    padding: 2.1%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    resize: vertical;
+  width: 95.5%;
+  padding: 2.1%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
 }
 
 .submit-button {
-    width: 11%;
+  width: 11%;
+}
+
+.button-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .complete-course-button {
@@ -79,4 +86,19 @@ a {
 .complete-course-button[disabled] {
 background-color: #29336d;
 color: #fff;
+}
+
+.download-certificate-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: box-shadow 0.3s ease;
+}
+
+.download-certificate-button:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

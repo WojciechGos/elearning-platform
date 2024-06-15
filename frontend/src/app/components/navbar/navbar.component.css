@@ -116,7 +116,7 @@ a {
 }
 
 .categories-list li {
-    margin-bottom: 8px; 
+    margin-bottom: 8px;
     padding: 7px 12px;
 }
 
@@ -125,8 +125,8 @@ a {
 }
 
 .categories-list a {
-    text-decoration: none; 
-    color: inherit; 
+    text-decoration: none;
+    color: inherit;
 }
 
 .buttons-wrapper {
@@ -151,12 +151,12 @@ a {
 }
 
 .user-icon {
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #007bff;
+  background-color: #4758b8;
   color: white;
   border-radius: 50%;
   font-size: 14px;
