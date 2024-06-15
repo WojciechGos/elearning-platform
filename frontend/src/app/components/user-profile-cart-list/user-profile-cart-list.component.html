@@ -1,14 +1,19 @@
-<p>user-profile-cart-list works!</p>
+<div *ngIf="carts.length === 0">
+  <h3>You don't have any courses purchased</h3>
+</div>
 
-<div *ngFor="let cart of this.carts">
-  <div *ngFor="let item of cart.items" class="miniature">
-    <a [routerLink]="['/course-display', item.course.id]" class="decoration-none ">
-      <app-courses-list-item
-        [title]="item.course.title"
-        [rating]="item.course.rating"
-        [image]="item.course.imageUrl"
-      >
-      </app-courses-list-item>
-    </a>
+<div *ngIf="carts.length > 0">
+  <div class="courses-wrapper">
+    <div *ngFor="let cart of carts" class="miniature">
+      <div *ngFor="let item of cart.items" class="course-item">
+        <a [routerLink]="['/course-display', item.course.id]" class="decoration-none">
+          <app-courses-list-item
+            [title]="item.course.title"
+            [rating]="item.course.rating"
+            [image]="item.course.imageUrl"
+          ></app-courses-list-item>
+        </a>
+      </div>
+    </div>
   </div>
 </div>

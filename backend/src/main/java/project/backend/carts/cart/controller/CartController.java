@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.backend.carts.cart.model.Cart;
 import project.backend.carts.cart.model.CartStatus;
+import project.backend.carts.cart.request.CartPutRequest;
 
 import java.security.Principal;
 import java.util.List;
@@ -31,11 +32,14 @@ public interface CartController {
     @PutMapping("{id}")
     ResponseEntity<Cart> updateCart(
             @PathVariable("id") Long cartId,
-            @RequestBody Cart cartDetails
+            @RequestBody CartPutRequest cartStatus
     );
 
     ResponseEntity<List<Cart>> getUsersCartsByStatus(@PathVariable("cartStatus") CartStatus cartStatus, Principal principal);
 
     @DeleteMapping("{id}")
     ResponseEntity<Void> deleteCart(@PathVariable("id") Long cartId);
+
+    @GetMapping
+    ResponseEntity<Boolean> hasBoughtCourse(@PathVariable("courseId") Long courseId, Principal principal);
 }

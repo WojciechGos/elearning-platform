@@ -6,7 +6,9 @@ import project.backend.carts.cart.repository.CartRepository;
 import project.backend.carts.cart.model.Cart;
 import project.backend.carts.cart.model.CartStatus;
 
+import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
+import project.backend.permission.service.PermissionService;
 import project.backend.user.User;
 import project.backend.user.UserService;
 
@@ -19,6 +21,7 @@ import java.util.Optional;
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final UserService userService;
+    private final PermissionService permissionService;
 
     @Override
     public List<Cart> getAllCarts() {
@@ -40,6 +43,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart updateCart(Long cartId, Cart cartDetails) {
+        System.out.println("updateCart");
+        System.out.println(cartDetails.getCartStatus());
         Cart cart = getCartById(cartId);
 
         if (CartStatus.PENDING == cartDetails.getCartStatus() && cartRepository.existsByUserIdAndCartStatus(cart.getUser().getId(), CartStatus.PENDING)) {
@@ -103,6 +108,21 @@ public class CartServiceImpl implements CartService {
     @Override
     public List<Cart> getUserCartsByStatus(CartStatus cartStatus, Principal principal) {
         return cartRepository.findByUserEmailAndCartStatus(principal.getName(), cartStatus);
+    }
+
+    @Override
+    public boolean hasBoughtCourse(Long courseId, Principal principal) {
+        if(principal == null) {
+            return false;
+        }
+        if(permissionService.hasRole(principal, "ROLE_ADMIN")) {
+            return true;
+        }
+
+        Cart cart = cartRepository.findByUserEmailAndCourseId(principal.getName(), courseId)
+                .orElseThrow(() -> new ForbiddenException("You have not bought this course. You need to buy course to access it."));
+        System.out.println(cart.getId());
+        return cart.getCartStatus() == CartStatus.COMPLETED;
     }
 
 }

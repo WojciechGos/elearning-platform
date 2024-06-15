@@ -1,5 +1,7 @@
 package project.backend.carts.cart.service;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import project.backend.carts.cart.model.Cart;
 import project.backend.carts.cart.model.CartStatus;
 
@@ -27,6 +29,8 @@ public interface CartService {
 
     List<Cart> getAllPendingCartsByUser(String email);
 
-    List<Cart> getUserCartsByStatus(CartStatus cartStatus, Principal principal);
+    List<Cart> getUsersCartsByStatus(CartStatus cartStatus, Principal principal);
+
+    boolean hasBoughtCourse(@PathVariable("courseId") Long courseId, Principal principal);
 }
 

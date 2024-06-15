@@ -20,7 +20,9 @@
         <form>
             <textarea [(ngModel)]="newCommentContent" name="commentContent" placeholder="Add a comment" required></textarea>
             <div class="submit-button">
-              <app-button text="Submit" type="SUBMIT" (click)="addComment()"></app-button>
+              <button mat-raised-button color="primary" (click)="addComment()">
+                Submit
+              </button>
             </div>
         </form>
       </div>

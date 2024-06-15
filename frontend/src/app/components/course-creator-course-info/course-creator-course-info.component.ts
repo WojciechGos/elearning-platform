@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/interfaces/appState.interface';
@@ -6,10 +6,12 @@ import { Course } from 'src/app/interfaces/course.interface';
 import { CourseService } from 'src/app/services/course/course.service';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { Category } from 'src/app/interfaces/category.interface';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { courseSelector } from 'src/app/store/course/course.selectors';
-import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
-
+import { MatSelectionList } from '@angular/material/list';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { UploadState } from 'src/app/enums/upload.state';
 
 
 @Component({
@@ -24,11 +26,17 @@ import { MatSelectionList, MatSelectionListChange } from '@angular/material/list
     }
   ]
 })
-export class CourseCreatorCourseInfoComponent implements OnInit, AfterViewInit {
+export class CourseCreatorCourseInfoComponent implements OnInit, OnDestroy {
 
   @Input() formGroup !: FormGroup;
   @ViewChild('selectionList') selectionList !: MatSelectionList;
   course$: Observable<Course | null> = this.store.pipe(select(courseSelector));
+  categoriesLoad: boolean = false;  
+  uploadState: UploadState = UploadState.NOT_STARTED;
+  UploadState = UploadState;
+  private destroy$ = new Subject<void>();
+  private addCategorySubscription?: Subscription;
+  private removeCategorySubscription?: Subscription;
 
   languages = ['English', 'Spanish', 'Polish'];
   targetAudiences = ['BEGINNER', 'INTERMEDIATE', 'ADVANCED'];
@@ -59,47 +67,52 @@ export class CourseCreatorCourseInfoComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
+    console.log("course creator course info component")
+    console.log(this.formGroup.controls['image'].value)
     this.categoryService.getCategories().subscribe((categories) => {
       this.categories = categories;
     });
 
+    if(this.formGroup.controls['image'].value){
+      console.log('image not null')
+      this.uploadState = UploadState.UPLOADED;
+    }
   }
 
-  ngAfterViewInit() {
+  subscribeSelectedOptionsChange(): void {
+    console.log('categories loaded');
+    this.selectionList.selectedOptions.changed
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((event) => {
 
-    // TODO prevent it to add options that are added in ngOnInit (existing categories are multiplied) 
-    this.selectionList.selectedOptions.changed.subscribe((event) => {
+        if (event.added.length > 0) {
+          const category = event.added[0].value as string;
 
-      if (event.added.length > 0) {
-        const category = event.added[0].value as string;
-
-        this.addCategoryToCourse(this.findCategoryByName(category) as Category);
-      }
-      else if (event.removed.length > 0) {
-        const category = event.removed[0].value as string;
-        this.removeCategoryFromCourse(this.findCategoryByName(category) as Category);
-      }
-    });
+          this.addCategoryToCourse(this.findCategoryByName(category) as Category);
+        }
+        else if (event.removed.length > 0) {
+          const category = event.removed[0].value as string;
+          this.removeCategoryFromCourse(this.findCategoryByName(category) as Category);
+        }
+      });
   }
-
 
 
   addCategoryToCourse(category: Category): void {
-    this.course$.subscribe((course) => {
-
+    this.course$.pipe(take(1)).subscribe((course) => {
       if (course == null) return;
-
-      this.categoryService.addCategoryToCourse(category.id, course.id).subscribe((response) => {
+  
+      this.addCategorySubscription = this.categoryService.addCategoryToCourse(category.id, course.id).subscribe((response) => {
         console.log(`Category ${category.name} added to course ${course.title}`);
       });
     });
   }
 
   removeCategoryFromCourse(category: Category): void {
-    this.course$.subscribe((course) => {
+    this.course$.pipe(take(1)).subscribe((course) => {
       if (course == null) return;
-
-      this.categoryService.removeCategoryFromCourse(category.id, course.id).subscribe((response) => {
+  
+      this.removeCategorySubscription = this.categoryService.removeCategoryFromCourse(category.id, course.id).subscribe((response) => {
         console.log(`Category ${category.name} removed from course ${course.title}`);
       });
     });
@@ -111,14 +124,10 @@ export class CourseCreatorCourseInfoComponent implements OnInit, AfterViewInit {
 
   onFileChange(event: any) {
     const file = event.target.files[0];
-
+    this.uploadState = UploadState.UPLOADING;
     this.course$.subscribe((course) => {
 
       if (course == null) return;
-      // this.courseService.createCourse(this.formGroup.value).subscribe((lesson) => {
-      //   this.lessonId = lesson.id;
-      //   this.uploadVideo(file);
-      // });
 
       this.uploadImage(course.id, file);
     });
@@ -128,8 +137,17 @@ export class CourseCreatorCourseInfoComponent implements OnInit, AfterViewInit {
 
     this.courseService.getSignedUrlForImageUpload(courseId).subscribe((response) => {
       this.courseService.uploadImageToSignedUrl(response.signedUrl, file).subscribe((s3Response) => {
+        
+        if (s3Response.status === 200) {
+          this.uploadState = UploadState.UPLOADED;
+        }
+        else {
+          this.uploadState = UploadState.ERROR;
+        }
+        
         this.courseService.getCourseById(courseId).subscribe((course) => {
-          this.imageUrl = course.imageUrl;
+          this.formGroup.controls['image'].setValue(course.imageUrl);
+
         });
       });
     });
@@ -144,9 +162,10 @@ export class CourseCreatorCourseInfoComponent implements OnInit, AfterViewInit {
     this.newCourse.language = this.formGroup.value.language;
     this.newCourse.price = this.formGroup.value.price;
 
-    this.courseService.updateCourse(courseId, this.newCourse).subscribe((course) =>
+    this.courseService.updateCourse(courseId, this.newCourse).subscribe((course) => {
       console.log("course updated")
-    );
+      console.log(course);
+    });
 
   }
 
@@ -154,17 +173,24 @@ export class CourseCreatorCourseInfoComponent implements OnInit, AfterViewInit {
 
   // this function can be called from the parent component which is 'course-creator.component.ts'
   updateCourseIfFormValid(): void {
+    console.log("update course")
     if (!this.formGroup.valid) {
       console.log("form is not valid")
     }
 
-    this.course$.subscribe((course) => {
+    this.course$.pipe(takeUntil(this.destroy$)).subscribe((course) => {
       if (course == null) {
         console.log('course null')
         return
       }
       this.updateCourse(course.id);
-
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.addCategorySubscription?.unsubscribe();
+    this.removeCategorySubscription?.unsubscribe();
   }
 }

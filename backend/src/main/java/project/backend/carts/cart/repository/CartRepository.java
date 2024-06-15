@@ -1,11 +1,14 @@
 package project.backend.carts.cart.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import project.backend.carts.cart.model.Cart;
 import project.backend.carts.cart.model.CartStatus;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
@@ -14,4 +17,9 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     List<Cart> findByUserEmailAndCartStatus(String email, CartStatus cartStatus);
 
     boolean existsByUserIdAndCartStatus(Long userId, CartStatus cartStatus);
+
+
+    @Query("SELECT c FROM Cart c JOIN c.items ci WHERE c.user.email = :userEmail AND ci.course.id = :courseId")
+    Optional<Cart> findByUserEmailAndCourseId(@Param("userEmail") String userEmail, @Param("courseId") Long courseId);
+
 }

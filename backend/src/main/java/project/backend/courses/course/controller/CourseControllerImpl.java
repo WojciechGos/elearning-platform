@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.dto.FilterCourseDTO;
+import project.backend.courses.course.model.CourseState;
 import project.backend.courses.course.service.CourseService;
 import project.backend.courses.utils.file.response.FileResponse;
 
@@ -83,8 +84,8 @@ public class CourseControllerImpl implements CourseController {
     }
 
     @Override
-    @GetMapping("/users")
-    public ResponseEntity<List<CourseDTO>> getUsersCourses(@RequestParam(required = false) String courseState, Principal principal) {
+    @GetMapping("/me")
+    public ResponseEntity<List<CourseDTO>> getUsersCourses(@RequestParam(required = false) CourseState courseState, Principal principal) {
         return new ResponseEntity<>(courseService.getUsersCourse(courseState, principal), HttpStatus.OK);
     }
 

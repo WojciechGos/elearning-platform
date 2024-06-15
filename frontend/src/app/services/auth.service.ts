@@ -68,7 +68,7 @@ export class AuthService {
 
   private storeUserCredentials(response: any) {
     const user = response.user;
-    console.log(user)
+
     localStorage.setItem('currentUser', JSON.stringify(user));
     localStorage.setItem('accessToken', response.accessToken);
     localStorage.setItem('refreshToken', response.refreshToken);
@@ -146,24 +146,6 @@ export class AuthService {
           return throwError(error);
         })
       );
-  }
-
-
-
-  private exchangeAuthCode(authCode: string): void {
-    this.http
-      .post<any>('http://localhost:8080/api/v1/auth/exchange-code', {
-        code: authCode,
-      })
-      .subscribe({
-        next: (response) => {
-          this.storeUserCredentials(response);
-          this.router.navigate(['/main-page']);
-        },
-        error: (error) => {
-          console.error('Exchange auth code failed', error);
-        },
-      });
   }
 
   getGoogleClientId(): Observable<string> {

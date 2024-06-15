@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, isDevMode } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, isDevMode } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { create } from 'domain';
@@ -18,11 +18,13 @@ import { Lesson } from 'src/app/interfaces/lesson.interface';
 export class CourseCreatorLessonItemComponent implements OnInit {
 
   @Input() formGroup !: FormGroup;
+  @Input() index !: number;
+  @Output() deleteLessonEvent = new EventEmitter<void>();
   lessonId: number = -1;
   course$: Observable<Course | null> = this.store.pipe(select(courseSelector));
   uploadState: UploadState = UploadState.NOT_STARTED;
   UploadState = UploadState;
-
+  
   constructor(
     private store: Store<AppStateInterface>,
     private lessonService: LessonService) {
@@ -32,13 +34,17 @@ export class CourseCreatorLessonItemComponent implements OnInit {
     this.course$.subscribe(course => {
       if (course == null) return;
       if (this.formGroup.controls['id'].value === -1) {
-        this.lessonService.createLessonWithLessonNumber(course.id, this.formGroup.controls['lessonNumber'].value).subscribe((lesson) => {
+        this.lessonService.createLessonWithLessonNumber(course.id, this.index).subscribe((lesson) => {
           this.lessonId = lesson.id;
           this.formGroup.controls['id'].setValue(lesson.id);
         });
       }
       else {
         this.lessonId = this.formGroup.controls['id'].value;
+
+        if(this.formGroup.controls['videoUrl'].value != null){
+          this.uploadState = UploadState.UPLOADED;
+        }
       }
     })
   }
@@ -50,17 +56,15 @@ export class CourseCreatorLessonItemComponent implements OnInit {
       id: this.formGroup.controls['id'].value,
       title: this.formGroup.controls['title'].value,
       description: this.formGroup.controls['description'].value,
-      lessonNumber: this.formGroup.controls['lessonNumber'].value
+      lessonNumber: this.index
     }
-    console.log(updatedLesson);
     this.lessonService.updateLesson(this.lessonId, updatedLesson).subscribe((lesson) => {
-      console.log(`Lesson updated ${lesson}`);
+
     });
   }
 
   createLesson(courseId: number): void {
-    console.log(this.formGroup.controls['lessonNumber'].value)
-    this.lessonService.createLessonWithLessonNumber(courseId, this.formGroup.controls['lessonNumber'].value).subscribe((lesson) => {
+    this.lessonService.createLessonWithLessonNumber(courseId, this.index).subscribe((lesson) => {
       this.lessonId = lesson.id;
     });
   }
@@ -106,7 +110,11 @@ export class CourseCreatorLessonItemComponent implements OnInit {
     });
   }
 
-
+  deleteLesson():void{
+    this.lessonService.deleteLesson(this.lessonId).subscribe((response)=>{
+      this.deleteLessonEvent.emit();
+    });
+  }
 
 }
 

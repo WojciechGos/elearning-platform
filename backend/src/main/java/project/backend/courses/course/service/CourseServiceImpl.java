@@ -19,16 +19,17 @@ import project.backend.courses.lesson.mapper.LessonDTOMapper;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.service.LessonService;
 import project.backend.courses.utils.file.service.FileService;
+import project.backend.permission.service.PermissionService;
 import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
 
 import org.springframework.data.domain.Pageable;
-import project.backend.user.User;
 import project.backend.user.UserService;
 
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -43,18 +44,17 @@ public class CourseServiceImpl implements CourseService {
     private final FileService fileService;
     private final LessonService lessonService;
     private final LessonDTOMapper lessonDTOMapper;
+    private final PermissionService permissionService;
     @Value("${aws.s3.url}")
     private String awsS3Url;
 
     @Override
     public Course getCourseById(Long courseId) {
-        return courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
+        return courseRepository.findCourseWithSortedLessonsByIdOrderByLessonsLessonNumber(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
     }
 
     @Override
     public CourseDTO getCourseDTOById(Long courseId) {
-
-        // if user nie ma uprawnien to throw ForbiddenException
 
         return courseDTOMapper.toDTO(getCourseById(courseId));
     }
@@ -90,10 +90,11 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDTO createCourse(@Validated CourseDTO course, Principal principal) {
 
-        if(principal.getName() == null)
+        if (principal.getName() == null)
             throw new ForbiddenException("You need to be logged in to create a course.");
 
         Lesson lesson = Lesson.builder()
+                .lessonNumber(1)
                 .title("")
                 .description("")
                 .videoUrl("")
@@ -108,7 +109,6 @@ public class CourseServiceImpl implements CourseService {
                 .language(null)
                 .categories(null)
                 .rating(0)
-                .imageUrl("")
                 .targetAudience(null)
                 .courseState(CourseState.CREATING)
                 .enrollmentCount(0)
@@ -120,27 +120,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-//    @PreAuthorize("@courseServiceImpl.isAuthor(#courseId, #principal)")
     public CourseDTO updateCourse(Long courseId, CourseDTO course, Principal principal) {
         Course updatedCourse = getCourseById(courseId);
-        User user = userService.getUserByEmail(principal.getName());
 
-
-        if(user.getAuthorities() == null){
-            throw new ForbiddenException("You need to be logged in to save course data.");
-        }
-
-        // if role is user allow only author of the course to update it
-        if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
-            if (!updatedCourse.getAuthor().getEmail().equals(user.getEmail())) {
-                throw new ForbiddenException("Insufficient role: You can only update your own courses.");
-            }
+        if (!permissionService.hasPermissionToEditCourse(updatedCourse, principal)) {
+            throw new ForbiddenException("Insufficient role: You can only update your own courses.");
         }
 
 
         if (course.title() != null) updatedCourse.setTitle(course.title());
         if (course.description() != null) updatedCourse.setDescription(course.description());
         if (course.price() != null) updatedCourse.setPrice(course.price());
+        if (course.targetAudience() != null) updatedCourse.setTargetAudience(course.targetAudience());
         if (course.language() != null) {
             if (!course.language().isEmpty() || !course.language().isBlank()) {
                 Language language = languageService.getLanguageByName(course.language());
@@ -149,21 +140,16 @@ public class CourseServiceImpl implements CourseService {
         }
 
 
-        if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))) {
-            if (course.courseState() != null) {
+        // user has constraints to change courseState to "HIDDEN" or "READY_TO_ACCEPT", only admin can change courseState to "PUBLISH"
+        if (course.courseState() != null) {
+            if (permissionService.hasRole(principal, "ROLE_USER")) {
                 if (course.courseState() == CourseState.READY_TO_ACCEPT || course.courseState() == CourseState.HIDDEN || course.courseState() == CourseState.CREATING) {
                     updatedCourse.setCourseState(course.courseState());
                 } else {
                     throw new ForbiddenException("Insufficient role: You can only change course state to READY_TO_ACCEPT or HIDDEN.");
                 }
-            }
-        }
-
-        if (user.getAuthorities() != null) {
-            if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-                if (course.courseState() != null) {
-                    updatedCourse.setCourseState(course.courseState());
-                }
+            } else if (permissionService.hasRole(principal, "ROLE_ADMIN")) {
+                updatedCourse.setCourseState(course.courseState());
             }
         }
         return courseDTOMapper.toDTO(courseRepository.save(updatedCourse));
@@ -182,13 +168,16 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDTO> getUsersCourse(String courseState, Principal principal) {
-        List<Course> filteredCourses = courseRepository.findCoursesByAuthorEmail(principal.getName());
-        if(courseState != null && !courseState.isEmpty() && !courseState.isBlank()){
-            filteredCourses = filteredCourses.stream().filter(course -> course.getCourseState().toString().equals(courseState)).toList();
+    public List<CourseDTO> getUsersCourse(CourseState courseState, Principal principal) {
+
+        List<Course> courses;
+        if (courseState != null) {
+            courses = courseRepository.findCoursesByAuthorEmailAndCourseState(principal.getName(), courseState);
+        } else {
+            courses = courseRepository.findCoursesByAuthorEmail(principal.getName());
         }
 
-        return filteredCourses.stream().map(courseDTOMapper::toDTO).toList();
+        return courses.stream().map(courseDTOMapper::toDTO).toList();
     }
 
     @Override
@@ -209,12 +198,4 @@ public class CourseServiceImpl implements CourseService {
         course.setImageUrl(null);
         courseRepository.save(course);
     }
-
-    @Override
-    public boolean isAuthor(Long courseId, Principal principal) {
-        Course course = getCourseById(courseId);
-        return course.getAuthor().getEmail().equals(principal.getName());
-    }
-
-
 }

@@ -64,7 +64,7 @@ public class Course {
     @NotBlank(message = "Image URL cannot be blank")
     private String imageUrl;
 
-    @OneToMany
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Lesson> lessons;
 
     @Min(value = 0, message = "Enrollment count must be greater than 0")
@@ -75,7 +75,7 @@ public class Course {
     private TargetAudience targetAudience;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value= "user-courses")
     private User author;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)

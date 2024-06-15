@@ -48,6 +48,7 @@ export class CourseCreatorLessonComponent implements OnInit {
     this.lessonCounter++;
   }
 
-  deleteLesson(index: number): void {
+  handleDeleteLessonEvent(index: number): void {
+    this.formArray.removeAt(index);
   }
 }

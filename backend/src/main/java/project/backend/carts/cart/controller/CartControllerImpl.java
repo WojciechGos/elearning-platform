@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.backend.carts.cart.model.Cart;
 import project.backend.carts.cart.model.CartStatus;
+import project.backend.carts.cart.request.CartPutRequest;
 import project.backend.carts.cart.service.CartService;
 
 import java.security.Principal;
@@ -69,9 +70,12 @@ public class CartControllerImpl implements CartController {
     @PutMapping("{id}")
     public ResponseEntity<Cart> updateCart(
             @PathVariable("id") Long cartId,
-            @RequestBody Cart cartDetails
+            @RequestBody CartPutRequest cartStatus
     ) {
-        Cart updatedCart = cartService.updateCart(cartId, cartDetails);
+        System.out.println("updateCart controller");
+        System.out.println(cartStatus);
+
+        Cart updatedCart = cartService.updateCart(cartId, Cart.builder().cartStatus(cartStatus.cartStatus()).build());
         return ResponseEntity.ok(updatedCart);
     }
 
@@ -80,6 +84,12 @@ public class CartControllerImpl implements CartController {
     public ResponseEntity<Void> deleteCart(@PathVariable("id") Long cartId) {
         cartService.deleteCart(cartId);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    @GetMapping("courses/{courseId}/me")
+    public ResponseEntity<Boolean> hasBoughtCourse(@PathVariable("courseId") Long courseId, Principal principal) {
+        return ResponseEntity.ok(cartService.hasBoughtCourse(courseId, principal));
     }
 
 }

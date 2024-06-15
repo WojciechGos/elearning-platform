@@ -14,15 +14,16 @@
                 ></app-cart-items-list>
                 <ng-template #emptyCart>
                     <h3>Your cart is empty. Go find a course that fits you!</h3>
+                    <button  mat-raised-button color="primary" routerLink="/course-search">Go shopping</button>
                 </ng-template>
             </div>
             <div class="checkout" *ngIf="cartItems.length > 0">
                 <div class="total">Total:</div>
                 <div class="price">{{ totalPrice }}$</div>
-                <app-button 
-                [text]="isLoggedIn ? 'Checkout' : 'Log In & Checkout'" 
-                type="BUY" 
-                (click)="isLoggedIn ? pay() : goToLogin()"></app-button>
+                <button mat-raised-button color="primary"  
+                (click)="isLoggedIn ? pay() : goToLogin()">
+                    {{ isLoggedIn ? 'Checkout' : 'Log In & Checkout' }}
+                </button>
             </div>
         </div>
     </section>

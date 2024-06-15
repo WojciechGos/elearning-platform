@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.lesson.service.LessonServiceImpl;
 import project.backend.courses.lesson.model.Lesson;
-import project.backend.courses.lessonResource.model.LessonResource;
 import project.backend.courses.utils.file.response.FileResponse;
 
 import java.util.List;
@@ -43,15 +42,6 @@ public class LessonControllerImpl implements LessonController {
     public ResponseEntity<Void> deleteLesson(@PathVariable("lessonId") Long lessonId) {
         lessonService.deleteLesson(lessonId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-
-    @PostMapping("/{lessonId}/lesson-resources")
-    public ResponseEntity<LessonResource> addLessonResourceToLesson(
-            @PathVariable("lessonId") Long lessonId,
-            @RequestBody LessonResource lessonResource) {
-        LessonResource createdLessonResource = lessonService.addLessonResourceToLesson(lessonId, lessonResource);
-        return new ResponseEntity<>(createdLessonResource, HttpStatus.CREATED);
     }
 
     @Override
