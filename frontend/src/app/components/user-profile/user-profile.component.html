@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 
 <div class="user-profile">
-  <h2>Dane Użytkownika</h2>
+  <h2>Your profile</h2>
   <div>
     <p><strong>First name:</strong> {{ user?.firstName }}</p>
     <p><strong>Last name:</strong> {{ user?.lastName }}</p>
@@ -14,15 +14,14 @@
     </button>
   </div>
   <div class="user-courses">
-    <h2>My bought courses</h2>
+    <h2>Your bought courses</h2>
     <app-user-profile-cart-list></app-user-profile-cart-list>
     <div class="flex">
-      <h2>My created courses</h2>
+      <h2>Your created courses</h2>
+      <app-user-profile-courses-list></app-user-profile-courses-list>
       <button mat-stroked-button color="primary" (click)="this.createCourse()">
         Create new course
       </button>
     </div>
-
-    <app-user-profile-courses-list></app-user-profile-courses-list>
   </div>
 </div>
