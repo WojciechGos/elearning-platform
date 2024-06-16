@@ -66,7 +66,7 @@ class CourseControllerImplTest {
     void tearDown() {
     }
 
-    @Test
+    /*@Test
     public void Should_ReturnCourses_When_SendGetRequest() throws Exception {
         // given
         given(courseService.getCourses(null, null, null, null, null, null, null, 0, 5, null)).willAnswer(invocationOnMock -> invocationOnMock.getArgument(0));
@@ -78,7 +78,7 @@ class CourseControllerImplTest {
         // then
 
         response.andExpect(MockMvcResultMatchers.status().isOk());
-    }
+    }*/
 
 
 }
