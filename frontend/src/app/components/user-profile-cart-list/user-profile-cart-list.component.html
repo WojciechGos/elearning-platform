@@ -6,7 +6,10 @@
   <div class="courses-wrapper">
     <div *ngFor="let cart of carts" class="miniature">
       <div *ngFor="let item of cart.items" class="course-item">
-        <a [routerLink]="['/course-display', item.course.id]" class="decoration-none">
+        <a
+          [routerLink]="['/course-display', item.course.id]"
+          class="decoration-none"
+        >
           <app-courses-list-item
             [title]="item.course.title"
             [rating]="item.course.rating"

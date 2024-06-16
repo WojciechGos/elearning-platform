@@ -54,4 +54,7 @@ public class UserService {
                     String.format("User with email [%s] not found.", email)
             ));
   }
+    public User save(User user) {
+        return repository.save(user);
+    }
 }

@@ -7,19 +7,22 @@ import { LessonService } from 'src/app/services/lesson/lesson.service';
 import { LessonDisplayComponent } from '../lesson-display/lesson-display.component';
 import { CommentService } from 'src/app/services/comment/comment.service';
 import { Comment } from 'src/app/interfaces/comment.interface';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-course-display',
   templateUrl: './course-display.component.html',
-  styleUrls: ['./course-display.component.css']
+  styleUrls: ['./course-display.component.css'],
 })
 export class CourseDisplayComponent implements OnInit {
   course!: Course;
   lessonTitle!: string;
   lessonDescription!: string;
-  videoUrl !: string;
+  videoUrl!: string;
   showVideo: boolean = true;
-  @ViewChild(LessonDisplayComponent) lessonDisplayComponent !: LessonDisplayComponent;
+  courseCompleted: boolean = false;
+  @ViewChild(LessonDisplayComponent)
+  lessonDisplayComponent!: LessonDisplayComponent;
   comments: Comment[] = [];
   newCommentContent: string = '';
 
@@ -29,16 +32,17 @@ export class CourseDisplayComponent implements OnInit {
     private router: Router,
     private lessonService: LessonService,
     private commentService: CommentService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       const courseId = params.get('id');
       const numCourseId = Number(courseId);
 
       this.courseService.getCourseById(numCourseId).subscribe((course) => {
         if (course !== undefined) {
           this.course = course;
+          this.courseCompleted = course.courseState === 'COMPLETED';
           const lessonId = params.get('lessonId');
 
           let index = 0;
@@ -46,21 +50,24 @@ export class CourseDisplayComponent implements OnInit {
             index = Number(lessonId) - 1;
           }
 
-          this.lessonService.getSignedUrlForVideoDownload(this.course.lessons[index].id).subscribe((response) => {
-            this.lessonTitle = this.course.lessons[index].title;
-            this.lessonDescription = this.course.lessons[index].description;
-            this.videoUrl = response.signedUrl;
-          });
+          this.lessonService
+            .getSignedUrlForVideoDownload(this.course.lessons[index].id)
+            .subscribe((response) => {
+              this.lessonTitle = this.course.lessons[index].title;
+              this.lessonDescription = this.course.lessons[index].description;
+              this.videoUrl = response.signedUrl;
+            });
 
           this.getComments();
         }
       });
     });
   }
-  
+
   getComments(): void {
-    this.commentService.getCommentsByCourseId(this.course.id)
-      .subscribe(comments => this.comments = comments);
+    this.commentService
+      .getCommentsByCourseId(this.course.id)
+      .subscribe((comments) => (this.comments = comments));
   }
 
   goToLesson(index: number) {
@@ -70,21 +77,39 @@ export class CourseDisplayComponent implements OnInit {
   }
 
   refreshPage(index: number) {
-    this.router.navigate(['/course-display', this.course.id, index], { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/course-display', this.course.id, index + 1]);
-    });
+    this.router
+      .navigate(['/course-display', this.course.id, index], {
+        skipLocationChange: true,
+      })
+      .then(() => {
+        this.router.navigate(['/course-display', this.course.id, index + 1]);
+      });
   }
 
   addComment(): void {
     const newComment = {
-        content: this.newCommentContent,
-        courseId: this.course.id
+      content: this.newCommentContent,
+      courseId: this.course.id,
     };
 
     this.commentService.addComment(newComment).subscribe((comment) => {
-        this.comments.push(comment);
-        this.newCommentContent = '';
+      this.comments.push(comment);
+      this.newCommentContent = '';
     });
   }
 
+  completeCourse(): void {
+    this.courseService.completeCourse(this.course.id).subscribe(() => {
+      console.log('Congratulations, you have completed the course');
+      this.courseCompleted = true;
+    });
+  }
+
+  downloadCertificate(): void {
+    this.courseService
+      .downloadCertificate(this.course.id)
+      .subscribe((response) => {
+        saveAs(response, `${this.course.title}-certificate.pdf`);
+      });
+  }
 }

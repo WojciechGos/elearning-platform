@@ -1,4 +1,4 @@
-package project.backend.config;
+package project.backend.config.config;
 
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import project.backend.auditing.ApplicationAuditAware;

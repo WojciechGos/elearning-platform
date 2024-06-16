@@ -1,0 +1,14 @@
+.decoration-none {
+  text-decoration: none;
+  color: inherit;
+}
+
+.miniature {
+  width: 200px;
+}
+
+.courses-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}

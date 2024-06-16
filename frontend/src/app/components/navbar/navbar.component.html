@@ -31,7 +31,7 @@
         SignUp
       </button>
     </div>
-    
+
     <div
       *ngIf="isLoggedIn"
       class="user-icon-container"
@@ -39,7 +39,6 @@
     >
       <div class="user-icon">{{ userInitials }}</div>
     </div>
-
   </div>
 </nav>
 <div *ngIf="isListVisible" class="categories-wrapper" (mouseleave)="hideList()">

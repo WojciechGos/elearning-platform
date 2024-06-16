@@ -1,4 +1,4 @@
-package project.backend.auth;
+package project.backend.auth.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,9 +12,12 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeToken
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import org.springframework.http.HttpStatus;
+import project.backend.auth.dto.AuthenticationRequest;
+import project.backend.auth.dto.AuthenticationResponse;
+import project.backend.auth.service.AuthenticationService;
+import project.backend.auth.dto.RegisterRequest;
 import project.backend.user.User;
-import project.backend.config.JwtService;
-import project.backend.user.UserDTO;
+import project.backend.config.service.JwtService;
 import project.backend.user.UserMapper;
 
 import jakarta.servlet.http.HttpServletResponse;

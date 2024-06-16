@@ -1,11 +1,17 @@
 package project.backend.courses.course.service;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import project.backend.carts.cart.model.CartStatus;
 import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.mapper.CourseDTOMapper;
 import project.backend.courses.course.model.Course;
@@ -22,21 +28,22 @@ import project.backend.courses.utils.file.service.FileService;
 import project.backend.permission.service.PermissionService;
 import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
+import project.backend.user.UserService;
+import project.backend.user.User;
 
 import org.springframework.data.domain.Pageable;
-import project.backend.user.UserService;
 
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
-
+    private final Logger logger = LoggerFactory.getLogger(CourseServiceImpl.class);
     private final CourseRepository courseRepository;
     private final LanguageService languageService;
     private final CourseDTOMapper courseDTOMapper;
@@ -45,17 +52,18 @@ public class CourseServiceImpl implements CourseService {
     private final LessonService lessonService;
     private final LessonDTOMapper lessonDTOMapper;
     private final PermissionService permissionService;
+
     @Value("${aws.s3.url}")
     private String awsS3Url;
 
     @Override
     public Course getCourseById(Long courseId) {
-        return courseRepository.findCourseWithSortedLessonsByIdOrderByLessonsLessonNumber(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
+        return courseRepository.findCourseWithSortedLessonsByIdOrderByLessonsLessonNumber(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
     }
 
     @Override
     public CourseDTO getCourseDTOById(Long courseId) {
-
         return courseDTOMapper.toDTO(getCourseById(courseId));
     }
 
@@ -89,9 +97,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDTO createCourse(@Validated CourseDTO course, Principal principal) {
-
-        if (principal.getName() == null)
+        if (principal.getName() == null) {
             throw new ForbiddenException("You need to be logged in to create a course.");
+        }
 
         Lesson lesson = Lesson.builder()
                 .lessonNumber(1)
@@ -127,7 +135,6 @@ public class CourseServiceImpl implements CourseService {
             throw new ForbiddenException("Insufficient role: You can only update your own courses.");
         }
 
-
         if (course.title() != null) updatedCourse.setTitle(course.title());
         if (course.description() != null) updatedCourse.setDescription(course.description());
         if (course.price() != null) updatedCourse.setPrice(course.price());
@@ -139,8 +146,6 @@ public class CourseServiceImpl implements CourseService {
             }
         }
 
-
-        // user has constraints to change courseState to "HIDDEN" or "READY_TO_ACCEPT", only admin can change courseState to "PUBLISH"
         if (course.courseState() != null) {
             if (permissionService.hasRole(principal, "ROLE_USER")) {
                 if (course.courseState() == CourseState.READY_TO_ACCEPT || course.courseState() == CourseState.HIDDEN || course.courseState() == CourseState.CREATING) {
@@ -157,37 +162,35 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void deleteCourse(Long courseId) {
-        /*
-            IRL it would be better to send request to administration to review deletion request of the course,
-            because some users may have already bought it.
-            However, for sake of simplicity we will just hide it
-         */
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with id [%s] ".formatted(courseId)));
         course.setCourseState(CourseState.HIDDEN);
         courseRepository.save(course);
     }
 
     @Override
     public List<CourseDTO> getUsersCourse(CourseState courseState, Principal principal) {
-
+        User user = userService.getUserByEmail(principal.getName());
         List<Course> courses;
         if (courseState != null) {
-            courses = courseRepository.findCoursesByAuthorEmailAndCourseState(principal.getName(), courseState);
+            courses = user.getCompletedCourses().stream()
+                    .filter(course -> course.getCourseState() == courseState)
+                    .collect(Collectors.toList());
         } else {
-            courses = courseRepository.findCoursesByAuthorEmail(principal.getName());
+            courses = user.getCompletedCourses();
         }
 
-        return courses.stream().map(courseDTOMapper::toDTO).toList();
+        List<CourseDTO> courseDTOs = courses.stream().map(courseDTOMapper::toDTO).toList();
+        logger.info("CourseDTOs for user {} with state {}: {}", principal.getName(), courseState, courseDTOs);
+        return courseDTOs;
     }
 
     @Override
     public String getSignedUrlForImageUpload(Long courseId) {
         Course course = getCourseById(courseId);
-
         String fileName = "public/courses/" + courseId + "/" + UUID.randomUUID().toString();
         course.setImageUrl(awsS3Url + "/" + fileName);
         courseRepository.save(course);
-
         return fileService.generateUploadUrl(fileName, "image/png, image/jpeg, image/jpg");
     }
 
@@ -198,4 +201,91 @@ public class CourseServiceImpl implements CourseService {
         course.setImageUrl(null);
         courseRepository.save(course);
     }
+
+
+    @Override
+    public CourseDTO completeCourse(Long courseId, Principal principal) {
+        Course course = getCourseById(courseId);
+        User user = userService.getUserByEmail(principal.getName());
+
+        boolean hasPurchased = user.getCarts().stream()
+                .filter(cart -> cart.getCartStatus() == CartStatus.COMPLETED)
+                .flatMap(cart -> cart.getItems().stream())
+                .anyMatch(cartItem -> cartItem.getCourse().equals(course));
+
+        if (!hasPurchased) {
+            throw new ForbiddenException("You have not purchased this course.");
+        }
+
+        course.setCourseState(CourseState.COMPLETED);
+        user.getCompletedCourses().add(course);
+        userService.save(user);
+
+        Course savedCourse = courseRepository.save(course);
+        logger.info("Course {} has been marked as COMPLETED for user {}", course.getId(), user.getEmail());
+        return courseDTOMapper.toDTO(savedCourse);
+    }
+
+    @Override
+    public byte[] generateCertificate(Long courseId, Principal principal) {
+        Course course = getCourseById(courseId);
+        User user = userService.getUserByEmail(principal.getName());
+
+        boolean hasCompleted = user.getCompletedCourses().contains(course);
+        if (!hasCompleted) {
+            throw new ForbiddenException("You have not completed this course.");
+        }
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            Document document = new Document();
+            PdfWriter.getInstance(document, out);
+            document.open();
+            Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, 30, Font.BOLD);
+            Font subTitleFont = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);
+            Font bodyFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.NORMAL);
+
+            Paragraph title = new Paragraph("Certificate of Completion", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            title.setSpacingAfter(50);
+            document.add(title);
+
+            Paragraph subTitle = new Paragraph("This is to certify that", subTitleFont);
+            subTitle.setAlignment(Element.ALIGN_CENTER);
+            subTitle.setSpacingAfter(30);
+            document.add(subTitle);
+
+            Paragraph name = new Paragraph(user.getFirstName() + " " + user.getLastName(), subTitleFont);
+            name.setAlignment(Element.ALIGN_CENTER);
+            name.setSpacingAfter(30);
+            document.add(name);
+
+            Paragraph courseTitle = new Paragraph("has successfully completed the course", bodyFont);
+            courseTitle.setAlignment(Element.ALIGN_CENTER);
+            courseTitle.setSpacingAfter(20);
+            document.add(courseTitle);
+
+            Paragraph courseName = new Paragraph(course.getTitle(), bodyFont);
+            courseName.setAlignment(Element.ALIGN_CENTER);
+            courseName.setSpacingAfter(50);
+            document.add(courseName);
+
+            LineSeparator separator = new LineSeparator();
+            separator.setLineColor(BaseColor.BLACK);
+            separator.setPercentage(80);
+            separator.setAlignment(Element.ALIGN_CENTER);
+            document.add(separator);
+
+            Paragraph footer = new Paragraph("Congratulations!", subTitleFont);
+            footer.setAlignment(Element.ALIGN_CENTER);
+            footer.setSpacingBefore(50);
+            document.add(footer);
+            document.close();
+        } catch (DocumentException e) {
+            throw new RuntimeException("Error generating PDF", e);
+        }
+
+        return out.toByteArray();
+    }
+
 }
