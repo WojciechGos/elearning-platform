@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserProfileComponent } from './user-profile.component';
 import { HttpClientModule } from '@angular/common/http';
+import { provideMockStore } from '@ngrx/store/testing';
+import { StoreModule } from '@ngrx/store';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -12,6 +14,7 @@ describe('UserProfileComponent', () => {
       declarations: [ UserProfileComponent ],
       imports: [
         HttpClientModule,
+        StoreModule.forRoot(provideMockStore)
       ]
     })
     .compileComponents();
