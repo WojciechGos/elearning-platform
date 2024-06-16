@@ -4,7 +4,7 @@
 
 <div *ngIf="carts.length > 0">
   <div class="courses-wrapper">
-    <div *ngFor="let cart of carts" class="miniature flex">
+    <div *ngFor="let cart of carts" class="miniature">
       <div *ngFor="let item of cart.items" class="course-item">
         <a
           [routerLink]="['/course-display', item.course.id]"
