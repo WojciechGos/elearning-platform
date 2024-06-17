@@ -55,14 +55,15 @@ class CourseRepositoryTest {
         assertThat(courses).isEmpty();
     }
 
-    /*@Test
-    public void should_findCoursesByAuthorEmail_When_CoursesExist() {
-
-        // when
-        List<Course> courses = underTest.findCoursesByAuthorEmail(email);
-
-        // then
-        assertThat(courses).isNotEmpty();
-        assertThat(courses.get(0).getAuthor().getEmail()).isEqualTo(email);
-    }*/
+//    @Test
+//    public void should_findCoursesByAuthorEmail_When_CoursesExist() {
+//
+//        // when
+//        List<Course> courses = underTest.findCoursesByAuthorEmail(email);
+//
+//        // then
+//
+//        assertThat(courses).isNotEmpty();
+//        assertThat(courses.get(0).getAuthor().getEmail()).isEqualTo(email);
+//    }
 }
