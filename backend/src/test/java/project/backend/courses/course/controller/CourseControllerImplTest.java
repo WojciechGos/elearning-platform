@@ -16,7 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import project.backend.config.JwtService;
+
 import project.backend.courses.course.dto.FilterCourseDTO;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.repository.CourseRepository;
@@ -46,9 +46,6 @@ class CourseControllerImplTest {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private JwtService jwtService;
 
     private FilterCourseDTO filterCourseDTO;
 
