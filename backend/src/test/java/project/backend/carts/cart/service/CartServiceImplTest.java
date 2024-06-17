@@ -219,7 +219,7 @@ class CartServiceImplTest {
         List<Cart> userCarts = List.of(cart);
         when(cartRepository.findByUserEmailAndCartStatus(user.getEmail(), cart.getCartStatus())).thenReturn(userCarts);
 
-        List<Cart> result = cartService.getUserCartsByStatus(cart.getCartStatus(), () -> user.getEmail());
+        List<Cart> result = cartService.getUsersCartsByStatus(cart.getCartStatus(), () -> user.getEmail());
 
         assertEquals(userCarts, result);
         verify(cartRepository, times(1)).findByUserEmailAndCartStatus(user.getEmail(), cart.getCartStatus());

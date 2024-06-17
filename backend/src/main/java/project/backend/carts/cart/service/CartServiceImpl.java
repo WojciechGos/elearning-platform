@@ -106,7 +106,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<Cart> getUserCartsByStatus(CartStatus cartStatus, Principal principal) {
+    public List<Cart> getUsersCartsByStatus(CartStatus cartStatus, Principal principal) {
         return cartRepository.findByUserEmailAndCartStatus(principal.getName(), cartStatus);
     }
 
