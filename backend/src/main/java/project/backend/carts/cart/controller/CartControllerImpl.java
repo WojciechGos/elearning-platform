@@ -1,6 +1,7 @@
 package project.backend.carts.cart.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequestMapping("api/v1/carts")
 @RequiredArgsConstructor
 @RestController
+@Slf4j
 public class CartControllerImpl implements CartController {
     private final CartService cartService;
 
@@ -72,9 +74,6 @@ public class CartControllerImpl implements CartController {
             @PathVariable("id") Long cartId,
             @RequestBody CartPutRequest cartStatus
     ) {
-        System.out.println("updateCart controller");
-        System.out.println(cartStatus);
-
         Cart updatedCart = cartService.updateCart(cartId, Cart.builder().cartStatus(cartStatus.cartStatus()).build());
         return ResponseEntity.ok(updatedCart);
     }

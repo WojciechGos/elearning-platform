@@ -43,8 +43,6 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart updateCart(Long cartId, Cart cartDetails) {
-        System.out.println("updateCart");
-        System.out.println(cartDetails.getCartStatus());
         Cart cart = getCartById(cartId);
 
         if (CartStatus.PENDING == cartDetails.getCartStatus() && cartRepository.existsByUserIdAndCartStatus(cart.getUser().getId(), CartStatus.PENDING)) {
