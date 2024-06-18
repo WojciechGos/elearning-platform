@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import project.backend.exception.response.ExceptionResponse;
 import project.backend.exception.types.BadRequestException;
+import project.backend.exception.types.ConflictException;
 import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
 
@@ -42,8 +43,14 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(new ExceptionResponse(403, "Forbidden", ex.getMessage(), new Timestamp(System.currentTimeMillis())), HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ExceptionResponse> handleConflictException(ConflictException ex) {
+        return new ResponseEntity<>(new ExceptionResponse(409, "Conflict", ex.getMessage(), new Timestamp(System.currentTimeMillis())), HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleException(Exception ex) {
+        ex.printStackTrace();
         return new ResponseEntity<>(new ExceptionResponse(500, "Internal Server Error", ex.getMessage(), new Timestamp(System.currentTimeMillis())), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

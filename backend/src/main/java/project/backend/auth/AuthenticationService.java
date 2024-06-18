@@ -2,6 +2,7 @@ package project.backend.auth;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import project.backend.config.JwtService;
+import project.backend.exception.types.ConflictException;
 import project.backend.token.Token;
 import project.backend.token.TokenRepository;
 import project.backend.token.TokenType;
@@ -46,6 +47,27 @@ public class AuthenticationService {
                 .refreshToken(jwtRefreshToken)
                 .user(userDTO)
                 .build());
+    }
+
+    // podmienić nazwe na register po refaktoryzacji
+    public AuthenticationResponse registerRefactor(RegisterRequest request) {
+        if (repository.findByEmail(request.getEmail()).isPresent()) {
+            throw new ConflictException("Email already in use");
+        }
+        var user = User.builder()
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .role(Role.USER)
+                .build();
+        repository.save(user);
+        var jwtAccessToken = jwtService.generateAccessToken(user);
+        var jwtRefreshToken = jwtService.generateRefreshToken(user);
+        saveUserToken(user, jwtAccessToken, jwtRefreshToken);
+        var userDTO = userMapper.mapToDTO(user);
+
+        return new AuthenticationResponse(jwtAccessToken, jwtRefreshToken, userDTO);
     }
 
     public ResponseEntity<Object> authenticate(AuthenticationRequest request) {
