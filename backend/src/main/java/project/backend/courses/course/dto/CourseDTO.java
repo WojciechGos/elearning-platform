@@ -1,5 +1,6 @@
 package project.backend.courses.course.dto;
 
+import lombok.Builder;
 import project.backend.courses.course.model.CourseState;
 import project.backend.courses.course.model.TargetAudience;
 import project.backend.courses.lesson.dto.LessonDTO;
@@ -8,6 +9,7 @@ import project.backend.user.UserDTO;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Builder
 public record CourseDTO(
         Long id,
         String title,
