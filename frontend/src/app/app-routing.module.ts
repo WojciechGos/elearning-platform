@@ -26,11 +26,6 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'course-details/:id', component: CourseDetailsComponent },
   { path: 'register', component: RegisterComponent },
-  // {
-  //   path: 'logged-in',
-  //   component: LoggedInPageComponent,
-  //   canActivate: [AuthGuard],
-  // },
   { path: 'main-page', component: MainPageComponent },
   { path: '', redirectTo: '/main-page', pathMatch: 'full' },
   { path: 'cancel', component: CancelComponent },

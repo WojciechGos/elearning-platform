@@ -15,6 +15,7 @@ import project.backend.auth.AuthenticationResponse;
 import project.backend.auth.AuthenticationService;
 import project.backend.auth.RegisterRequest;
 import project.backend.config.JwtService;
+import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.dto.FilterCourseDTO;
 import project.backend.user.User;
 import project.backend.user.UserRepository;
@@ -34,22 +35,12 @@ class CourseControllerImplTestIT {
         this.mockMvc = mockMvc;
     }
 
-    private FilterCourseDTO filterCourseDTO;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private JwtService jwtService;
-    @Autowired
-    private UserRepository userRepository;
     private String token;
 
     @Autowired
     private AuthenticationService authenticationService;
 
     private final String email = "test@test.com";
-    private User user;
 
     @BeforeAll
     void setup() {
@@ -62,16 +53,6 @@ class CourseControllerImplTestIT {
         token = response.getAccessToken();
     }
 
-    @BeforeEach
-    void setUp() throws Exception {
-
-
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     public void Should_ReturnCourses_When_SendGetRequest() throws Exception {
 
@@ -82,6 +63,21 @@ class CourseControllerImplTestIT {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
+    }
+
+    @Test
+    public void Should_CreateCourse_When_SendPostRequest() throws Exception {
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post("/api/v1/courses")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType("application/json")
+                        .content(new ObjectMapper().writeValueAsString(
+                                CourseDTO.builder()
+                                        .build()
+                        )))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
 
