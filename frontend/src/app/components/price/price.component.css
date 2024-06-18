@@ -1,12 +1,13 @@
 .price-wrapper {
     display: flex;
     justify-content: left;
-    align-items: center;
+    align-items: end;
+    flex-direction: column;
   }
   .price {
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
-    margin-right: 10px;
+
   }
   .discount {
     text-decoration: line-through;

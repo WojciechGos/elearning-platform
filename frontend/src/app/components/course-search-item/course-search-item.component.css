@@ -7,17 +7,28 @@
 
 img {
     width: 200px;
-    height: 100px;
+    height: 115px;
 }
 
 .title {
     font-weight: bold;
     white-space: normal;
     font-size: 18px;
+    text-align: right;
+    margin-bottom: 5px;
 }
 
 
 .author {
     font-size: 15px;
     color: rgb(115, 112, 112);
+}
+
+.rating {
+    margin-bottom: 10px;
+}
+.info{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
 }

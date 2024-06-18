@@ -2,7 +2,9 @@
     <img [src]="this.image" alt="Course dev image">
     <div class="title">{{ title }}</div>
     <div class="author">{{ author }}</div>
-    <app-rating [rating]="this.rating"></app-rating>
-    <app-price [price]="this.price" [discountPrice]="this.discountPrice"></app-price>
+    <div class="idk">
+        <app-rating [rating]="this.rating"></app-rating>
+        <app-price [price]="this.price" [discountPrice]="this.discountPrice"></app-price>
+    </div>
 </div>
   

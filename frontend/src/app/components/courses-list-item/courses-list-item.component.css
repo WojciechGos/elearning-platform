@@ -1,6 +1,11 @@
 .course-item-wrapper {
     width: 200px;
+    height: 100%;
     margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: end;
 }
 
 img {
@@ -12,10 +17,17 @@ img {
     font-weight: bold;
     white-space: normal;
     font-size: 18px;
+    text-align: right;
 }
 
 
 .author {
     font-size: 15px;
     color: rgb(115, 112, 112);
+}
+
+.idk {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
 }

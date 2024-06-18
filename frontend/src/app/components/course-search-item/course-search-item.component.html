@@ -1,9 +1,9 @@
 <div class="course-item-wrapper">
   <img [src]="this.image" alt="Course Image" />
-  <div>
+  <div class="info">
     <div class="title">{{ title }}</div>
-    <div class="author">{{ author }}</div>
-    <app-rating [rating]="this.rating"></app-rating>
+
+    <app-rating [rating]="this.rating" class="rating"></app-rating>
     <app-price
       [price]="this.price"
       [discountPrice]="this.discountPrice"
