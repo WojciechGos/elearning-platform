@@ -7,6 +7,7 @@ import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.user.UserDTO;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
@@ -25,6 +26,7 @@ public record CourseDTO(
         Integer enrollmentCount,
         CourseState courseState,
         TargetAudience targetAudience,
-        UserDTO author
+        UserDTO author,
+        LocalDateTime updatedOn
 ) {
 }
