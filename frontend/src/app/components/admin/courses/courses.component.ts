@@ -23,10 +23,13 @@ export class CoursesComponent implements OnInit {
   }
 
   fetchCourses() {
-    this.courseService.getCoursesByFilter().subscribe((filteredData) => {
+    this.courseService.getCoursesByFilter({limit:100}).subscribe((filteredData) => {
       this.dataSource = new MatTableDataSource(filteredData.courses);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.dataSource.paginator.length = filteredData.count;
+
+
     });
   }
 

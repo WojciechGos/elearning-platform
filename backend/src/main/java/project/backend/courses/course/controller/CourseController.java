@@ -24,7 +24,7 @@ public interface CourseController {
             @RequestParam(required = false) List<String> languages,
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "5") Integer limit,
-            @RequestParam(required = false) List<String> fields
+            Principal principal
     );
 
     ResponseEntity<CourseDTO> getCourse(@PathVariable("courseId") Long courseId);

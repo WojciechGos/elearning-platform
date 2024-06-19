@@ -3,15 +3,21 @@ package project.backend.courses.course.repository;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import project.backend.courses.course.model.Course;
+import project.backend.courses.course.model.CourseState;
 
 import java.util.List;
 
 public class CourseSpecification {
 
-    public static Specification<Course> hasStatus(List<String> statuses) {
-        return (course, cq, cb) -> statuses == null ? null : course.get("status").in(statuses);
+    public static Specification<Course> hasCourseState(List<CourseState> statuses) {
+        return (course, cq, cb) -> {
+            if (statuses == null || statuses.isEmpty()) {
+                return null;
+            } else {
+                return course.get("courseState").in(statuses);
+            }
+        };
     }
-
     public static Specification<Course> hasKeyword(String keyword) {
         return (course, cq, cb) -> {
             if (keyword == null)
