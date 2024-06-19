@@ -1,14 +1,23 @@
 <div class="cart-item-wrapper">
-    <a
-        [routerLink]="['/course-details', this.id]"
-    >
-    <img src="assets/images/shopping-cart.png" alt="Cart Item Image" class="cart-item-img">
+  <a [routerLink]="['/course-details', this.id]">
+    <img
+      src="assets/images/shopping-cart.png"
+      alt="Cart Item Image"
+      class="cart-item-img"
+    />
     <div class="cart-item-details">
-        <div class="title">{{ title }}</div>
-        <div class="author">{{ author }}</div>
-        <app-rating [rating]="this.rating"></app-rating>
+      <div class="title">{{ title }}</div>
+      <div class="author">{{ author }}</div>
+      <app-rating [rating]="this.rating"></app-rating>
     </div>
-    <div class="price">{{ price | number:'1.2-2' }}$</div>
-    </a>
-    <img src="assets/images/delete.png" alt="Delete" class="delete" (click)="removeFromCart()">
+  </a>
+  <div class="price-and-delete-wrapper">
+    <div class="price">{{ price | number : "1.2-2" }}$</div>
+    <img
+      src="assets/images/delete.png"
+      alt="Delete"
+      class="delete"
+      (click)="removeFromCart()"
+    />
+  </div>
 </div>

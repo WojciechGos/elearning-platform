@@ -20,7 +20,8 @@
             <div class="checkout" *ngIf="cartItems.length > 0">
                 <div class="total">Total:</div>
                 <div class="price">{{ totalPrice }}$</div>
-                <button mat-raised-button color="primary"  
+                <button mat-raised-button color="primary"
+                style="width: 100px;"  
                 (click)="isLoggedIn ? pay() : goToLogin()">
                     {{ isLoggedIn ? 'Checkout' : 'Log In & Checkout' }}
                 </button>
