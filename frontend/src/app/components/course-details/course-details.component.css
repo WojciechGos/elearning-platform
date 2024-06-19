@@ -7,7 +7,7 @@
 
 /******************************  course info   ********************************/
 .categories-wrapper {
- width: auto;
+ display: flex;
 }
 
 .category {
@@ -49,7 +49,6 @@ a {
   margin-left: 10px;
   color: #c0c4fc;
   text-decoration: underline;
-  cursor: pointer;
 }
 .instructor {
   margin-bottom: 10px;

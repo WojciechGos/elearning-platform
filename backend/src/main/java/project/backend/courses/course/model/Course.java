@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import project.backend.auditing.AuditorEntity;
 import project.backend.courses.category.model.Category;
 import project.backend.courses.comment.model.Comment;
 import project.backend.courses.language.model.Language;
@@ -20,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Course {
+public class Course extends AuditorEntity {
     @SequenceGenerator(
             name = "course_sequence",
             sequenceName = "course_sequence",

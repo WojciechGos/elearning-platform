@@ -55,7 +55,8 @@ public class CourseDTOMapper {
                 course.getEnrollmentCount(),
                 course.getCourseState(),
                 course.getTargetAudience(),
-                userMapper.mapToDTO(course.getAuthor())
+                userMapper.mapToDTO(course.getAuthor()),
+                course.getUpdatedOn()
         );
     }
 }
