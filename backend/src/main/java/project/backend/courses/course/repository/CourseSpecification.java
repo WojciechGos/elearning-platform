@@ -4,8 +4,10 @@ import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.model.CourseState;
+import project.backend.courses.course.model.TargetAudience;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CourseSpecification {
 
@@ -54,9 +56,17 @@ public class CourseSpecification {
     }
 
     public static Specification<Course> hasTargetAudience(List<String> targetAudiences) {
-        return (course, cq, cb) -> targetAudiences == null ? null : course.get("targetAudience").in(targetAudiences);
+        return (course, cq, cb) -> {
+            if (targetAudiences == null) {
+                return null;
+            } else {
+                List<TargetAudience> targetAudienceList = targetAudiences.stream()
+                        .map(TargetAudience::fromString)
+                        .collect(Collectors.toList());
+                return course.get("targetAudience").in(targetAudienceList);
+            }
+        };
     }
-
     public static Specification<Course> hasLanguage(List<String> languages) {
         return (course, cq, cb) -> languages == null ? null : course.get("language").get("name").in(languages);
     }
