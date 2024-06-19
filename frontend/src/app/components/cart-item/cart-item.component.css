@@ -6,7 +6,7 @@
 .cart-item-wrapper {
     display: flex; 
     align-items: center; 
-    width: 98%;
+    width: 100%;
 }
 
 .cart-item-details {
@@ -39,4 +39,10 @@ a {
     display: flex; 
     align-items: center;
     width: 100%;
+}
+
+.price-and-delete-wrapper{
+    display: flex;
+    flex-direction: row;
+
 }
