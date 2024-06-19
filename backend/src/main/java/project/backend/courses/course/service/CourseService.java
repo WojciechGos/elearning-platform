@@ -24,7 +24,7 @@ public interface CourseService {
             List<String> language,
             Integer page,
             Integer limit,
-            List<String> fields
+            Principal principal
     );
 
     CourseDTO createCourse(CourseDTO course, Principal principal);

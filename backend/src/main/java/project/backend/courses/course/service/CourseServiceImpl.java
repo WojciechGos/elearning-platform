@@ -70,7 +70,7 @@ public class CourseServiceImpl implements CourseService {
             List<String> language,
             Integer page,
             Integer limit,
-            List<String> fields
+            Principal principal
     ) {
         Specification<Course> spec = Specification
                 .where(CourseSpecification.hasKeyword(keyword))
@@ -79,6 +79,12 @@ public class CourseServiceImpl implements CourseService {
                 .and(CourseSpecification.minRating(minRating))
                 .and(CourseSpecification.hasTargetAudience(targetAudience))
                 .and(CourseSpecification.hasLanguage(language));
+
+        if (principal != null && permissionService.hasRole(principal, "ROLE_ADMIN")) {
+            spec = spec.and(CourseSpecification.hasCourseState(List.of(CourseState.HIDDEN, CourseState.READY_TO_ACCEPT, CourseState.PUBLISHED)));
+        } else {
+            spec = spec.and(CourseSpecification.hasCourseState(List.of(CourseState.PUBLISHED)));
+        }
 
         Pageable pageable = PageRequest.of(page, limit);
         Long count = courseRepository.count(spec);
