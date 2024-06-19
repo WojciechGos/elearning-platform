@@ -55,4 +55,5 @@ a {
 
 .courses {
   display: flex;
+  gap: 10px;
 }
