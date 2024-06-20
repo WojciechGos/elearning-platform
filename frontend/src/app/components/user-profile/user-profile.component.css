@@ -52,8 +52,3 @@ a {
   display: flex;
   justify-content: space-between;
 }
-
-.courses {
-  display: flex;
-  gap: 10px;
-}

@@ -47,7 +47,7 @@
     </div>
     <div class="button-wrapper">
       <button
-        class="complete-course-button"
+        class="complete-course-button btn"
         [disabled]="courseCompleted"
         (click)="completeCourse()"
         mat-raised-button
@@ -56,7 +56,7 @@
         {{ courseCompleted ? "Course is completed" : "Complete course" }}
       </button>
       <button
-        class="download-certificate-button"
+        class="download-certificate-button btn"
         *ngIf="courseCompleted"
         (click)="downloadCertificate()"
         mat-raised-button

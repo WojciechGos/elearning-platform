@@ -2,13 +2,15 @@
   <h3>You don't have any completed courses</h3>
 </div>
 
-<div *ngFor="let course of courses" class="miniature">
-  <a [routerLink]="['/course-display', course.id]" class="decoration-none">
-    <app-courses-list-item
-      [title]="course.title"
-      [rating]="course.rating"
-      [image]="course.imageUrl"
-    >
-    </app-courses-list-item>
-  </a>
+<div class="courses-wrapper">
+  <div *ngFor="let course of courses" class="miniature">
+    <a [routerLink]="['/course-display', course.id]" class="decoration-none">
+      <app-courses-list-item
+        [title]="course.title"
+        [rating]="course.rating"
+        [image]="course.imageUrl"
+      >
+      </app-courses-list-item>
+    </a>
+  </div>
 </div>

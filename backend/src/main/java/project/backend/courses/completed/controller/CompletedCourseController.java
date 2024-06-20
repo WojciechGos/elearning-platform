@@ -38,8 +38,8 @@ public class CompletedCourseController {
     @GetMapping("/{courseId}/certificate")
     public ResponseEntity<byte[]> downloadCertificate(@PathVariable Long courseId, Principal principal) {
         byte[] certificate = completedCourseService.generateCertificate(courseId, principal);
-        Course course = completedCourseService.getCourseById(courseId); // Pobierz kurs, aby uzyskać jego tytuł
-        String fileName = course.getTitle().replaceAll(" ", "_") + "-certificate.pdf"; // Ustaw nazwę pliku
+        Course course = completedCourseService.getCourseById(courseId);
+        String fileName = course.getTitle().replaceAll(" ", "_") + "-certificate.pdf";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(org.springframework.http.MediaType.APPLICATION_PDF);

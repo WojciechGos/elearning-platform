@@ -65,6 +65,7 @@ a {
 .button-wrapper {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
   margin-top: 20px;
 }
@@ -84,7 +85,6 @@ a {
 }
 
 .complete-course-button[disabled] {
-  background-color: #218838;
   background-color: #29336d;
   color: #fff;
 }
@@ -102,4 +102,8 @@ a {
 
 .download-certificate-button:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn {
+    width: 240px;
 }
