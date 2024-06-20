@@ -187,12 +187,12 @@ export class CourseCreatorComponent implements OnInit, OnDestroy {
   // TODO unsubscibe services that connect with API
   ngOnDestroy(): void {
     console.log("Destroying course creator");
-    this.courseFormGroup.reset();
-    this.lessonsFormArray.clear();
-    this.publishFormGroup.reset();
-    this.store.dispatch(setCourse({course : null}));
-    this.courseSubscription?.unsubscribe();
-    this.destroy$.next();
+    // this.courseFormGroup.reset();
+    // this.lessonsFormArray.clear();
+    // this.publishFormGroup.reset();
+    // this.store.dispatch(setCourse({course : null}));
+    // this.courseSubscription?.unsubscribe();
+    // this.destroy$.next();
     this.destroy$.complete();
   }
 }

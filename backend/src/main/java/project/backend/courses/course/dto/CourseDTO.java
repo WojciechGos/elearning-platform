@@ -1,6 +1,7 @@
 package project.backend.courses.course.dto;
 
 import lombok.Builder;
+import lombok.Setter;
 import project.backend.courses.course.model.CourseState;
 import project.backend.courses.course.model.TargetAudience;
 import project.backend.courses.lesson.dto.LessonDTO;

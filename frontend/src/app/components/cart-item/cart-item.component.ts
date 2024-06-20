@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, isDevMode } from '@angular/core';
 import { Input } from '@angular/core';
 import { CartService } from 'src/app/services/cart/cart.service';
 
@@ -19,6 +19,9 @@ export class CartItemComponent implements OnInit {
   constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
+    if(isDevMode() == true) {
+      this.image="./assets/images/course-image.png"
+    }
   }
 
   removeFromCart() {

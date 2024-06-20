@@ -46,3 +46,7 @@ a {
     flex-direction: row;
 
 }
+img {
+    height: 40px;
+    object-fit: fill;
+}

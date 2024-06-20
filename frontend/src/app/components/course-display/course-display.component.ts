@@ -18,7 +18,6 @@ export class CourseDisplayComponent implements OnInit {
   lessonTitle!: string;
   lessonDescription!: string;
   videoUrl!: string;
-  showVideo: boolean = true;
   courseCompleted: boolean = false;
   @ViewChild(LessonDisplayComponent)
   lessonDisplayComponent!: LessonDisplayComponent;
@@ -34,6 +33,7 @@ export class CourseDisplayComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log("refresh")
     this.route.paramMap.subscribe((params) => {
       const courseId = params.get('id');
       const numCourseId = Number(courseId);
@@ -47,7 +47,8 @@ export class CourseDisplayComponent implements OnInit {
           if (lessonId) {
             index = Number(lessonId) - 1;
           }
-
+          console.log(course)
+          console.log(index)
           this.lessonService
             .getSignedUrlForVideoDownload(this.course.lessons[index].id)
             .subscribe((response) => {
@@ -70,20 +71,26 @@ export class CourseDisplayComponent implements OnInit {
   }
 
   goToLesson(index: number) {
-    this.showVideo = false;
-    this.showVideo = true;
-    this.refreshPage(index);
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+      this.router.navigate(['/course-display', this.course.id, index + 1]);
+    });
   }
 
-  refreshPage(index: number) {
-    this.router
-      .navigate(['/course-display', this.course.id, index], {
-        skipLocationChange: true,
-      })
-      .then(() => {
-        this.router.navigate(['/course-display', this.course.id, index + 1]);
-      });
-  }
+  // goToLesson(index: number) {
+  //   this.showVideo = false;
+  //   this.showVideo = true;
+  //   this.refreshPage(index);
+  // }
+
+  // refreshPage(index: number) {
+  //   this.router
+  //     .navigate(['/course-display', this.course.id, index], {
+  //       skipLocationChange: true,
+  //     })
+  //     .then(() => {
+  //       this.router.navigate(['/course-display', this.course.id, index + 1]);
+  //     });
+  // }
 
   addComment(): void {
     const newComment = {

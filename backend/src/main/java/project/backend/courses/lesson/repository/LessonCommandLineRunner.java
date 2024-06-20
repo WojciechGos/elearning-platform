@@ -38,14 +38,14 @@ public class LessonCommandLineRunner implements CommandLineRunner {
                             .title("Java operators")
                             .description("Java operators and expressions")
                             .content("Operators are special symbols that perform specific operations on one, two, or three operands, and then return a result.")
-                            .videoUrl("private/courses/0/test.mp4")
+                            .videoUrl("private/courses/0/test2.mp4")
                             .build(),
                     Lesson.builder()
                             .lessonNumber(4)
                             .title("Java control statements")
                             .description("Java control statements")
                             .content("Control statements are used to control the flow of execution in a program. In Java, we have three types of control statements: selection, iteration, and jump.")
-                            .videoUrl("private/courses/0/test.mp4")
+                            .videoUrl("private/courses/0/test3.mp4")
                             .build()
             ),
             // 1
