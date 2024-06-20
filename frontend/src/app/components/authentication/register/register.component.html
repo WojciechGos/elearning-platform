@@ -88,7 +88,9 @@
         </div>
       </div>
 
-      <button type="submit" class="btn-register">Create an account</button>
+      <button type="submit" mat-raised-button color="primary">
+        Create an account
+      </button>
 
       <div class="login-link">
         Already have an account? <a routerLink="/login">Log in here</a>
@@ -103,9 +105,11 @@
     <a
       href="http://localhost:8080/api/v1/auth/google-login"
       id="googleBtn"
-      class="btn-google"
+      mat-raised-button
+      color="primary"
+      class="btn-custom"
     >
       Continue with Google
-    </a>
+  </a>
   </div>
 </div>
