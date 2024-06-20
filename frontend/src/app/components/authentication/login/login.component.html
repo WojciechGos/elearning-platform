@@ -34,7 +34,15 @@
         </div>
       </div>
 
-      <button mat-raised-button color="primary" type="submit">Log In</button>
+      <div class="form-options">
+        <div class="checkbox">
+          <input type="checkbox" formControlName="rememberMe" id="rememberMe" />
+          <label for="rememberMe">Remember me</label>
+        </div>
+        <a href="#" class="forgot-password">Forgot your password?</a>
+      </div>
+
+      <button type="submit" class="btn-login">Log In</button>
 
       <div class="register-link">
         Don't have an account? <a routerLink="/register">Register here</a>
@@ -49,9 +57,7 @@
     <a
       href="http://localhost:8080/api/v1/auth/google-login"
       id="googleBtn"
-      mat-raised-button
-      color="primary"
-      class="btn-custom"
+      class="btn-google"
     >
       Continue with Google
     </a>
