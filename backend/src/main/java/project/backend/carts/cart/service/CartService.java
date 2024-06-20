@@ -32,5 +32,7 @@ public interface CartService {
     List<Cart> getUsersCartsByStatus(CartStatus cartStatus, Principal principal);
 
     boolean hasBoughtCourse(@PathVariable("courseId") Long courseId, Principal principal);
+
+    List<Cart> getAllCartsByCourseIdAndCartStatus(Long courseId, CartStatus cartStatus);
 }
 
