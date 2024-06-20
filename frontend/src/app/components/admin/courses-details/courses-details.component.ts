@@ -6,7 +6,6 @@ import { Store } from '@ngrx/store';
 import { AppStateInterface } from 'src/app/interfaces/appState.interface';
 import { setCourse } from 'src/app/store/course/course.actions';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CourseState } from 'src/app/enums/course.state';
 
 @Component({
   selector: 'app-courses-details',
@@ -45,7 +44,6 @@ export class CoursesDetailsComponent implements OnInit {
   }
 
   changeStatus(): void {
-
     this.courseService.updateCourseStatus(this.course.id, this.formGroup.value.courseState).subscribe((course) => {
       console.log(`Course status updated ${course}`);
     });

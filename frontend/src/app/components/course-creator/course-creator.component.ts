@@ -12,7 +12,7 @@ import { AppStateInterface } from 'src/app/interfaces/appState.interface';
 import { courseSelector } from 'src/app/store/course/course.selectors';
 import { Router } from '@angular/router';
 import { setCourse } from 'src/app/store/course/course.actions';
-
+import { PermissionService } from 'src/app/services/permission/permission.service';
 
 @Component({
   selector: 'app-course-creator',
@@ -117,9 +117,11 @@ export class CourseCreatorComponent implements OnInit, OnDestroy {
   @ViewChild(CourseCreatorCourseInfoComponent) courseCreatorCourseInfoComponent !: CourseCreatorCourseInfoComponent;
   course$: Observable<Course | null> = this.store.pipe(select(courseSelector));
   private destroy$ = new Subject<void>();
+  isAdmin: boolean = false;
 
   constructor(
     private courseService: CourseService,
+    private permissionService: PermissionService,
     private store: Store<AppStateInterface>,
     private router: Router
   ) { }
@@ -131,6 +133,11 @@ export class CourseCreatorComponent implements OnInit, OnDestroy {
       else
         this.getCourse();
     });
+
+    this.permissionService.checkUserPermission('ROLE_ADMIN').subscribe((response) => {
+      console.log(response);
+      this.isAdmin = response;
+    })
   }
 
   getCourse(): void {
