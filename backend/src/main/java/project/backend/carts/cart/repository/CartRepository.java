@@ -22,4 +22,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     @Query("SELECT c FROM Cart c JOIN c.items ci WHERE c.user.email = :userEmail AND ci.course.id = :courseId")
     Optional<Cart> findByUserEmailAndCourseId(@Param("userEmail") String userEmail, @Param("courseId") Long courseId);
 
+    @Query("SELECT c FROM Cart c JOIN c.items ci WHERE ci.course.id = :courseId AND c.cartStatus = :cartStatus")
+    List<Cart> findAllCartsByCourseIdAndStatus(@Param("courseId") Long courseId, @Param("cartStatus") CartStatus cartStatus);
+
 }

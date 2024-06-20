@@ -4,10 +4,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.backend.courses.course.model.Course;
+import project.backend.courses.course.model.CourseState;
 import project.backend.courses.lesson.mapper.LessonDTOMapper;
 import project.backend.courses.lesson.model.Lesson;
 import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.lesson.repository.LessonRepository;
+import project.backend.courses.notification.service.NotificationService;
 import project.backend.courses.utils.file.response.FileResponse;
 import project.backend.courses.utils.file.service.FileService;
 import project.backend.exception.types.ResourceNotFoundException;
@@ -22,7 +24,7 @@ public class LessonServiceImpl implements LessonService {
     private final LessonRepository lessonRepository;
     private final FileService fileService;
     private final LessonDTOMapper lessonDTOMapper;
-
+    private final NotificationService notificationService;
     @Override
     public List<Lesson> getLessons() {
         return lessonRepository.findAll();
@@ -57,6 +59,13 @@ public class LessonServiceImpl implements LessonService {
             lessonToUpdate.setLessonNumber(lesson.lessonNumber());
         if (lesson.videoUrl() != null)
             lessonToUpdate.setVideoUrl(lesson.videoUrl());
+
+        System.out.println(lessonToUpdate.getCourse().getCourseState() == CourseState.PUBLISHED);
+        if(lessonToUpdate.getCourse().getCourseState() == CourseState.PUBLISHED){
+            System.out.println("Course is updating");
+            notificationService.assignNotifications("Course [%s], has been updated. Check it out!".formatted(lessonToUpdate.getCourse().getTitle()), lessonToUpdate.getCourse().getId());
+        }
+
         return lessonDTOMapper.toDTO(lessonRepository.save(lessonToUpdate));
     }
 

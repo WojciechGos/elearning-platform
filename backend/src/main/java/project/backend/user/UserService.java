@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import project.backend.courses.notification.model.Notification;
+import project.backend.courses.notification.model.NotificationStatus;
 import project.backend.exception.types.ResourceNotFoundException;
 
 import java.security.Principal;
@@ -17,6 +19,7 @@ public class UserService {
   private final PasswordEncoder passwordEncoder;
   private final UserRepository repository;
   private final UserMapper userMapper;
+  private final UserRepository userRepository;
   public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
     var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
@@ -53,5 +56,16 @@ public class UserService {
             .orElseThrow(() -> new ResourceNotFoundException(
                     String.format("User with email [%s] not found.", email)
             ));
+  }
+
+  public User saveUser(User user) {
+    return repository.save(user);
+  }
+
+  public List<Notification> getUsersNotificationsByStatus(Principal principal, NotificationStatus notificationStatus) {
+    User user = getUserByEmail(principal.getName());
+    return user.getNotificationList().stream()
+            .filter(notification -> notification.getNotificationStatus() != null && notification.getNotificationStatus().equals(notificationStatus))
+            .collect(Collectors.toList());
   }
 }

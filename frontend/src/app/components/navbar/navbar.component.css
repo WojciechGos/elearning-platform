@@ -1,83 +1,83 @@
 .wrapper {
-    background-color: #f8f9fa;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .content-wrapper {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
 }
 
 .search {
-    padding: 10px 20px;
-    cursor: pointer;
+  padding: 10px 20px;
+  cursor: pointer;
 }
 
 .search-wrapper {
-    width: 60%;
+  width: 60%;
 }
 
 .search {
-    flex-grow: 1;
-    background-color: #ffffff;
-    border-radius: 5px;
-    border: 1px solid #ced4da;
+  flex-grow: 1;
+  background-color: #ffffff;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
 }
 
 .logo {
-    width: 70px;
+  width: 70px;
 }
 
 .plain-button {
-    background: none;
-    font-size: 17px;
-    height: 100%;
+  background: none;
+  font-size: 17px;
+  height: 100%;
 }
 
 .plain-button:hover {
-    color: rgb(72, 104, 104);
+  color: rgb(72, 104, 104);
 }
 
 .search-container {
-    position: relative;
+  position: relative;
 }
 
 .search-input {
-    padding: 5px;
-    border: 1px solid #242323;
-    border-radius: 4px;
-    width: 100%;
-    height: 30px;
-    border-radius: 15px;
-    font-size: 15px;
+  padding: 5px;
+  border: 1px solid #242323;
+  border-radius: 4px;
+  width: 100%;
+  height: 30px;
+  border-radius: 15px;
+  font-size: 15px;
 }
 
 .search-button {
-    position: absolute;
-    top: 50%;
-    right: 0px;
-    transform: translateX(-10px);
-    transform: translateY(-50%);
-    padding: 10px;
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateX(-10px);
+  transform: translateY(-50%);
+  padding: 10px;
 }
 
 .search-button,
 .cart-button,
 .plain-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .icon {
-    width: 24px;
-    height: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 .sign-up-button {
-    margin-right: 110px;
+  margin-right: 110px;
 }
 
 .logout-button {
@@ -85,39 +85,39 @@
 }
 
 a {
-    cursor: pointer;
-    text-decoration: none;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .black-link {
-    color: #242323;
+  color: #242323;
 }
 
 .white-link {
-    color: white;
+  color: white;
 }
 
-
 .buttons-wrapper {
-    display: flex;
-    justify-content: space-between;
-    margin-left: 40px;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 40px;
 }
 
 .creator-cart-wrapper {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
 }
 
 .user-icon-container {
-  display: flex;
+  position: relative;
   align-items: center;
 }
 
 .user-icon {
-  width: 38px;
-  height: 38px;
+  position: relative;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -129,48 +129,57 @@ a {
   cursor: pointer;
 }
 
-
+.notification-dot {
+  height: 20px;
+  width: 20px;
+  background-color: red;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  line-height: 20px;
+  position: absolute;
+  top: -10px;
+  right: -2px;
+}
 
 .categories-wrapper {
-    position: absolute;
-    left: 11%;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
-    background-color: rgb(231, 232, 231);
-    margin-top: 5px;
-    cursor: pointer;
-    z-index: 1000;
+  position: absolute;
+  left: 11%;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  background-color: rgb(231, 232, 231);
+  margin-top: 5px;
+  cursor: pointer;
+  z-index: 1000;
 }
 
 .categories-list {
-    list-style: none;
-    padding: 5px 0;
-    margin: 0;
-    font-size: 16px;
+  list-style: none;
+  padding: 5px 0;
+  margin: 0;
+  font-size: 16px;
 }
 
 .categories-list li {
-    margin-bottom: 8px;
-    padding: 7px 12px;
+  margin-bottom: 8px;
+  padding: 7px 12px;
 }
 
 .categories-list li:hover {
-    color: #767272;
+  color: #767272;
 }
 
 .categories-list a {
-    text-decoration: none;
-    color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
-
-
 
 /*********************************************** responsivness **********************************************/
 
 @media only screen and (max-width: 768px) {
-    .content-wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 0;
-    }
+  .content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+  }
 }

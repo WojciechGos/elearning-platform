@@ -128,7 +128,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDTO updateCourse(Long courseId, CourseDTO course, Principal principal) {
         Course updatedCourse = getCourseById(courseId);
-
+        System.out.println("update");
+        System.out.println(updatedCourse.getCourseState());
         if (!permissionService.hasPermissionToEditCourse(updatedCourse, principal)) {
             throw new ForbiddenException("Insufficient role: You can only update your own courses.");
         }
@@ -151,11 +152,13 @@ public class CourseServiceImpl implements CourseService {
             if (permissionService.hasRole(principal, "ROLE_USER")) {
                 if (course.courseState() == CourseState.READY_TO_ACCEPT || course.courseState() == CourseState.HIDDEN || course.courseState() == CourseState.CREATING) {
                     updatedCourse.setCourseState(course.courseState());
+                    System.out.println("Course state changed to: " + course.courseState()) ;
                 } else {
                     throw new ForbiddenException("Insufficient role: You can only change course state to READY_TO_ACCEPT or HIDDEN.");
                 }
             } else if (permissionService.hasRole(principal, "ROLE_ADMIN")) {
                 updatedCourse.setCourseState(course.courseState());
+                System.out.println("Course state changed to: " + course.courseState());
             }
         }
         return courseDTOMapper.toDTO(courseRepository.save(updatedCourse));
