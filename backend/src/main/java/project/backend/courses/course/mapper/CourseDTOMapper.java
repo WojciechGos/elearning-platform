@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.category.model.Category;
+import project.backend.courses.course.model.CourseState;
 import project.backend.courses.lesson.dto.LessonDTO;
 import project.backend.courses.lesson.mapper.LessonDTOMapper;
 import project.backend.user.UserMapper;
@@ -54,6 +55,27 @@ public class CourseDTOMapper {
                 lessonList,
                 course.getEnrollmentCount(),
                 course.getCourseState(),
+                course.getTargetAudience(),
+                userMapper.mapToDTO(course.getAuthor()),
+                course.getUpdatedOn()
+        );
+    }
+
+    public CourseDTO toDTOWithCourseState(Course course, CourseState courseState) {
+        return new CourseDTO(
+                course.getId(),
+                course.getTitle(),
+                course.getDescription(),
+                course.getPrice(),
+                course.getDiscountPrice(),
+                course.getCategories().stream().map(Category::getName).toList(),
+                course.getLanguage().getName(),
+                null,
+                course.getRating(),
+                course.getImageUrl(),
+                course.getLessons().stream().map(lessonDTOMapper::toDTO).collect(Collectors.toList()),
+                course.getEnrollmentCount(),
+                courseState,
                 course.getTargetAudience(),
                 userMapper.mapToDTO(course.getAuthor()),
                 course.getUpdatedOn()

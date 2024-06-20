@@ -29,7 +29,8 @@ export class CourseCreatorPublishComponent {
       if (course == null) return;
 
       this.courseService.updateCourseStatus(course.id, this.formGroup.value.courseState).subscribe((course) => {
-        console.log(`Course status updated ${course}`);
+        // console.log(`Course status updated ${course}`);
+        console.log(course)
       });
     });
   }

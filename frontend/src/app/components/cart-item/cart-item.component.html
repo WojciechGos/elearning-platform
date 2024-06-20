@@ -1,7 +1,8 @@
 <div class="cart-item-wrapper">
   <a [routerLink]="['/course-details', this.id]">
     <img
-      src="assets/images/shopping-cart.png"
+      *ngIf="this.image"
+      [src]="this.image"
       alt="Cart Item Image"
       class="cart-item-img"
     />
