@@ -39,6 +39,9 @@ public class CourseLessonServiceImpl implements CourseLessonService{
         // set course state to NULL because otherwise it will trigger insufficient permission error
         course.setCourseState(null);
 
+        System.out.println(course);
+        System.out.println(course.getCourseState() == CourseState.PUBLISHED);
+
         if(course.getCourseState() == CourseState.PUBLISHED)
             notificationService.assignNotifications("Course [%s], has uploaded new lesson. Check it out!".formatted(course.getTitle()), course.getId());
 

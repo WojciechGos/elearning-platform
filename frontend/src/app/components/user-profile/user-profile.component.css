@@ -52,3 +52,24 @@ a {
   display: flex;
   justify-content: space-between;
 }
+
+.notification-container {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.notification-container div {
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+.notification-container p {
+  margin: 0;
+  padding: 0;
+}
+
+.bold {
+  font-weight: bold;
+}

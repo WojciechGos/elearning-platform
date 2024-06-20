@@ -60,8 +60,11 @@ public class LessonServiceImpl implements LessonService {
         if (lesson.videoUrl() != null)
             lessonToUpdate.setVideoUrl(lesson.videoUrl());
 
-        if(lessonToUpdate.getCourse().getCourseState() == CourseState.PUBLISHED)
+        System.out.println(lessonToUpdate.getCourse().getCourseState() == CourseState.PUBLISHED);
+        if(lessonToUpdate.getCourse().getCourseState() == CourseState.PUBLISHED){
+            System.out.println("Course is updating");
             notificationService.assignNotifications("Course [%s], has been updated. Check it out!".formatted(lessonToUpdate.getCourse().getTitle()), lessonToUpdate.getCourse().getId());
+        }
 
         return lessonDTOMapper.toDTO(lessonRepository.save(lessonToUpdate));
     }

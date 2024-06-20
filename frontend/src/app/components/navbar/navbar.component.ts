@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-
+import { Notification } from 'src/app/interfaces/notification.interface';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -32,6 +32,7 @@ export class NavbarComponent implements OnInit {
     this.notificationService.getUsersNotificationsByStatus('UNREAD').subscribe((response)=>{
       console.log("Notifications")
       console.log(response);
+      this.notificationList = response;
     });
   }
 

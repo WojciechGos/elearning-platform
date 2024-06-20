@@ -40,7 +40,7 @@ public class User implements UserDetails {
     @JsonManagedReference(value = "user-cart")
     private List <Cart> carts;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<Notification> notificationList;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

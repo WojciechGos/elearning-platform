@@ -3,7 +3,7 @@
     <a href="/main-page">
       <img src="assets/images/logo.jpg" alt="Logo" class="logo" />
     </a>
-    
+
     <div class="search-container">
       <button class="search-button" (click)="onSearchHandler()">
         <img src="assets/images/search-icon.png" alt="Search" class="icon" />
@@ -31,14 +31,16 @@
         SignUp
       </button>
     </div>
-    
+
     <div
       *ngIf="isLoggedIn"
       class="user-icon-container"
       (click)="navigateToUserProfile()"
     >
       <div class="user-icon">{{ userInitials }}</div>
+      <span class="notification-dot" *ngIf="notificationList.length > 0">{{
+        notificationList.length
+      }}</span>
     </div>
-
   </div>
 </nav>
