@@ -1,10 +1,11 @@
 <app-navbar></app-navbar>
 
-<!-- (selectionChange)="onStepChange($event)" 
-  [linear]="true" 
-  #stepper
-    TODO: after lesson forms are finished move back to the mat-stepper tag 
--->
+
+ <a *ngIf="this.isAdmin" href="/admin/courses">
+   <button mat-stroked-button color="primary" 
+   >Back to admin panel</button>
+</a>
+
 <mat-stepper>
   <mat-step [stepControl]="courseFormGroup" label="Fill out course info">
     <app-course-creator-course-info
