@@ -66,12 +66,16 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<Notification> getUsersNotifications(Principal principal) {
+        if(principal == null)
+            throw new ResourceNotFoundException("User not found");
         User user = userService.getUserByEmail(principal.getName());
         return user.getNotificationList();
     }
 
     @Override
     public List<Notification> getUsersNotificationsByStatus(Principal principal, NotificationStatus notificationStatus) {
+        if(principal == null)
+            throw new ResourceNotFoundException("User not found");
         return userService.getUsersNotificationsByStatus(principal, notificationStatus);
     }
 }
