@@ -16,4 +16,5 @@ export interface Course {
     courseState?: string;
     targetAudience?: string;
     author?: User;
+    updatedOn ?: string;
 }

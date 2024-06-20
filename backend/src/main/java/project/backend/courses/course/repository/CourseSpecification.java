@@ -3,15 +3,23 @@ package project.backend.courses.course.repository;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import project.backend.courses.course.model.Course;
+import project.backend.courses.course.model.CourseState;
+import project.backend.courses.course.model.TargetAudience;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CourseSpecification {
 
-    public static Specification<Course> hasStatus(List<String> statuses) {
-        return (course, cq, cb) -> statuses == null ? null : course.get("status").in(statuses);
+    public static Specification<Course> hasCourseState(List<CourseState> statuses) {
+        return (course, cq, cb) -> {
+            if (statuses == null || statuses.isEmpty()) {
+                return null;
+            } else {
+                return course.get("courseState").in(statuses);
+            }
+        };
     }
-
     public static Specification<Course> hasKeyword(String keyword) {
         return (course, cq, cb) -> {
             if (keyword == null)
@@ -48,9 +56,17 @@ public class CourseSpecification {
     }
 
     public static Specification<Course> hasTargetAudience(List<String> targetAudiences) {
-        return (course, cq, cb) -> targetAudiences == null ? null : course.get("targetAudience").in(targetAudiences);
+        return (course, cq, cb) -> {
+            if (targetAudiences == null) {
+                return null;
+            } else {
+                List<TargetAudience> targetAudienceList = targetAudiences.stream()
+                        .map(TargetAudience::fromString)
+                        .collect(Collectors.toList());
+                return course.get("targetAudience").in(targetAudienceList);
+            }
+        };
     }
-
     public static Specification<Course> hasLanguage(List<String> languages) {
         return (course, cq, cb) -> languages == null ? null : course.get("language").get("name").in(languages);
     }

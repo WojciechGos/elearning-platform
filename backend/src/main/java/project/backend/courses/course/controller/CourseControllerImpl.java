@@ -33,7 +33,7 @@ public class CourseControllerImpl implements CourseController {
             @RequestParam(required = false) List<String> languages,
             @RequestParam(required = false, defaultValue = "0") Integer page,
             @RequestParam(required = false, defaultValue = "5") Integer limit,
-            @RequestParam(required = false) List<String> fields
+            Principal principal
     ) {
         FilterCourseDTO courses = courseService.getCourses(
                 keyword,
@@ -45,7 +45,7 @@ public class CourseControllerImpl implements CourseController {
                 languages,
                 page,
                 limit,
-                fields
+                principal
         );
         return new ResponseEntity<>(courses, HttpStatus.OK);
     }

@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<app-navbar (searchEvent)="onSearchEvent($event)"></app-navbar>
 
 <div class="course-search-wrapper">
   <div class="search-panel">
@@ -21,10 +21,12 @@
       <h2>Price</h2>
 
       <div class="price-wrapper">
-        <mat-slider min="200" max="500" style="width: 200px">
-          <input value="300" matSliderStartThumb />
-          <input value="400" matSliderEndThumb />
+        <mat-slider min="1" max="700" style="width: 200px">
+          <input [(ngModel)]="this.minPrice" matSliderStartThumb />
+          <input [(ngModel)]="this.maxPrice" matSliderEndThumb />
         </mat-slider>
+
+        <div>Price range: {{ this.minPrice }} - {{ this.maxPrice }}</div>
 
       </div>
 

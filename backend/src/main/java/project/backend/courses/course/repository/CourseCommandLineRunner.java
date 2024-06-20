@@ -9,6 +9,7 @@ import project.backend.courses.category.model.Category;
 import project.backend.courses.category.service.CategoryService;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.model.CourseState;
+import project.backend.courses.course.model.TargetAudience;
 import project.backend.courses.language.model.Language;
 import project.backend.courses.language.service.LanguageService;
 import project.backend.courses.lesson.mapper.LessonDTOMapper;
@@ -57,6 +58,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .enrollmentCount(1001)
                 .courseState(CourseState.PUBLISHED)
                 .author(users.get(1))
+                .targetAudience(TargetAudience.BEGINNER)
                 .build());
 
         attachCourseToLesson(course, LessonCommandLineRunner.getLessonsPack(0));
@@ -74,6 +76,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .enrollmentCount(200)
                 .courseState(CourseState.PUBLISHED)
                 .author(users.get(3))
+                .targetAudience(TargetAudience.BEGINNER)
                 .build());
 
         attachCourseToLesson(course, LessonCommandLineRunner.getLessonsPack(1));
@@ -90,6 +93,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .enrollmentCount(200)
                 .courseState(CourseState.PUBLISHED)
                 .author(users.get(0))
+                .targetAudience(TargetAudience.BEGINNER)
                 .build());
 
         attachCourseToLesson(course, LessonCommandLineRunner.getLessonsPack(2));
@@ -106,6 +110,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .enrollmentCount(300)
                 .courseState(CourseState.PUBLISHED)
                 .author(users.get(3))
+                .targetAudience(TargetAudience.BEGINNER)
                 .build());
 
         attachCourseToLesson(course, LessonCommandLineRunner.getLessonsPack(3));
@@ -122,6 +127,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .enrollmentCount(400)
                 .courseState(CourseState.HIDDEN)
                 .author(users.get(3))
+                .targetAudience(TargetAudience.BEGINNER)
                 .build());
 
         attachCourseToLesson(course, LessonCommandLineRunner.getLessonsPack(4));
@@ -138,6 +144,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .enrollmentCount(40)
                 .courseState(CourseState.PUBLISHED)
                 .author(users.get(3))
+                .targetAudience(TargetAudience.INTERMEDIATE)
                 .build());
 
         attachCourseToLesson(course, LessonCommandLineRunner.getLessonsPack(5));
@@ -154,6 +161,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .enrollmentCount(70)
                 .courseState(CourseState.PUBLISHED)
                 .author(users.get(3))
+                .targetAudience(TargetAudience.INTERMEDIATE)
                 .build());
 
         attachCourseToLesson(course, LessonCommandLineRunner.getLessonsPack(6));
@@ -170,6 +178,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .enrollmentCount(90)
                 .courseState(CourseState.PUBLISHED)
                 .author(users.get(3))
+                .targetAudience(TargetAudience.INTERMEDIATE)
                 .build());
 
         attachCourseToLesson(course, LessonCommandLineRunner.getLessonsPack(7));
@@ -186,6 +195,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .enrollmentCount(60)
                 .courseState(CourseState.PUBLISHED)
                 .author(users.get(3))
+                .targetAudience(TargetAudience.INTERMEDIATE)
                 .build());
 
         attachCourseToLesson(course, LessonCommandLineRunner.getLessonsPack(8));
@@ -202,6 +212,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .enrollmentCount(231)
                 .courseState(CourseState.PUBLISHED)
                 .author(users.get(3))
+                .targetAudience(TargetAudience.ADVANCED)
                 .build());
 
         attachCourseToLesson(course, LessonCommandLineRunner.getLessonsPack(9));
@@ -218,6 +229,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .enrollmentCount(3)
                 .courseState(CourseState.CREATING)
                 .author(users.get(0))
+                .targetAudience(TargetAudience.ADVANCED)
                 .build());
 
         attachCourseToLesson(course, LessonCommandLineRunner.getLessonsPack(10));
@@ -233,6 +245,7 @@ public class CourseCommandLineRunner implements CommandLineRunner {
                 .imageUrl(awsS3Url + "/public/courses/0/production-image.png")
                 .enrollmentCount(983)
                 .courseState(CourseState.PUBLISHED)
+                .targetAudience(TargetAudience.ADVANCED)
                 .author(users.get(3))
                 .build());
         attachCourseToLesson(course, LessonCommandLineRunner.getLessonsPack(11));

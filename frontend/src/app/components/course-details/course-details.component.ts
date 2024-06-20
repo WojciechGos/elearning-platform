@@ -14,7 +14,8 @@ export class CourseDetailsComponent implements OnInit {
   course!: Course;
   isInCart: boolean = false;
   isLoggedIn: boolean = false;
-
+  hasBoughtCourse: boolean = false;
+  courseId: number = Number(this.route.snapshot.paramMap.get('id'));
   constructor(
     private courseService: CourseService,
     private cartService: CartService,
@@ -26,10 +27,10 @@ export class CourseDetailsComponent implements OnInit {
   ngOnInit(): void {
 
 
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      const numId = Number(id);
-      this.courseService.getCourseById(numId).subscribe((course) => {
+ 
+    if (this.courseId) {
+      // const numId = Number(courseId);
+      this.courseService.getCourseById(this.courseId).subscribe((course) => {
         console.log(course);
         if (course !== undefined)
           this.course = course;
@@ -42,8 +43,13 @@ export class CourseDetailsComponent implements OnInit {
         this.isLoggedIn = !!user;
       });
 
-      this.cartService.isCourseInCart(numId).subscribe((result) => {
+      this.cartService.isCourseInCart(this.courseId).subscribe((result) => {
         this.isInCart = result;
+      });
+
+      this.cartService.hasBoughtCourse(this.courseId).subscribe((result) => {
+        console.log(result);
+        this.hasBoughtCourse = result;
       });
     }
   }
@@ -67,5 +73,4 @@ export class CourseDetailsComponent implements OnInit {
   goToCart() {
     this.router.navigate(['/cart']);
   }
-
 }

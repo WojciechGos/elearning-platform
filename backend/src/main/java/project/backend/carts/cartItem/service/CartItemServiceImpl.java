@@ -11,6 +11,7 @@ import project.backend.carts.cartItem.dto.CartItemDTO;
 import project.backend.carts.cartItem.repository.CartItemRepository;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.service.CourseService;
+import project.backend.exception.types.BadRequestException;
 import project.backend.exception.types.ResourceNotFoundException;
 import project.backend.user.User;
 import project.backend.user.UserService;
@@ -44,6 +45,9 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public CartItemDTO createCartItem(CartItemRequest cartItemRequest, Principal principal) {
         Cart cart = getCartFromRequest(cartItemRequest, principal);
+        if(cartService.hasBoughtCourse(cartItemRequest.courseId(), principal)){
+            throw new BadRequestException("You have already bought this course.");
+        }
         Course course = courseService.getCourseById(cartItemRequest.courseId());
         CartItem cartItem = CartItem.builder()
                 .cart(cart)

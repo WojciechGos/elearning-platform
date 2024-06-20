@@ -14,4 +14,13 @@ public enum TargetAudience {
         }
         return TargetAudience.valueOf(value.toUpperCase());
     }
+
+    public static TargetAudience fromString(String name) {
+        for (TargetAudience targetAudience : TargetAudience.values()) {
+            if (targetAudience.name().equalsIgnoreCase(name)) {
+                return targetAudience;
+            }
+        }
+        throw new IllegalArgumentException("No enum constant " + TargetAudience.class.getCanonicalName() + "." + name);
+    }
 }

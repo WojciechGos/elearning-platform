@@ -26,10 +26,10 @@
 
         <div class="instructor-wrapper">
           <div class="instructor-text">Created by:</div>
-          <div class="instructor-name">John Doe</div>
+          <div *ngIf="this.course.author" class="instructor-name">{{this.course.author.firstName}} {{this.course.author.lastName}}</div>
         </div>
         <div class="additional-info">
-          <div class="update-info">Last update 11:2023</div>
+          <div class="update-info">Last update {{this.course.updatedOn | date:'yyyy-MM-dd'}}</div>
           <div *ngIf="this.course" class="language">
             {{ this.course.language }}
           </div>
@@ -45,11 +45,17 @@
       />
       <div class="buttons-wrapper">
         <app-price *ngIf="this.course" [price]="this.course.price"></app-price>
-        <div class="btn">
+        <div *ngIf="!this.hasBoughtCourse" class="btn">
           <button mat-raised-button color="primary" (click)="isInCart ? goToCart() : addToCart()">
             {{ isInCart ? 'Go to Cart' : 'Add to Cart' }}
           </button>
         </div>
+        <div *ngIf="this.hasBoughtCourse" class="btn">
+          <button mat-raised-button color="primary" [routerLink]="['/course-display', courseId]">
+            Go to Course
+          </button>
+        </div>
+
       </div>
     </div>
   </section>
