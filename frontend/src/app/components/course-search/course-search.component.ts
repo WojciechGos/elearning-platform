@@ -91,19 +91,36 @@ export class CourseSearchComponent implements OnInit {
       console.log(this.courses);
     });
   }
-
-  onMinPriceChange(event: any) {
-    this.minPrice = event.value;
-    if (this.minPrice > this.maxPrice) {
-      this.maxPrice = this.minPrice;
-    }
+  onSearchEvent(keyword: string): void {
+    let params = {
+      keyword: keyword,
+      categories: this.selectedCategories,
+      languages: this.selectedLanguages,
+      targetAudience: this.selectedLevels,
+      minPrice: this.minPrice,
+      maxPrice: this.maxPrice,
+      minRating: this.minRating
+    };
+    this.courseService.getCoursesByFilter(params).subscribe((courseFilter) => {
+      this.courses = courseFilter.courses;
+      this.length = courseFilter.count;
+      console.log(this.length);
+      console.log(this.courses);
+    });
   }
 
-  onMaxPriceChange(event: any) {
-    this.maxPrice = event.value;
-    if (this.maxPrice < this.minPrice) {
-      this.minPrice = this.maxPrice;
-    }
-  }
+  // onMinPriceChange(event: any) {
+  //   this.minPrice = event.value;
+  //   if (this.minPrice > this.maxPrice) {
+  //     this.maxPrice = this.minPrice;
+  //   }
+  // }
+
+  // onMaxPriceChange(event: any) {
+  //   this.maxPrice = event.value;
+  //   if (this.maxPrice < this.minPrice) {
+  //     this.minPrice = this.maxPrice;
+  //   }
+  // }
 
 }
