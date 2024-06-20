@@ -45,11 +45,17 @@
       />
       <div class="buttons-wrapper">
         <app-price *ngIf="this.course" [price]="this.course.price"></app-price>
-        <div class="btn">
+        <div *ngIf="!this.hasBoughtCourse" class="btn">
           <button mat-raised-button color="primary" (click)="isInCart ? goToCart() : addToCart()">
             {{ isInCart ? 'Go to Cart' : 'Add to Cart' }}
           </button>
         </div>
+        <div *ngIf="this.hasBoughtCourse" class="btn">
+          <button mat-raised-button color="primary" [routerLink]="['/course-display', courseId]">
+            Go to Course
+          </button>
+        </div>
+
       </div>
     </div>
   </section>

@@ -119,10 +119,13 @@ public class CartServiceImpl implements CartService {
             return true;
         }
 
-        Cart cart = cartRepository.findByUserEmailAndCourseId(principal.getName(), courseId)
-                .orElseThrow(() -> new ForbiddenException("You have not bought this course. You need to buy course to access it."));
-        System.out.println(cart.getId());
-        return cart.getCartStatus() == CartStatus.COMPLETED;
+        Optional<Cart> cart = cartRepository.findByUserEmailAndCourseId(principal.getName(), courseId);
+
+        if(cart.isEmpty()){
+            return false;
+        }
+
+        return cart.get().getCartStatus() == CartStatus.COMPLETED;
     }
 
 }
