@@ -32,7 +32,7 @@ public class CourseControllerImpl implements CourseController {
             @RequestParam(required = false) List<String> targetAudience,
             @RequestParam(required = false) List<String> languages,
             @RequestParam(required = false, defaultValue = "0") Integer page,
-            @RequestParam(required = false, defaultValue = "5") Integer limit,
+            @RequestParam(required = false, defaultValue = "4") Integer limit,
             Principal principal
     ) {
         FilterCourseDTO courses = courseService.getCourses(
