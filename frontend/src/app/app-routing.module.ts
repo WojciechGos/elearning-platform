@@ -42,9 +42,11 @@ const routes: Routes = [
     path: 'course-display/:id',
     canActivate: [onlyCourseOwnerGuard],
     component: CourseDisplayComponent,
-    children: [
-      { path: ':lessonId', component: CourseDisplayComponent },
-    ]
+  },
+  {
+    path: 'course-display/:id/:lessonId',
+    canActivate: [onlyCourseOwnerGuard],
+    component: CourseDisplayComponent
   },
   { path: 'course-creator', component: CourseCreatorComponent },
   {

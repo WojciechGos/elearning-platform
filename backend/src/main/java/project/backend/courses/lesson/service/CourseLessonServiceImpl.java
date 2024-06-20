@@ -3,6 +3,7 @@ package project.backend.courses.lesson.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.mapper.CourseDTOMapper;
 import project.backend.courses.course.model.Course;
 import project.backend.courses.course.model.CourseState;
@@ -37,16 +38,13 @@ public class CourseLessonServiceImpl implements CourseLessonService{
         // assign created lesson to the existing course
         course.getLessons().add(createdLesson);
         // set course state to NULL because otherwise it will trigger insufficient permission error
-        course.setCourseState(null);
-
-        System.out.println(course);
-        System.out.println(course.getCourseState() == CourseState.PUBLISHED);
+        CourseDTO courseDTO = courseDTOMapper.toDTOWithCourseState(course, null);
 
         if(course.getCourseState() == CourseState.PUBLISHED)
             notificationService.assignNotifications("Course [%s], has uploaded new lesson. Check it out!".formatted(course.getTitle()), course.getId());
 
 
-        courseService.updateCourse(courseId, courseDTOMapper.toDTO(course), principal);
+        courseService.updateCourse(courseId, courseDTO, principal);
 
         return lessonDTO;
     }

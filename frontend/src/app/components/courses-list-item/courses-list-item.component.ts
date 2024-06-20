@@ -17,6 +17,9 @@ export class CoursesListItemComponent implements OnInit {
     if(isDevMode() == true) {
       this.image="./assets/images/course-image.png"
     }
+    if(!this.image){
+      this.image="./assets/images/course-image.png"
+    }
   }
 
 }

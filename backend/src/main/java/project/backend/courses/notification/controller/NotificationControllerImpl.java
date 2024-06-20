@@ -2,10 +2,7 @@ package project.backend.courses.notification.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import project.backend.courses.notification.model.Notification;
 import project.backend.courses.notification.model.NotificationStatus;
 import project.backend.courses.notification.service.NotificationService;
@@ -34,7 +31,8 @@ public class NotificationControllerImpl implements NotificationController {
     }
 
     @Override
-    public ResponseEntity<Notification> updateNotificationStatus(Long notificationId, NotificationStatus notificationStatus) {
+    @PutMapping("/{notificationId}")
+    public ResponseEntity<Notification> updateNotificationStatus(@PathVariable("notificationId") Long notificationId, NotificationStatus notificationStatus) {
         return ResponseEntity.ok(notificationService.updateNotificationStatus(notificationId, notificationStatus));
     }
 }

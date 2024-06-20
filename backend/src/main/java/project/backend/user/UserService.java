@@ -65,7 +65,7 @@ public class UserService {
   public List<Notification> getUsersNotificationsByStatus(Principal principal, NotificationStatus notificationStatus) {
     User user = getUserByEmail(principal.getName());
     return user.getNotificationList().stream()
-            .filter(notification -> notification.getNotificationStatus().equals(notificationStatus))
+            .filter(notification -> notification.getNotificationStatus() != null && notification.getNotificationStatus().equals(notificationStatus))
             .collect(Collectors.toList());
   }
 }

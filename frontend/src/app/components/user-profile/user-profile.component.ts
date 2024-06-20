@@ -37,6 +37,11 @@ export class UserProfileComponent implements OnInit {
     });
     this.notificationService.getUsersNotificationsByStatus("UNREAD").subscribe((response)=>{
       this.notificationList = response;
+      this.notificationList.forEach((notification) => {
+        this.notificationService.updateNotificationStatus(notification.id, "READ").subscribe((response) => {
+          console.log(response);
+        });
+      });
     });
   }
 
