@@ -21,8 +21,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import project.backend.config.filter.JwtAuthenticationFilter;
 
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
@@ -61,11 +62,15 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/google-login")
-                                .permitAll()
-                                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        req.requestMatchers(
+                                        "/api/v1/auth/login",
+                                        "/api/v1/auth/register",
+                                        "/api/v1/auth/google-login",
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**"
+                                ).permitAll()
+                                .requestMatchers("/api/v1/completed-courses/**").authenticated()
                                 .anyRequest().permitAll()
-
                 )
                 .oauth2Login(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

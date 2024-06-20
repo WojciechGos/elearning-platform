@@ -1,0 +1,26 @@
+.courses-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.miniature {
+  margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+  .miniature {
+    width: calc(33.33% - 10px);
+  }
+}
+
+@media (min-width: 1200px) {
+  .miniature {
+    width: calc(25% - 10px);
+  }
+}
+
+.decoration-none {
+  text-decoration: none;
+  color: inherit;
+}

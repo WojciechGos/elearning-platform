@@ -11,14 +11,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import project.backend.auth.AuthenticationResponse;
-import project.backend.auth.AuthenticationService;
-import project.backend.auth.RegisterRequest;
-import project.backend.config.JwtService;
+import project.backend.auth.dto.AuthenticationResponse;
+import project.backend.auth.service.AuthenticationService;
+import project.backend.auth.dto.RegisterRequest;
 import project.backend.courses.course.dto.CourseDTO;
-import project.backend.courses.course.dto.FilterCourseDTO;
-import project.backend.user.User;
-import project.backend.user.UserRepository;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 

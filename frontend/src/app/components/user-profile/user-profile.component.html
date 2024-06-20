@@ -10,7 +10,12 @@
       <button mat-raised-button color="primary" (click)="logout()">
         Log out
       </button>
-      <button mat-raised-button color="primary" *ngIf="this.isAdmin" routerLink="/admin">
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="this.isAdmin"
+        routerLink="/admin"
+      >
         Admin panel
       </button>
     </div>
@@ -35,6 +40,10 @@
       <button mat-stroked-button color="primary" (click)="this.createCourse()">
         Create new course
       </button>
+    </div>
+    <div class="flex">
+      <h2>My completed courses</h2>
+      <app-user-profile-completed-courses-list></app-user-profile-completed-courses-list>
     </div>
   </div>
 </div>

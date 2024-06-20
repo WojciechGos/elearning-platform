@@ -128,7 +128,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseDTO updateCourse(Long courseId, CourseDTO course, Principal principal) {
         Course updatedCourse = getCourseById(courseId);
-
+        System.out.println("update");
+        System.out.println(updatedCourse.getCourseState());
         if (!permissionService.hasPermissionToEditCourse(updatedCourse, principal)) {
             throw new ForbiddenException("Insufficient role: You can only update your own courses.");
         }

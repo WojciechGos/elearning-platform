@@ -67,6 +67,7 @@ import { CoursesComponent } from './components/admin/courses/courses.component';
 import { CoursesDetailsComponent } from './components/admin/courses-details/courses-details.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { NotAuthorizedComponent } from './components/not-authorized/not-authorized.component';
+import { UserProfileCompletedCoursesListComponent } from './components/user-profile-completed-courses-list/user-profile-completed-courses-list.component';
 
 
 @NgModule({
@@ -108,6 +109,7 @@ import { NotAuthorizedComponent } from './components/not-authorized/not-authoriz
     CoursesDetailsComponent,
     CommentComponent,
     NotAuthorizedComponent,
+    UserProfileCompletedCoursesListComponent,
 
   ],
   imports: [

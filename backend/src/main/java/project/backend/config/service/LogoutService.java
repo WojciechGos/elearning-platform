@@ -1,4 +1,4 @@
-package project.backend.config;
+package project.backend.config.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;

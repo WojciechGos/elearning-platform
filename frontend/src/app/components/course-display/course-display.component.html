@@ -2,28 +2,36 @@
 <div class="content-wrapper">
   <div class="details-comments-wrapper">
     <div *ngIf="this.showVideo">
-        <app-lesson-display
+      <app-lesson-display
         [title]="lessonTitle"
         [description]="lessonDescription"
         [videoUrl]="videoUrl"
-        ></app-lesson-display>
+      ></app-lesson-display>
     </div>
     <div class="comments-wrapper" *ngIf="course">
       <div class="comments-header">All comments</div>
       <div *ngIf="comments && comments.length > 0">
-        <app-comment *ngFor="let comment of comments" [comment]="comment"></app-comment>
+        <app-comment
+          *ngFor="let comment of comments"
+          [comment]="comment"
+        ></app-comment>
       </div>
       <div *ngIf="!comments || comments.length === 0">
         There are no comments.
       </div>
       <div class="new-comment-form">
         <form>
-            <textarea [(ngModel)]="newCommentContent" name="commentContent" placeholder="Add a comment" required></textarea>
-            <div class="submit-button">
-              <button mat-raised-button color="primary" (click)="addComment()">
-                Submit
-              </button>
-            </div>
+          <textarea
+            [(ngModel)]="newCommentContent"
+            name="commentContent"
+            placeholder="Add a comment"
+            required
+          ></textarea>
+          <div class="submit-button">
+            <button mat-raised-button color="primary" (click)="addComment()">
+              Submit
+            </button>
+          </div>
         </form>
       </div>
     </div>
@@ -36,6 +44,26 @@
       (click)="goToLesson(i)"
     >
       Lesson {{ i + 1 }}: {{ lesson.title }}
+    </div>
+    <div class="button-wrapper">
+      <button
+        class="complete-course-button btn"
+        [disabled]="courseCompleted"
+        (click)="completeCourse()"
+        mat-raised-button
+        color="primary"
+      >
+        {{ courseCompleted ? "Course is completed" : "Complete course" }}
+      </button>
+      <button
+        class="download-certificate-button btn"
+        *ngIf="courseCompleted"
+        (click)="downloadCertificate()"
+        mat-raised-button
+        color="primary"
+      >
+        Download Certificate
+      </button>
     </div>
   </div>
 </div>
