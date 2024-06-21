@@ -9,6 +9,7 @@ import project.backend.courses.notification.service.NotificationService;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("api/v1/notifications")
 @RequiredArgsConstructor
@@ -32,7 +33,8 @@ public class NotificationControllerImpl implements NotificationController {
 
     @Override
     @PutMapping("/{notificationId}")
-    public ResponseEntity<Notification> updateNotificationStatus(@PathVariable("notificationId") Long notificationId, NotificationStatus notificationStatus) {
+    public ResponseEntity<Notification> updateNotificationStatus(@PathVariable("notificationId") Long notificationId, @RequestBody Map<String, String> body) {
+        NotificationStatus notificationStatus = NotificationStatus.valueOf(body.get("notificationStatus"));
         return ResponseEntity.ok(notificationService.updateNotificationStatus(notificationId, notificationStatus));
     }
 }
