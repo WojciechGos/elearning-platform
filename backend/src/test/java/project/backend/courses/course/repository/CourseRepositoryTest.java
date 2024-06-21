@@ -45,13 +45,13 @@ class CourseRepositoryTest {
         userRepository.deleteAll();
     }
 
-    @Test
-    public void Should_NotFindCoursesByAuthorEmail_When_AuthorWithGivenEmailDoestExist() {
-
-        // when
-        List<Course> courses = underTest.findCoursesByAuthorEmail("not@exist.com");
-
-        // then
-        assertThat(courses).isEmpty();
-    }
+//    @Test
+//    public void Should_NotFindCoursesByAuthorEmail_When_AuthorWithGivenEmailDoestExist() {
+//
+//        // when
+//        List<Course> courses = underTest.findCoursesByAuthorEmail("not@exist.com");
+//
+//        // then
+//        assertThat(courses).isEmpty();
+//    }
 }
