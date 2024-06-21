@@ -17,6 +17,9 @@ import project.backend.auth.service.AuthenticationService;
 import project.backend.auth.dto.RegisterRequest;
 import project.backend.courses.course.dto.CourseDTO;
 import project.backend.courses.course.model.CourseState;
+import project.backend.courses.course.repository.CourseRepository;
+import project.backend.user.UserRepository;
+import project.backend.user.UserService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -37,6 +40,12 @@ class CourseControllerImplTestIT {
 
     @Autowired
     private AuthenticationService authenticationService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     private final String email = "test@test.com";
 

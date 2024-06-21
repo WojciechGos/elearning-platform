@@ -21,23 +21,24 @@ import project.backend.courses.notification.model.Notification;
 import project.backend.courses.notification.model.NotificationStatus;
 import project.backend.courses.notification.repository.NotificationRepository;
 import project.backend.user.User;
+import project.backend.user.UserRepository;
 import project.backend.user.UserService;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class NotificationControllerImplTest {
-    private MockMvc mockMvc;
+class NotificationControllerImplIT {
 
     @Autowired
-    public NotificationControllerImplTest(MockMvc mockMvc) {
-        this.mockMvc = mockMvc;
-    }
+    private MockMvc mockMvc;
+
+//    @Autowired
+//    public NotificationControllerImplTest(MockMvc mockMvc) {
+//        this.mockMvc = mockMvc;
+//    }
 
     private String token;
 
@@ -50,7 +51,10 @@ class NotificationControllerImplTest {
     @Autowired
     private AuthenticationService authenticationService;
 
-    private final String email = "test@test.com";
+    @Autowired
+    private UserRepository userRepository;
+
+    private final String email = "test2@test.com";
 
     @BeforeAll
     void setup() {
@@ -68,10 +72,9 @@ class NotificationControllerImplTest {
                 .message("message1")
                 .notificationStatus(NotificationStatus.UNREAD)
                 .build();
-        notification1 = notificationRepository.save(notification1);
-        user.setNotificationList(List.of(notification1));
-        userService.saveUser(user);
-
+        notificationRepository.save(notification1); // Save the notification
+        user.setNotificationList(List.of(notification1)); // Set the notification to the user
+        userService.saveUser(user); // Save the user first
     }
 
     @Test
