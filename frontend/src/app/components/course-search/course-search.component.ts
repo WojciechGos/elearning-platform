@@ -16,7 +16,7 @@ export class CourseSearchComponent implements OnInit {
   languages = ['Polish', 'English', 'Spanish'];
 
   length: number = 0;
-  pageSize: number = 5; 
+  pageSize: number = 4; 
   currentPage: number = 0;
   categories: Category[] = [];
   keyword: string = '';
