@@ -1,6 +1,7 @@
 package project.backend.courses.course.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import project.backend.auth.dto.AuthenticationResponse;
 import project.backend.auth.service.AuthenticationService;
 import project.backend.auth.dto.RegisterRequest;
 import project.backend.courses.course.dto.CourseDTO;
+import project.backend.courses.course.model.CourseState;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -75,6 +77,4 @@ class CourseControllerImplTestIT {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isCreated());
     }
-
-
 }
