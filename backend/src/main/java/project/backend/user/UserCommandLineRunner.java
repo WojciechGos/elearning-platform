@@ -45,7 +45,7 @@ public class UserCommandLineRunner implements CommandLineRunner {
                 .email("michal.wojcik@gmail.com")
                 .password(passwordEncoder.encode("adminpassword"))
                 .firstName("Michał")
-                .lastName("Wójcik")
+                .lastName("Wojcik")
                 .role(Role.ADMIN)
                 .build());
 
@@ -61,7 +61,7 @@ public class UserCommandLineRunner implements CommandLineRunner {
                 .email("kamil.slimak@gmail.com")
                 .password(passwordEncoder.encode("password1"))
                 .firstName("Kamil")
-                .lastName("Ślimak")
+                .lastName("slimak")
                 .role(Role.USER)
                 .build());
 
@@ -69,7 +69,7 @@ public class UserCommandLineRunner implements CommandLineRunner {
                 .email("piotr.swiezak@gmail.com")
                 .password(passwordEncoder.encode("password1"))
                 .firstName("Piotr")
-                .lastName("Świeżak")
+                .lastName("swierzak")
                 .role(Role.USER)
                 .build());
     }

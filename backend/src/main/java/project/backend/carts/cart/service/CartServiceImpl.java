@@ -6,6 +6,7 @@ import project.backend.carts.cart.repository.CartRepository;
 import project.backend.carts.cart.model.Cart;
 import project.backend.carts.cart.model.CartStatus;
 
+import project.backend.courses.course.model.Course;
 import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
 import project.backend.permission.service.PermissionService;
@@ -118,6 +119,14 @@ public class CartServiceImpl implements CartService {
         if(permissionService.hasRole(principal, "ROLE_ADMIN")) {
             return true;
         }
+        User user = userService.getUserByEmail(principal.getName());
+
+        Optional<Course> isAuthorOfCourse = user.getCourseList().stream().filter(c -> c.getId().equals(courseId)).findFirst();
+        System.out.println("saiydbosuydvbsf");
+        if(isAuthorOfCourse.isPresent())
+            return true;
+
+        System.out.println("tutaj");
 
         Optional<Cart> cart = cartRepository.findByUserEmailAndCourseId(principal.getName(), courseId);
 

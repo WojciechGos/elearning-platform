@@ -1,5 +1,6 @@
 <div class="courses-wrapper">
   <div *ngFor="let course of courses" class="miniature">
+    <button mat-raised-button color="primary" [routerLink]="['/course-display', course.id]">Show live</button>
     <div (click)="editCourse(course)">
       <app-courses-list-item
         [title]="course.title"

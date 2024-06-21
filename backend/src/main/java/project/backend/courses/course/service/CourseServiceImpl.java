@@ -1,5 +1,6 @@
 package project.backend.courses.course.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +25,7 @@ import project.backend.exception.types.ForbiddenException;
 import project.backend.exception.types.ResourceNotFoundException;
 
 import org.springframework.data.domain.Pageable;
+import project.backend.user.User;
 import project.backend.user.UserService;
 
 import java.math.BigDecimal;
@@ -94,6 +96,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public CourseDTO createCourse(@Validated CourseDTO course, Principal principal) {
 
         if (principal.getName() == null)
@@ -122,7 +125,14 @@ public class CourseServiceImpl implements CourseService {
                 .author(userService.getUserByEmail(principal.getName()))
                 .build();
 
-        return courseDTOMapper.toDTO(courseRepository.save(newCourse));
+        newCourse = courseRepository.save(newCourse);
+
+        User user = userService.getUserByEmail(principal.getName());
+        List<Course> usersCourses = user.getCourseList();
+        usersCourses.add(newCourse);
+        userService.saveUser(user);
+        System.out.println(user.getCourseList().get(0));
+        return courseDTOMapper.toDTO(newCourse);
     }
 
     @Override
