@@ -12,6 +12,7 @@ This project is an eLearning platform developed using Spring Boot, Angular, Post
 - **Database:** PostgreSQL
 - **Storage:** AWS S3
 - **Payment Gateway:** Stripe
+- **Authorization:** Oauth2
 
 ## Functionalities
 
@@ -58,7 +59,7 @@ To further enhance the platform, we plan to adopt advanced architectural pattern
 - **Domain-Driven Design (DDD):** We aim to model the software to match the domain and its logic closely, improving the alignment between business needs and software implementation.
 - **Hexagonal Architecture:** Also known as Ports and Adapters architecture, this will allow us to isolate the core business logic from external systems like databases, user interfaces, and other services, making the system more flexible and easier to test.
 - **Clean Architecture:** By organizing the project into layers, with a clear separation between the domain, use cases, interface adapters, and frameworks, we can achieve greater decoupling and independence between components, leading to a more maintainable and scalable codebase.
-
+- **Migations instead of CommandLineRunner:** By using migrations, we can manage database schema changes more effectively, ensuring that our database evolves in a controlled and predictable manner. This approach facilitates version control of the database schema, enables easier rollbacks in case of errors, and enhances collaboration among team members by providing a clear history of changes.
 
 ## Git 
 ### git branch name convenion
