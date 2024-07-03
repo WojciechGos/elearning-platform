@@ -79,6 +79,26 @@ change:{what did you change}
 add: security  
 change: lesson structure   
 
+## Screenshots
+
+### Reactive form of course creator
+![image](https://github.com/WojciechGos/elearning-platform/assets/36795978/3992e691-a73d-4072-a8d9-5e990e613fc1)  
+
+### Video upload via S3
+![image](https://github.com/WojciechGos/elearning-platform/assets/36795978/54adcf69-0e20-48f1-bd2b-d4fdb410aa7d)
+
+### Stripe integration 
+![image](https://github.com/WojciechGos/elearning-platform/assets/36795978/6b276f47-3339-406d-8d14-e00cb6e622a4)
+
+![image](https://github.com/WojciechGos/elearning-platform/assets/36795978/21c7e240-c877-4d86-b21c-70bcf9a5475a)
+
+
+### Oauth
+
+![image](https://github.com/WojciechGos/elearning-platform/assets/36795978/7c885a75-6b64-46a1-83b6-6871f470ebd2)  
+
+![image](https://github.com/WojciechGos/elearning-platform/assets/36795978/7678dd5e-475a-42a3-9824-176b288f1848)
+
 
 
 
