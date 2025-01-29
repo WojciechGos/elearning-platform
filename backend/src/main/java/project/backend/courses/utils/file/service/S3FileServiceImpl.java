@@ -26,7 +26,6 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class S3FileServiceImpl implements FileService {
 
-
     @Value("${aws.s3.bucket-name}")
     private String bucketName;
 
@@ -35,8 +34,6 @@ public class S3FileServiceImpl implements FileService {
 
     @Override
     public String generateUploadUrl(String keyName, String contentType) {
-
-        System.out.println("bucketName: " + bucketName);
         PutObjectRequest objectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
                 .key(keyName)
@@ -50,9 +47,6 @@ public class S3FileServiceImpl implements FileService {
 
 
         PresignedPutObjectRequest presignedRequest = presigner.presignPutObject(presignRequest);
-
-//            logger.info("Presigned URL to upload a file to: [{}]", myURL);
-//            logger.info("HTTP method: [{}]", presignedRequest.httpRequest().method());
 
         return presignedRequest.url().toExternalForm();
 

@@ -44,8 +44,6 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart updateCart(Long cartId, Cart cartDetails) {
-        System.out.println("updateCart");
-        System.out.println(cartDetails.getCartStatus());
         Cart cart = getCartById(cartId);
 
         if (CartStatus.PENDING == cartDetails.getCartStatus() && cartRepository.existsByUserIdAndCartStatus(cart.getUser().getId(), CartStatus.PENDING)) {
@@ -74,9 +72,11 @@ public class CartServiceImpl implements CartService {
         User user = userService.getUserByEmail(email);
 
         List<Cart> carts = cartRepository.findByUserIdAndCartStatus(user.getId(), CartStatus.PENDING);
+
         if (carts.isEmpty()) {
             return Optional.empty();
         }
+
         return Optional.of(carts.get(0));
     }
 
@@ -116,17 +116,20 @@ public class CartServiceImpl implements CartService {
         if(principal == null) {
             return false;
         }
+
         if(permissionService.hasRole(principal, "ROLE_ADMIN")) {
             return true;
         }
+
         User user = userService.getUserByEmail(principal.getName());
 
-        Optional<Course> isAuthorOfCourse = user.getCourseList().stream().filter(c -> c.getId().equals(courseId)).findFirst();
-        System.out.println("saiydbosuydvbsf");
+
+        List<Course> courseList = user.getCourseList();
+        Optional<Course> isAuthorOfCourse = courseList.stream().filter(c -> c.getId().equals(courseId)).findFirst();
+
         if(isAuthorOfCourse.isPresent())
             return true;
 
-        System.out.println("tutaj");
 
         Optional<Cart> cart = cartRepository.findByUserEmailAndCourseId(principal.getName(), courseId);
 
@@ -140,6 +143,4 @@ public class CartServiceImpl implements CartService {
     public List<Cart> getAllCartsByCourseIdAndCartStatus(Long courseId, CartStatus cartStatus) {
         return cartRepository.findAllCartsByCourseIdAndStatus(courseId, cartStatus);
     }
-
-
 }

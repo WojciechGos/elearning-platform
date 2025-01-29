@@ -96,7 +96,6 @@ public class LessonServiceImpl implements LessonService {
         Course course = lesson.getCourse();
 
         String fileName = "private/courses/" + course.getId() + "/lessons/" + UUID.randomUUID().toString();
-        System.out.println(fileName);
 
         lesson.setVideoUrl(fileName);
         lessonRepository.save(lesson);

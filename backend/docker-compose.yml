@@ -1,7 +1,7 @@
 services:
   postgres-db:
     image: postgres
-    container_name: postgres-db
+    container_name: postgres-e-learning-db
     restart: always
     environment:
       - POSTGRES_USER=postgres

@@ -72,9 +72,6 @@ public class CartControllerImpl implements CartController {
             @PathVariable("id") Long cartId,
             @RequestBody CartPutRequest cartStatus
     ) {
-        System.out.println("updateCart controller");
-        System.out.println(cartStatus);
-
         Cart updatedCart = cartService.updateCart(cartId, Cart.builder().cartStatus(cartStatus.cartStatus()).build());
         return ResponseEntity.ok(updatedCart);
     }

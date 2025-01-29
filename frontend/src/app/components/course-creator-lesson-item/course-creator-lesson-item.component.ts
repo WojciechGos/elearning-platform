@@ -72,9 +72,11 @@ export class CourseCreatorLessonItemComponent implements OnInit {
 
   onFileChange(event: any): void {
     if (isDevMode() == true) {
+      console.log("onFileChange: ERROR");
       this.uploadState = UploadState.ERROR;
       return;
     }
+    console.log("onFileChange: UPLOADING");
 
     const file = event.target.files[0];
     this.uploadState = UploadState.UPLOADING;
@@ -97,6 +99,7 @@ export class CourseCreatorLessonItemComponent implements OnInit {
   }
 
   uploadVideo(file: File): void {
+    console.log("uploadVideo: ?????")
     this.lessonService.getSignedUrlForVideoUpload(this.lessonId).subscribe((signedResponse) => {
       this.lessonService.uploadVideoToSignedUrl(signedResponse.signedUrl, file).subscribe((response) => {
         console.log(response);
